@@ -1,7 +1,14 @@
-# NodeJS specific
-.nyc_output/
-coverage/
-node_modules/
-npm-debug.log
-package-lock.json
-test/*.log
+# DemoBlogFrontend
+DemoBlogFrontend/.DS_Store
+DemoBlogFrontend/node_modules
+DemoBlogFrontend/public/bundle.*
+DemoBlogFrontend/package-lock.json
+DemoBlogFrontend/svelte.config.js
+DemoBlogFrontend/publish.sh
+
+# DemoBlogBackend
+DemoBlogBackend/.vs/
+bin/
+obj/
+*.user
+*.db
