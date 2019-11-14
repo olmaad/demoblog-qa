@@ -2,7 +2,8 @@
 	import { createEventDispatcher } from 'svelte';
 
     export let login;
-    export let password;
+	export let password;
+	export let showError;
 	
 	const dispatch = createEventDispatcher();
 
@@ -25,10 +26,19 @@
 		max-width: 100%;
 		width: 100%;
 	}
+
+	label.error {
+		color: red;
+	}
 </style>
 
 <div class="container">
     <input bind:value={login}/>
     <input bind:value={password}/>
     <button on:click={submit}>Войти</button>
+	{#if showError}
+		<label class="error">
+			Ошибка входа
+		</label>
+	{/if}
 </div>

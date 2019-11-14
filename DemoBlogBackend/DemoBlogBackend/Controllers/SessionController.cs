@@ -1,12 +1,9 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Security.Cryptography;
 using System.Text;
-using System.Threading.Tasks;
 using DemoBlogBackend.Models;
 using DemoBlogBackend.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoBlogBackend.Controllers
@@ -33,16 +30,18 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Session
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return BadRequest();
         }
 
         // GET: api/Session/5
         [HttpGet("{id}", Name = "GetSession")]
-        public string Get(int id)
+        public Session Get(Guid id)
         {
-            return "value";
+            var session = mDataService.DbContext.Sessions.Find(id);
+
+            return session;
         }
 
         // POST: api/Session
@@ -53,26 +52,43 @@ namespace DemoBlogBackend.Controllers
 
             var user = mDataService.DbContext.Users.Where(u => u.PasswordHash.SequenceEqual(hashValue)).FirstOrDefault();
 
-            if (user != null)
-            {
-                return new Session() { Valid = true, UserId = user.Id };
-            }
-            else
+            if (user == null)
             {
                 return new Session() { Valid = false };
             }
+            
+            var userSessions = mDataService.DbContext.Sessions.Where(s => s.UserId == user.Id).ToList();
+
+            mDataService.DbContext.Sessions.RemoveRange(userSessions);
+
+            var session = new Session() { Valid = true, UserId = user.Id };
+
+            mDataService.DbContext.Sessions.Add(session);
+            mDataService.DbContext.SaveChanges();
+
+            return session;
         }
 
         // PUT: api/Session/5
         [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
+        public IActionResult Put(Guid id)
         {
+            return BadRequest();
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public void Delete(Guid id)
         {
+            var session = mDataService.DbContext.Sessions.Find(id);
+
+            if (session == null)
+            {
+                return;
+            }
+
+            mDataService.DbContext.Sessions.Remove(session);
+            mDataService.DbContext.SaveChanges();
         }
     }
 }

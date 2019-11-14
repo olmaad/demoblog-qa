@@ -1,10 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Security.Cryptography;
+using System.Text;
 using DemoBlogBackend.Models;
 using DemoBlogBackend.Services;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoBlogBackend.Controllers
@@ -14,10 +12,19 @@ namespace DemoBlogBackend.Controllers
     public class UserController : ControllerBase
     {
         private DataService mDataService;
+        private SHA256 sha256;
+
+        public class UserCreateParameters
+        {
+            public string Login { get; set; }
+            public string Password { get; set; }
+        }
 
         public UserController(DataService service)
         {
             mDataService = service;
+
+            sha256 = SHA256.Create();
         }
 
         // GET: api/User
@@ -40,8 +47,14 @@ namespace DemoBlogBackend.Controllers
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody] string value)
+        public void Post([FromBody] UserCreateParameters value)
         {
+            byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(value.Password));
+
+            var user = new User() { Login = value.Login, PasswordHash = hashValue };
+
+            mDataService.DbContext.Users.Add(user);
+            mDataService.DbContext.SaveChanges();
         }
 
         // PUT: api/User/5

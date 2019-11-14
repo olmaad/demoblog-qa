@@ -1,4 +1,6 @@
 <script>
+	import * as Api from './api.js';
+
 	import PostList from './PostList.svelte';
 	import PostEditor from './PostEditor.svelte';
 	import PostViewer from './PostViewer.svelte';
@@ -6,10 +8,10 @@
 	import UserWidget from './UserWidget.svelte';
 
 	$: page = 0;
-
 	$: viewerPost = null;
-
+	$: session = null;
 	$: user = null;
+	$: showLoginError = false;
 
 	let postListData = [];
 
@@ -19,10 +21,10 @@
 	let sessionLogin;
 	let sessionPassword;
 
-	const switchPage = function(to) {
+	const switchPage = async function(to) {
 		switch (to) {
 			case 0:
-				loadPosts();
+				postListData = await Api.loadPostsAsync();
 				break;
 			case 1:
 				break;
@@ -33,87 +35,85 @@
 		page = to;
 	};
 
-	const loadPosts = async () => {
-		const response = await fetch("/api/posts");
-		postListData = await response.json();
-	};
-
-	const submitPost = async () => {
-		var xhr = new XMLHttpRequest();
-
-		if (editorPost.id >= 0) {
-			await xhr.open("PUT", "/api/posts/" + editorPost.id, true);
+	const handleEditorSubmit = async function() {
+		if (await Api.submitPostAsync(editorPost)) {
+			editorClear();
+			await switchPage(0);
 		}
-		else {
-			await xhr.open("POST", "/api/posts", true);
+	};
+
+	const handleRemovePost = async function() {
+		if (await Api.removePostAsync(viewerPost.id)) {
+			await switchPage(0);
 		}
+	}
 
-		xhr.setRequestHeader("Content-Type", "application/json");
-
-		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-				editorClear();
-				switchPage(0);
-			}
-		};
-
-		await xhr.send(JSON.stringify(editorPost));
-	};
-
-	const removePost = async () => {
-		var xhr = new XMLHttpRequest();
-
-		await xhr.open("DELETE", "/api/posts/" + viewerPost.id, true);
-
-		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-				switchPage(0);
-			}
-		};
-
-		await xhr.send();
-	};
-
-	const editPost = function() {
+	const handleEditPost = async function() {
 		editorPost = viewerPost;
-		switchPage(1);
+		await switchPage(1);
 	};
-	
-	const postSession = async () => {
-		var xhr = new XMLHttpRequest();
 
-		await xhr.open("POST", "/api/session", true);
+	const handleLogin = async function() {
+		const s = await Api.createSessionAsync(sessionLogin, sessionPassword);
 
-		xhr.setRequestHeader("Content-Type", "application/json");
-		xhr.responseType = "json";
+		if (s == null || !s.valid) {
+			showLoginError = true;
+			return;
+		}
 
-		xhr.onreadystatechange = function() {
-			if (this.readyState === XMLHttpRequest.DONE && this.status === 200) {
-				var session = xhr.response;
+		const u = await Api.loadUserAsync(s.userId);
 
-				if (session.valid) {
-					loadUser(session.userId);
-				}
-			}
-		};
+		if (u == null) {
+			showLoginError = true;
+			return;
+		}
 
-		await xhr.send(JSON.stringify({ login: sessionLogin, password: sessionPassword }));
+		localStorage.setItem("sessionId", s.id);
+
+		session = s;
+		user = u;
 
 		sessionLogin = "";
 		sessionPassword = "";
+		showLoginError = false;
 	};
 
-	const loadUser = async (id) => {
-		const response = await fetch("/api/user/" + id);
-		user = await response.json();
-	};
+	const handleLogout = async function() {
+		if (session != null) {
+			await Api.removeSessionAsync(session.id);
+		}
 
-	const logout = function() {
+		session = null;
 		user = null;
 	};
 
-	const init = async () => {
+	const initUser = async function() {
+		const localSessionId = localStorage.getItem("sessionId");
+
+		if (localSessionId == null) {
+			return;
+		}
+
+		const s = await Api.loadSessionAsync(localSessionId);
+
+		if (s == null) {
+			return;
+		}
+
+		const u = await Api.loadUserAsync(s.userId);
+
+		if (u == null) {
+			return;
+		}
+
+		session = s;
+		user = u;
+	}
+
+	const init = async function() {
 		switchPage(0);
+
+		initUser();
 	};
 
 	init();
@@ -147,9 +147,9 @@
 	<button on:click={() => switchPage(0)}>Посты</button>
 	<button on:click={() => switchPage(1)}>Написать</button>
 	{#if user == null}
-		<LoginWidget bind:login={sessionLogin} bind:password={sessionPassword} on:submit={postSession}/>
+		<LoginWidget showError={showLoginError} bind:login={sessionLogin} bind:password={sessionPassword} on:submit={handleLogin}/>
 	{:else}
-		<UserWidget login={user.login} on:logout={logout}/>
+		<UserWidget login={user.login} on:logout={handleLogout}/>
 	{/if}
 </div>
 
@@ -158,9 +158,9 @@
 		{#if page == 0}
 			<PostList posts={postListData} bind:viewerPost={viewerPost} on:show={() => switchPage(2)}/>
 		{:else if page == 1}
-			<PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={submitPost}/>
+			<PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={handleEditorSubmit}/>
 		{:else if page == 2}
-			<PostViewer post={viewerPost} on:edit={editPost} on:remove={removePost}/>
+			<PostViewer post={viewerPost} on:edit={handleEditPost} on:remove={handleRemovePost}/>
 		{/if}
 		<div style="height: 100%"/>
 	</div>

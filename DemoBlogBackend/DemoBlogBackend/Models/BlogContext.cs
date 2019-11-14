@@ -10,5 +10,6 @@ namespace DemoBlogBackend.Models
 
         public DbSet<Post> Posts { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Session> Sessions { get; set; }
     }
 }
