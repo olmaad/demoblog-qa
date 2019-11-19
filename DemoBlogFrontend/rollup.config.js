@@ -4,6 +4,7 @@ import commonjs from 'rollup-plugin-commonjs';
 import livereload from 'rollup-plugin-livereload';
 import { terser } from 'rollup-plugin-terser';
 import rollup_start_dev from './rollup_start_dev';
+import less from 'rollup-plugin-less';
 
 const production = !process.env.ROLLUP_WATCH;
 
@@ -24,6 +25,12 @@ export default {
 			css: css => {
 				css.write('public/bundle.css');
 		}}),
+		less({
+			output: 'public/less.css',
+			option: {
+				env: production ? "production" : "development"
+			}
+		}),
 
 		// If you have external dependencies installed from
 		// npm, you'll most likely need these plugins. In

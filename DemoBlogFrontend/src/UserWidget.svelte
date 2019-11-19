@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-    export let login;
+	export let username;
 
     const dispatch = createEventDispatcher();
 
@@ -9,29 +9,36 @@
 </script>
 
 <style>
-	button {
-		font-family: 'Roboto', sans-serif;
-		width: 200px;
-		border-radius: 4px;
-        color: #0D4D4D;
-		background: #CCCCCC;
-	}
-
-    h3 {
-		color: #0D4D4D;
-		font-family: 'Roboto', sans-serif;
+	h4 {
+		margin: 0 0 10px 0;
+		color: var(--color-text);
 	}
 
     div.container {
 		display: flex;
-		flex: auto;
 		flex-direction: column;
-		max-width: 100%;
-		width: 100%;
+	}
+
+	button {
+		margin: 0 0 8px 0;
+		font-family: 'Roboto', sans-serif;
+		border-radius: 4px;
+		border-color: transparent;
+		border-width: 0;
+		cursor: pointer;
+	}
+
+	.button-highlighted {
+		color: var(--color-text);
+		background: var(--color-primary-gradient-0);
+	}
+
+	.no-bottom-margin {
+		margin-bottom: 0;
 	}
 </style>
 
 <div class="container">
-    <h3>Привет {login}!</h3>
-    <button on:click={logout}>Выйти</button>
+    <h4>Привет {username}!</h4>
+    <button class="button-highlighted no-bottom-margin" on:click={logout}>Выйти</button>
 </div>

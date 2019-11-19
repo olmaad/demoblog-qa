@@ -1,16 +1,11 @@
 <script>
     import { createEventDispatcher } from 'svelte';
+    import { Post } from './model.js';
 
-    export let post = {
-        id: -1,
-        title: "",
-        content: ""
-    };
+    export let post = new Post();
 
-    export const clear = () => {
-        post.id = -1;
-        post.title = "";
-        post.content = "";
+    export const clear = function() {
+        post = new Post();
     };
 
     const dispatch = createEventDispatcher();
@@ -46,7 +41,10 @@
     <h3>Заголовок:</h3>
     <textarea bind:value={post.title} style="height: 50px"/>
 
-    <h3>Текст поста:</h3>
+    <h3>Превью:</h3>
+    <textarea bind:value={post.preview} style="height: 300px"/>
+
+    <h3>Основной текст:</h3>
     <textarea bind:value={post.content} style="height: 300px"/>
     
     <button on:click={submit}>

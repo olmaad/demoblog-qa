@@ -1,44 +1,63 @@
 <script>
 	import { createEventDispatcher } from 'svelte';
 
-    export let login;
-	export let password;
-	export let showError;
-	
+	let login;
+	let password;
+	let focusInput = null;
+
+	export const focus = async function() {
+		setTimeout(function() {
+			if (focusInput != null) {
+				focusInput.focus();
+			};
+		}, 10);
+	};
+
 	const dispatch = createEventDispatcher();
 
-	const submit = () => dispatch('submit');
+	const handleLogin = async function() {
+		dispatch('login', {
+			login: login,
+			password: password
+		});
+	};
+
+	const handleKeyup = async function(event) {
+		if (event.keyCode == 13) {
+			handleLogin();
+		}
+	};
+
+	const handleRegister = async function() {
+		dispatch('showRegisterDialog');
+	};
 </script>
 
 <style>
-	button {
+	input {
+		margin: 0 0 10px 0;
 		font-family: 'Roboto', sans-serif;
-		width: 200px;
 		border-radius: 4px;
-        color: #EDF7F7;
-		background: #114E4E;
+		border-color: transparent;
+		border-width: 0;
+		color: var(--color-text);
+		background: var(--color-background-0);
 	}
 
-    div.container {
+	.no-bottom-margin {
+		margin-bottom: 0;
+	}
+
+    .container {
 		display: flex;
 		flex: auto;
 		flex-direction: column;
-		max-width: 100%;
-		width: 100%;
-	}
-
-	label.error {
-		color: red;
 	}
 </style>
 
 <div class="container">
-    <input bind:value={login}/>
-    <input bind:value={password}/>
-    <button on:click={submit}>Войти</button>
-	{#if showError}
-		<label class="error">
-			Ошибка входа
-		</label>
-	{/if}
+    <input placeholder="логин" bind:value={login} bind:this={focusInput} on:keyup={handleKeyup}/>
+    <input placeholder="пароль" type="password" bind:value={password} on:keyup={handleKeyup}/>
+    <button class="highlighted" style="margin-bottom: 8px;" on:click={handleLogin}>Войти</button>
+	<button class="normal no-bottom-margin" on:click={handleRegister}>Регистрация</button>
 </div>

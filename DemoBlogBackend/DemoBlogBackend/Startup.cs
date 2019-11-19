@@ -43,9 +43,10 @@ namespace DemoBlogBackend
 
             var dataService = new DataService(context);
 
-            services.AddSingleton(ctx => new PostsController(dataService));
-            services.AddSingleton(ctx => new SessionController(dataService));
-            services.AddSingleton(ctx => new UserController(dataService));
+            services.AddTransient(ctx => new PostsController(dataService));
+            services.AddTransient(ctx => new SessionController(dataService));
+            services.AddTransient(ctx => new UserController(dataService));
+            services.AddTransient(ctx => new CommentController(dataService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -15,6 +15,12 @@ namespace DemoBlogBackend.Controllers
     {
         private DataService mDataService;
 
+        public class PostsReturnBundle
+        {
+            public IEnumerable<Post> Posts { get; set; }
+            public IEnumerable<User> Users { get; set; }
+        }
+
         public PostsController(DataService service)
         {
             mDataService = service;
@@ -22,9 +28,25 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public IEnumerable<Post> Get()
+        public PostsReturnBundle Get()
         {
-            return mDataService.DbContext.Posts;
+            var posts = mDataService.DbContext.Posts.ToList();
+
+            var userIds = posts.Select(p => p.UserId).ToHashSet();
+
+            var users = mDataService.DbContext.Users.Where(u => userIds.Contains(u.Id)).ToList().Select(u =>
+            {
+                var temp = u.Clone() as User;
+                temp.PasswordHash = null;
+
+                return temp;
+            });
+
+            return new PostsReturnBundle()
+            {
+                Posts = posts,
+                Users = users
+            };
         }
 
         // GET: api/Posts/5
@@ -41,6 +63,13 @@ namespace DemoBlogBackend.Controllers
         public void Post([FromBody] Post value)
         {
             if (string.IsNullOrEmpty(value.Title) || string.IsNullOrEmpty(value.Content))
+            {
+                return;
+            }
+
+            bool userExists = (mDataService.DbContext.Users.Find(value.UserId) != null);
+
+            if (!userExists)
             {
                 return;
             }

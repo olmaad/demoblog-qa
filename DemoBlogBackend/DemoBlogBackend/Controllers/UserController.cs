@@ -18,6 +18,7 @@ namespace DemoBlogBackend.Controllers
         {
             public string Login { get; set; }
             public string Password { get; set; }
+            public string Name { get; set; }
         }
 
         public UserController(DataService service)
@@ -38,8 +39,14 @@ namespace DemoBlogBackend.Controllers
         [HttpGet("{id}", Name = "GetUser")]
         public User Get(long id)
         {
-            var user = mDataService.DbContext.Find<User>(id).Clone() as User;
+            var find = mDataService.DbContext.Find<User>(id);
 
+            if (find == null)
+            {
+                return null;
+            }
+
+            var user = find.Clone() as User;
             user.PasswordHash = null;
 
             return user;
@@ -47,14 +54,21 @@ namespace DemoBlogBackend.Controllers
 
         // POST: api/User
         [HttpPost]
-        public void Post([FromBody] UserCreateParameters value)
+        public IActionResult Post([FromBody] UserCreateParameters value)
         {
+            if (string.IsNullOrEmpty(value.Login) || string.IsNullOrEmpty(value.Name) || string.IsNullOrEmpty(value.Password))
+            {
+                return BadRequest();
+            }
+
             byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(value.Password));
 
-            var user = new User() { Login = value.Login, PasswordHash = hashValue };
+            var user = new User() { Login = value.Login, PasswordHash = hashValue, Name = value.Name };
 
             mDataService.DbContext.Users.Add(user);
             mDataService.DbContext.SaveChanges();
+
+            return Ok();
         }
 
         // PUT: api/User/5

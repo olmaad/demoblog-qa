@@ -15,10 +15,16 @@ namespace DemoBlogBackend.Controllers
         private DataService mDataService;
         private SHA256 sha256;
 
-        public class SessionCreateParameters
+        public class SessionCreateBundle
         {
             public string Login { get; set; }
             public string Password { get; set; }
+        }
+
+        public class SessionReturnBundle
+        {
+            public Session Session { get; set; }
+            public User User { get; set; }
         }
 
         public SessionController(DataService service)
@@ -37,24 +43,47 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Session/5
         [HttpGet("{id}", Name = "GetSession")]
-        public Session Get(Guid id)
+        public SessionReturnBundle Get(Guid id)
         {
             var session = mDataService.DbContext.Sessions.Find(id);
 
-            return session;
+            if (session == null)
+            {
+                return new SessionReturnBundle()
+                {
+                    Session = new Session()
+                    {
+                        Valid = false
+                    }
+                };
+            }
+
+            var user = mDataService.DbContext.Users.Find(session.UserId);
+
+            return new SessionReturnBundle()
+            {
+                Session = session,
+                User = user
+            };
         }
 
         // POST: api/Session
         [HttpPost]
-        public Session Post([FromBody] SessionCreateParameters value)
+        public SessionReturnBundle Post([FromBody] SessionCreateBundle value)
         {
             byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(value.Password));
 
-            var user = mDataService.DbContext.Users.Where(u => u.PasswordHash.SequenceEqual(hashValue)).FirstOrDefault();
+            var user = mDataService.DbContext.Users.Where(u => u.Login == value.Login && u.PasswordHash.SequenceEqual(hashValue)).FirstOrDefault();
 
             if (user == null)
             {
-                return new Session() { Valid = false };
+                return new SessionReturnBundle()
+                {
+                    Session = new Session()
+                    {
+                        Valid = false
+                    }
+                };
             }
             
             var userSessions = mDataService.DbContext.Sessions.Where(s => s.UserId == user.Id).ToList();
@@ -66,7 +95,11 @@ namespace DemoBlogBackend.Controllers
             mDataService.DbContext.Sessions.Add(session);
             mDataService.DbContext.SaveChanges();
 
-            return session;
+            return new SessionReturnBundle()
+            {
+                Session = session,
+                User = user
+            };
         }
 
         // PUT: api/Session/5
