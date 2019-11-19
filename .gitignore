@@ -1,7 +1,8 @@
 # DemoBlogFrontend
 DemoBlogFrontend/.DS_Store
 DemoBlogFrontend/node_modules
-DemoBlogFrontend/public/
+DemoBlogFrontend/public/*bundle*
+DemoBlogFrontend/public/*.css
 DemoBlogFrontend/package-lock.json
 DemoBlogFrontend/publish.sh
 

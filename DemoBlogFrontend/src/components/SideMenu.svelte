@@ -72,6 +72,10 @@
         height: 30px;
         background: var(--color-primary-gradient-1);
     }
+
+    .icon-logo {
+        mask: url(/logo.svg) no-repeat center;
+    }
     
     div.icon-user {
         mask: url(/fontawesome/user-solid.svg) no-repeat center;
@@ -147,7 +151,8 @@
 <div class="menu-container" bind:clientWidth={width}>
     <div class="menu-button-border">
 	    <div class="menu-button">
-            <span>Demo blog</span>
+            <div class="icon-logo"/>
+            <span>Demo/blog</span>
         </div>
     </div>
     <div class="menu-button-border" bind:offsetHeight={userButtonY} bind:clientHeight={userButtonHeight} on:click={userWidgetToggle}>

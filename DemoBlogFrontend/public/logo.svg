@@ -1,0 +1,23 @@
+<svg viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+	<style>
+		.d { font: bold 150px 'Roboto', sans-serif; }
+		.slash { font: bold 200px 'Roboto', sans-serif; }
+		.slashCut { font: bold 350px 'Roboto', sans-serif; }
+	</style>
+	
+	<mask id="slashMask">
+		<rect width="128" height="128" fill="white"/>
+		<circle cx="70" cy="52" r="45" fill="black"/>
+		<circle cx="60" cy="56" r="23" fill="white"/>
+		<rect y="52" width="128" height="76" fill="white"/>
+	</mask>
+	
+	<mask id="dMask">
+		<rect width="128" height="128" fill="white"/>
+		<text x="56%" y="60%" dominant-baseline="middle" text-anchor="middle" class="slashCut">/</text>
+		<rect width="128" height="64" fill="white"/>
+	</mask>
+
+	<text x="53%" y="60%" dominant-baseline="middle" text-anchor="middle" class="slash" mask="url(#slashMask)">/</text>
+	<text x="50%" y="62%" dominant-baseline="middle" text-anchor="middle" class="d" mask="url(#dMask)">D</text>
+</svg>
