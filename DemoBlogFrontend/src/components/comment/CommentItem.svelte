@@ -57,11 +57,11 @@
     }
 
     .border-even {
-        background: var(--color-primary-3);
+        background: var(--color-primary-0);
     }
 
     .border-odd {
-        background: var(--color-secondary-2-3);
+        background: var(--color-secondary-2-0);
     }
 
     .container {

@@ -9,33 +9,50 @@
 </script>
 
 <style>
-    div.container {
-		display: flex;
-		flex-direction: column;
-		max-width: 100%;
-		width: 100%;
-	}
-
-    textarea {
-        min-width: 100%;
-        max-width: 100%;
-        background: #EDF7F7;
-        border: transparent;
-        border-radius: 4px;
+    .border {
+        display: flex;
+        padding-left: 5px;
+        padding-bottom: 5px;
+        border-bottom-left-radius: 5px;
+        border-top-right-radius: 5px;
+        background: var(--color-primary-gradient-0);
+        box-shadow: 
+            0 -10px 10px 10px var(--color-background-0),
+            0 10px 10px 5px rgba(31,23,32,0.2),
+            -10px 0 10px 5px rgba(31,23,32,0.2),
+            10px 0 10px 10px var(--color-background-0);
     }
 
-    button {
-		font-family: 'Roboto', sans-serif;
-		width: 200px;
-		border-radius: 4px;
-	}
+    .container {
+		display: flex;
+        flex-direction: column;
+    }
+    
+    .footer-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: end;
+        margin-top: 10px;
+    }
+
+    textarea {
+        flex: 1;
+        margin: 0;
+        background: var(--color-background-3);
+        color: var(--color-text);
+        border-width: 0;
+        border-bottom-left-radius: 3px;
+        font-family: 'Roboto', sans-serif;
+        padding: 10px 16px 16px 16px;
+    }
 </style>
 
 <div class="container">
-    <textarea bind:value={text} style="height: 50px"/>
-    <div style="display: flex; flex-direction: row; width: 100%;">
-        <div/>
-        <button on:click={submit}>
+    <div class="border">
+        <textarea placeholder="Текст комментария..." bind:value={text}/>
+    </div>
+    <div class="footer-container">
+        <button class="highlighted" on:click={submit}>
             Отправить
         </button>
     </div>

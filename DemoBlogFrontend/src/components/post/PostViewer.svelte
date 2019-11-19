@@ -40,6 +40,7 @@
 		flex-direction: column;
 		max-width: 100%;
 		width: 100%;
+		margin-bottom: 200px;
 	}
 
 	div.button_container {
