@@ -1,6 +1,6 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    import { Post } from './model.js';
+    import { createEventDispatcher } from "svelte";
+    import { Post } from "../../js/model.js";
 
     export let post = new Post();
 
@@ -10,7 +10,7 @@
 
     const dispatch = createEventDispatcher();
 
-    const submit = () => dispatch('submit');
+    const submit = () => dispatch("submit");
 </script>
 
 <style>

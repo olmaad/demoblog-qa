@@ -1,11 +1,10 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    import { flip } from 'svelte/animate';
+    import { createEventDispatcher } from "svelte";
 
-    import LoginWidget from './LoginWidget.svelte';
-    import UserWidget from './UserWidget.svelte';
-    import UserRegisterWidget from './UserRegisterWidget.svelte';
-    import UserWidgetContainer from './UserWidgetContainer.svelte';
+    import UserLoginWidget from "./user/UserLoginWidget.svelte";
+    import UserViewWidget from "./user/UserViewWidget.svelte";
+    import UserRegisterWidget from "./user/UserRegisterWidget.svelte";
+    import UserWidgetContainer from "./user/UserWidgetContainer.svelte";
 
     export let user;
 
@@ -131,11 +130,11 @@
     onHidden={reset}
     bind:toggle={userWidgetToggle}>
     {#if user != null}
-        <UserWidget
+        <UserViewWidget
             username={user == null ? "" : user.name}
             on:logout/>
     {:else if currentWidget == "login"}
-        <LoginWidget
+        <UserLoginWidget
             bind:focus={userWidgetFocus}
             on:showRegisterDialog={handleShowRegisterDialog}
             on:login/>

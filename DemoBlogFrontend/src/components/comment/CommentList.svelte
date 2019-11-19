@@ -1,5 +1,5 @@
 <script>
-    import CommentViewer from './CommentViewer.svelte';
+    import CommentViewer from "./CommentViewer.svelte";
 
     export let comments = [];
     export let users = new Map();

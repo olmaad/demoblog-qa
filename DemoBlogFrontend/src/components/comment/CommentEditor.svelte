@@ -1,11 +1,11 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from "svelte";
 
     export let text;
 	
 	const dispatch = createEventDispatcher();
 
-	const submit = () => dispatch('submit');
+	const submit = () => dispatch("submit");
 </script>
 
 <style>

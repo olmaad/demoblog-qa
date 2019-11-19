@@ -1,9 +1,9 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from "svelte";
 
-	import PostComponent from './PostComponent.svelte';
-	import CommentList from './CommentList.svelte';
-	import CommentEditor from './CommentEditor.svelte';
+	import PostComponent from "./PostComponent.svelte";
+	import CommentList from "./../comment/CommentList.svelte";
+	import CommentEditor from "./../comment/CommentEditor.svelte";
 
 	export let post = null;
 	export let user = null;
@@ -13,9 +13,9 @@
 	
 	const dispatch = createEventDispatcher();
 
-	const edit = () => dispatch('edit');
-	const remove = () => dispatch('remove');
-	const submitComment = () => dispatch('submitComment');
+	const edit = () => dispatch("edit");
+	const remove = () => dispatch("remove");
+	const submitComment = () => dispatch("submitComment");
 </script>
 
 <style>

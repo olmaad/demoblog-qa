@@ -1,5 +1,5 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from "svelte";
 
     let login;
     let name;
@@ -8,7 +8,7 @@
 	const dispatch = createEventDispatcher();
 
 	const submitRegister = async function() {
-		dispatch('register', {
+		dispatch("register", {
             login: login,
             name: name,
 			password: password

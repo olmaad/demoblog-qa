@@ -1,8 +1,8 @@
 <script>
-    import { createEventDispatcher } from 'svelte';
-    import { Remarkable } from 'remarkable';
+    import { createEventDispatcher } from "svelte";
+    import { Remarkable } from "remarkable";
 
-    import { PostComponentPropertiesBuilder } from './postComponent.js';
+    import { PostComponentPropertiesBuilder } from "./PostComponent.js";
 
     export let mode = "";
     export let post = null;

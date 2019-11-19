@@ -1,5 +1,5 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from "svelte";
 
 	let login;
 	let password;
@@ -16,7 +16,7 @@
 	const dispatch = createEventDispatcher();
 
 	const handleLogin = async function() {
-		dispatch('login', {
+		dispatch("login", {
 			login: login,
 			password: password
 		});
@@ -29,7 +29,7 @@
 	};
 
 	const handleRegister = async function() {
-		dispatch('showRegisterDialog');
+		dispatch("showRegisterDialog");
 	};
 </script>
 

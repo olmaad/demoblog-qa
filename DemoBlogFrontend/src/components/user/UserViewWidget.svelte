@@ -1,11 +1,11 @@
 <script>
-	import { createEventDispatcher } from 'svelte';
+	import { createEventDispatcher } from "svelte";
 
 	export let username;
 
     const dispatch = createEventDispatcher();
 
-	const logout = () => dispatch('logout');
+	const logout = () => dispatch("logout");
 </script>
 
 <style>

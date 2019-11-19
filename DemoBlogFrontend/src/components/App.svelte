@@ -1,15 +1,13 @@
 <script>
-	import * as Api from './api.js';
-	import { Comment } from './model.js';
+	import * as Api from "./../js/api.js";
+	import { Comment } from "./../js/model.js";
 
-	import './App.less';
+	import "./../less/App.less";
 
-	import PostList from './PostList.svelte';
-	import PostEditor from './PostEditor.svelte';
-	import PostViewer from './PostViewer.svelte';
-	import LoginWidget from './LoginWidget.svelte';
-	import UserWidget from './UserWidget.svelte';
-	import SideMenu from './SideMenu.svelte';
+	import PostList from "./post/PostList.svelte";
+	import PostEditor from "./post/PostEditor.svelte";
+	import PostViewer from "./post/PostViewer.svelte";
+	import SideMenu from "./SideMenu.svelte";
 
 	$: page = 0;
 	$: viewerPost = null;

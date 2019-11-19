@@ -1,5 +1,5 @@
 <script>
-	import PostComponent from './PostComponent.svelte';
+	import PostComponent from "./PostComponent.svelte";
 
 	export let posts = [];
 	export let users = new Map();
