@@ -6,11 +6,6 @@
 </script>
 
 <style>
-	h2 {
-		color: var(--color-text);
-		font-family: 'Roboto', sans-serif;
-	}
-
 	div {
 		font-family: 'Roboto', sans-serif;
 	}

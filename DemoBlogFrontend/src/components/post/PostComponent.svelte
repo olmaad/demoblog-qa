@@ -4,6 +4,8 @@
 
     import { PostComponentPropertiesBuilder } from "./PostComponent.js";
 
+    import RatingArrow from "../simple/RatingArrow.svelte";
+
     export let mode = "";
     export let post = null;
     export let user = null;
@@ -84,11 +86,14 @@
         margin-right: 16px;
     }
 
-	div.post-footer {
+	.post-footer {
 		display: flex;
 		flex-flow: row;
-		justify-content: end;
-		align-items: center;
+		align-items: flex-end;
+    }
+
+    .footer-filler {
+        flex: 1;
     }
 
     :global(.post-text h1, .post-text h2, .post-text h3, .post-text h4, .post-text h5, .post-text h6) {
@@ -111,10 +116,10 @@
             {@html propertiesBuilder.text()}
         </div>
         <div class="post-footer">
-            <div/>
-            <div class="icon-up"/>
-            <div class="icon-down"/>
             <span class="post-footer-author">{user.name}</span>
+            <div class="footer-filler"/>
+            <RatingArrow up={true}/>
+            <RatingArrow up={false}/>
         </div>
     </div>
 </div>

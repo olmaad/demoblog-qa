@@ -1,24 +1,25 @@
 <script>
-    import CommentViewer from "./CommentViewer.svelte";
+    import CommentItem from "./CommentItem.svelte";
 
     export let comments = [];
     export let users = new Map();
 </script>
 
 <style>
-	div.commentlist_container {
+	.container {
 		display: flex;
 		flex-direction: column;
         max-width: 100%;
 		width: 100%;
         padding-bottom: 10px;
+        margin-top: 50px;
 	}
 </style>
 
 {#if comments.length > 0}
-    <div class="commentlist_container">
+    <div class="container">
         {#each comments as comment}
-            <CommentViewer comment={comment} user={users.get(comment.userId)}/>
+            <CommentItem comment={comment} user={users.get(comment.userId)}/>
         {/each}
     </div>
 {/if}

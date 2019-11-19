@@ -19,11 +19,6 @@
 </script>
 
 <style>
-    h3 {
-		color: #0D4D4D;
-		font-family: 'Roboto', sans-serif;
-	}
-
 	button {
 		font-family: 'Roboto', sans-serif;
 		width: 200px;
@@ -52,6 +47,7 @@
 		flex: auto;
 		flex-direction: row;
 		justify-content: end;
+		visibility: collapse;
 	}
 </style>
 
