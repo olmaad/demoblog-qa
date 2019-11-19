@@ -18,8 +18,8 @@
 
 {#if comments.length > 0}
     <div class="container">
-        {#each comments as comment}
-            <CommentItem comment={comment} user={users.get(comment.userId)}/>
+        {#each comments as comment, i}
+            <CommentItem index={i} comment={comment} user={users.get(comment.userId)}/>
         {/each}
     </div>
 {/if}

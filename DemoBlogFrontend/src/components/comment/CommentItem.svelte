@@ -1,6 +1,7 @@
 <script>
     import RatingArrow from "../simple/RatingArrow.svelte";
 
+    export let index = 0;
     export let comment = null;
     export let user = null;
 
@@ -47,8 +48,20 @@
 		margin-bottom: 30px;
         padding-left: 5px;
         padding-bottom: 5px;
-		background: var(--color-primary-0);
-		border-bottom-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+        box-shadow: 
+            0 -10px 10px 10px var(--color-background-0),
+            0 10px 10px 5px rgba(31,23,32,0.2),
+            -10px 0 10px 5px rgba(31,23,32,0.2),
+            10px 0 10px 10px var(--color-background-0);
+    }
+
+    .border-even {
+        background: var(--color-primary-3);
+    }
+
+    .border-odd {
+        background: var(--color-secondary-2-3);
     }
 
     .container {
@@ -75,7 +88,7 @@
 </style>
 
 {#if comment != null && user != null}
-    <div class="border">
+    <div class="border" class:border-odd={index % 2 == 0} class:border-even={index % 2 == 1}>
         <div class="container">
             <div class="header-container">
                 <span class="username">{user.name}</span>
