@@ -75,6 +75,8 @@
 
     .icon-logo {
         mask: url(/logo.svg) no-repeat center;
+        background: transparent;
+        position: relative;
     }
     
     div.icon-user {
@@ -123,6 +125,31 @@
         transform: rotate(360deg);
         transition: all 0.5s ease-in-out 0s;
     }
+
+    .logo-masker {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        mask: url(/logo_mask.svg);
+        mask-position: 0px 0px;
+        background: var(--color-primary-gradient-1);
+    }
+
+    .logo-background {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 30px;
+        height: 30px;
+        background: var(--color-primary-1);
+    }
+
+    .menu-button:hover .logo-masker {
+        mask-position: 0px -120px;
+        transition: all 0.3s linear 0s;
+    }
 </style>
 
 <UserWidgetContainer
@@ -150,8 +177,12 @@
 
 <div class="menu-container" bind:clientWidth={width}>
     <div class="menu-button-border">
-	    <div class="menu-button">
-            <div class="icon-logo"/>
+        <div class="menu-button">
+            <div class="icon-logo">
+                <div class="logo-background"/>
+                <div class="logo-masker">
+                </div>
+            </div>
             <span>Demo/blog</span>
         </div>
     </div>
