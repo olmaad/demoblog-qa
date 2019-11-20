@@ -44,6 +44,7 @@
         border-bottom-left-radius: 3px;
         font-family: 'Roboto', sans-serif;
         padding: 10px 16px 16px 16px;
+        resize: vertical
     }
 </style>
 
