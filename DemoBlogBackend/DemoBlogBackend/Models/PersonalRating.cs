@@ -3,14 +3,13 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemoBlogBackend.Models
 {
-    public class User : ICloneable
+    public class PersonalRating : ICloneable
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public string Login { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public string Name { get; set; }
+        public long UserId { get; set; }
+        public long AuthorId { get; set; }
         public double Rating { get; set; } = 1;
 
         public object Clone()

@@ -3,15 +3,19 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemoBlogBackend.Models
 {
-    public class User : ICloneable
+    public class Mark : ICloneable
     {
+        public enum EntityType
+        {
+            Post = 1,
+            Comment = 2
+        }
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
-        public string Login { get; set; }
-        public byte[] PasswordHash { get; set; }
-        public string Name { get; set; }
-        public double Rating { get; set; } = 1;
+        public EntityType Type { get; set; }
+        public int Value { get; set; }
 
         public object Clone()
         {
