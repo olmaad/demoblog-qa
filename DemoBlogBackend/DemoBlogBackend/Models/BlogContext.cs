@@ -13,6 +13,6 @@ namespace DemoBlogBackend.Models
         public DbSet<Session> Sessions { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<PersonalRating> PersonalRatings { get; set; }
-        public DbSet<Mark> Marks { get; set; }
+        public DbSet<Vote> Votes { get; set; }
     }
 }

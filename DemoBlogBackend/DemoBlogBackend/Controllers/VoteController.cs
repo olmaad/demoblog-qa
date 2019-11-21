@@ -10,32 +10,32 @@ namespace DemoBlogBackend.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class MarkController : ControllerBase
+    public class VoteController : ControllerBase
     {
         private DataService mDataService;
 
-        public MarkController(DataService service)
+        public VoteController(DataService service)
         {
             mDataService = service;
         }
 
-        // GET: api/Mark
+        // GET: api/Vote
         [HttpGet]
         public IEnumerable<string> Get()
         {
             return new string[] { "value1", "value2" };
         }
 
-        // GET: api/Mark/5
-        [HttpGet("{id}", Name = "GetMark")]
+        // GET: api/Vote/5
+        [HttpGet("{id}", Name = "GetVote")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST: api/Mark
+        // POST: api/Vote
         [HttpPost]
-        public IActionResult Post([FromBody] Mark value)
+        public IActionResult Post([FromBody] Vote value)
         {
             if (value.Value == 0)
             {
@@ -53,7 +53,7 @@ namespace DemoBlogBackend.Controllers
 
             switch (value.Type)
             {
-                case Mark.EntityType.Post:
+                case Vote.EntityType.Post:
                     {
                         var post = mDataService.DbContext.Posts.Find(value.EntityId);
 
@@ -62,11 +62,11 @@ namespace DemoBlogBackend.Controllers
                             return BadRequest();
                         }
 
-                        success = AddMark(post, user, value);
+                        success = AddVote(post, user, value);
 
                         break;
                     }
-                case Mark.EntityType.Comment:
+                case Vote.EntityType.Comment:
                     {
                         var comment = mDataService.DbContext.Comments.Find(value.EntityId);
 
@@ -75,7 +75,7 @@ namespace DemoBlogBackend.Controllers
                             return BadRequest();
                         }
 
-                        success = AddMark(comment, user, value);
+                        success = AddVote(comment, user, value);
 
                         break;
                     }
@@ -95,29 +95,29 @@ namespace DemoBlogBackend.Controllers
             }
         }
 
-        // PUT: api/Mark/5
+        // PUT: api/Vote/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE: api/ApiWithActions/5
+        // DELETE: api/Vote/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
         }
 
-        private bool AddMark(IRatingEntity entity, User user, Mark mark)
+        private bool AddVote(IRatingEntity entity, User user, Vote vote)
         {
-            if (mDataService.DbContext.Marks.Count(m => m.Type == mark.Type && m.EntityId == mark.EntityId && m.UserId == user.Id) != 0)
+            if (mDataService.DbContext.Votes.Count(m => m.Type == vote.Type && m.EntityId == vote.EntityId && m.UserId == user.Id) != 0)
             {
                 return false;
             }
 
-            mark.Id = 0;
-            mark.Value = Math.Clamp(mark.Value, -1, 1);
+            vote.Id = 0;
+            vote.Value = Math.Clamp(vote.Value, -1, 1);
 
-            mDataService.DbContext.Marks.Add(mark);
+            mDataService.DbContext.Votes.Add(vote);
 
             var author = mDataService.DbContext.Users.Find(entity.UserId);
 
@@ -134,17 +134,17 @@ namespace DemoBlogBackend.Controllers
                 mDataService.DbContext.PersonalRatings.Add(personal);
             }
 
-            if (mark.Value < 0)
+            if (vote.Value < 0)
             {
-                entity.Rating = entity.Rating * RatingWeights.PostMarkToPost;
-                user.Rating = user.Rating * RatingWeights.PostMarkToUser;
-                personal.Rating = personal.Rating * RatingWeights.PostMarkToPersonal;
+                entity.Rating = entity.Rating * RatingWeights.PostVoteToPost;
+                user.Rating = user.Rating * RatingWeights.PostVoteToUser;
+                personal.Rating = personal.Rating * RatingWeights.PostVoteToPersonal;
             }
             else
             {
-                entity.Rating = entity.Rating / RatingWeights.PostMarkToPost;
-                user.Rating = user.Rating / RatingWeights.PostMarkToUser;
-                personal.Rating = personal.Rating / RatingWeights.PostMarkToPersonal;
+                entity.Rating = entity.Rating / RatingWeights.PostVoteToPost;
+                user.Rating = user.Rating / RatingWeights.PostVoteToUser;
+                personal.Rating = personal.Rating / RatingWeights.PostVoteToPersonal;
             }
 
             mDataService.DbContext.SaveChanges();

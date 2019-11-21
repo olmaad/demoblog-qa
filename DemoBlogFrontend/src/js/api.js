@@ -200,16 +200,16 @@ export const loadCommentsAsync = async function(postId) {
     return { comments: comments, users: users };
 };
 
-export const postMarkAsync = async function(mark) {
-    const response = await fetch("/api/mark", {
+export const postVoteAsync = async function(vote) {
+    const response = await fetch("/api/vote", {
         headers: {
             "Content-Type": "application/json"
         },
         method: "POST",
-        body: JSON.stringify(mark)
+        body: JSON.stringify(vote)
     });
 
-    console.debug("Api: posted mark");
+    console.debug("Api: posted vote");
 
     return response.ok;
 }

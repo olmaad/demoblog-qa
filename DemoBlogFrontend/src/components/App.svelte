@@ -1,6 +1,6 @@
 <script>
 	import * as Api from "./../js/api.js";
-	import { Comment, Mark, MarkType } from "./../js/model.js";
+	import { Comment, Vote, VoteType } from "./../js/model.js";
 
 	import "./../less/App.less";
 
@@ -147,10 +147,10 @@
 		user = sessionBundle.user;
 	};
 
-	const handleRatingChanged = async function(event) {
-		const mark = Mark.create(MarkType.post, user.id, event.detail.post.id, event.detail.value);
+	const handlePostVote = async function(event) {
+		const vote = Vote.create(VoteType.post, user.id, event.detail.post.id, event.detail.value);
 
-		const result = await Api.postMarkAsync(mark);
+		const result = await Api.postVoteAsync(vote);
 	};
 
 	const init = async function() {
@@ -199,7 +199,7 @@
 				users={postListUsers}
 				bind:viewerPost={viewerPost}
 				on:show={handleShowPost}
-				on:ratingChanged={handleRatingChanged} />
+				on:vote={handlePostVote} />
 		{:else if page == 1}
 			<PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={handleEditorSubmit}/>
 		{:else if page == 2}

@@ -19,6 +19,7 @@ namespace DemoBlogBackend.Controllers
         {
             public IEnumerable<Post> Posts { get; set; }
             public IEnumerable<User> Users { get; set; }
+            public IEnumerable<Vote> Votes { get; set; }
         }
 
         public PostsController(DataService service)

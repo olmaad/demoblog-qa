@@ -76,12 +76,12 @@ export class Comment {
     }
 }
 
-export const MarkType = {
+export const VoteType = {
     post: 1,
     comment: 2
 };
 
-export class Mark {
+export class Vote {
     constructor() {
         this.id = -1;
         this.type = -1;
@@ -91,25 +91,25 @@ export class Mark {
     }
 
     static fromJson(json) {
-        let mark = new Mark();
+        let vote = new Vote();
 
-        mark.id = json.id;
-        mark.type = json.type;
-        mark.entityId = json.entityId;
-        mark.userId = json.userId;
-        mark.value = json.value;
+        vote.id = json.id;
+        vote.type = json.type;
+        vote.entityId = json.entityId;
+        vote.userId = json.userId;
+        vote.value = json.value;
 
-        return mark;
+        return vote;
     }
 
     static create(type, userId, entityId, value) {
-        let mark = new Mark();
+        let vote = new Vote();
 
-        mark.type = MarkType.post;
-        mark.entityId = entityId;
-        mark.userId = userId;
-        mark.value = value;
+        vote.type = type;
+        vote.entityId = entityId;
+        vote.userId = userId;
+        vote.value = value;
 
-        return mark;
+        return vote;
     }
 }

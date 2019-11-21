@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemoBlogBackend.Models
 {
-    public class Mark : ICloneable
+    public class Vote : ICloneable
     {
         public enum EntityType
         {

@@ -9,7 +9,7 @@
     export let mode = "";
     export let post = null;
     export let user = null;
-    export let mark = null;
+    export let vote = null;
 
     let value = 0;
     let backgroundItem;
@@ -27,7 +27,7 @@
 
         console.debug(event.target);
 
-        dispatch('show', {
+        dispatch("show", {
             post: post,
             user: user
         });
@@ -36,7 +36,7 @@
     const handleRatingUp = async function() {
         value = 1;
 
-        dispatch('ratingChanged', {
+        dispatch("vote", {
             value: value,
             post: post
         });
@@ -45,7 +45,7 @@
     const handleRatingDown = async function() {
         value = -1;
 
-        dispatch('ratingChanged', {
+        dispatch("vote", {
             value: value,
             post: post
         });
