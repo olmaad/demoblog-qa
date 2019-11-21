@@ -26,7 +26,8 @@
 				post={post}
 				user={users.get(post.userId)}
 				mode={"preview"}
-				on:show/>
+				on:show
+				on:ratingChanged />
         {/each}
     </div>
 {/if}

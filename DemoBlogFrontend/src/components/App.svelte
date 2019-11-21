@@ -1,6 +1,6 @@
 <script>
 	import * as Api from "./../js/api.js";
-	import { Comment } from "./../js/model.js";
+	import { Comment, Mark, MarkType } from "./../js/model.js";
 
 	import "./../less/App.less";
 
@@ -147,6 +147,12 @@
 		user = sessionBundle.user;
 	};
 
+	const handleRatingChanged = async function(event) {
+		const mark = Mark.create(MarkType.post, user.id, event.detail.post.id, event.detail.value);
+
+		const result = await Api.postMarkAsync(mark);
+	};
+
 	const init = async function() {
 		switchPage(0);
 
@@ -188,7 +194,12 @@
 <div class="main-container">
 	<div class="page-container">
 		{#if page == 0}
-			<PostList posts={postListData} users={postListUsers} bind:viewerPost={viewerPost} on:show={handleShowPost}/>
+			<PostList
+				posts={postListData}
+				users={postListUsers}
+				bind:viewerPost={viewerPost}
+				on:show={handleShowPost}
+				on:ratingChanged={handleRatingChanged} />
 		{:else if page == 1}
 			<PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={handleEditorSubmit}/>
 		{:else if page == 2}

@@ -1,9 +1,10 @@
-﻿using System;
+﻿using DemoBlogBackend.Rating;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemoBlogBackend.Models
 {
-    public class Comment : ICloneable
+    public class Comment : ICloneable, IRatingEntity
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }

@@ -9,6 +9,10 @@
     export let mode = "";
     export let post = null;
     export let user = null;
+    export let mark = null;
+
+    let value = 0;
+    let backgroundItem;
 
     let md = new Remarkable();
 
@@ -16,10 +20,34 @@
 
     const dispatch = createEventDispatcher();
 
-	const handleShow = async function() {
+	const handleShow = async function(event) {
+        if (event.target != backgroundItem) {
+            return;
+        }
+
+        console.debug(event.target);
+
         dispatch('show', {
             post: post,
             user: user
+        });
+    };
+
+    const handleRatingUp = async function() {
+        value = 1;
+
+        dispatch('ratingChanged', {
+            value: value,
+            post: post
+        });
+    };
+
+    const handleRatingDown = async function() {
+        value = -1;
+
+        dispatch('ratingChanged', {
+            value: value,
+            post: post
         });
     };
 </script>
@@ -110,7 +138,7 @@
 </style>
 
 <div class="post-border">
-    <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} on:click={handleShow}>
+    <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} bind:this={backgroundItem} on:click={handleShow}>
         <h2>{post.title}</h2>
         <div class="post-text post-component-rendered">
             {@html propertiesBuilder.text()}
@@ -118,8 +146,8 @@
         <div class="post-footer">
             <span class="post-footer-author">{user.name}</span>
             <div class="footer-filler"/>
-            <RatingArrow up={true}/>
-            <RatingArrow up={false}/>
+            <RatingArrow up={true} active={value > 0} on:click={handleRatingUp} />
+            <RatingArrow up={false} active={value < 0} on:click={handleRatingDown} />
         </div>
     </div>
 </div>

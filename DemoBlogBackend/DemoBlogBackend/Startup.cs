@@ -47,6 +47,7 @@ namespace DemoBlogBackend
             services.AddTransient(ctx => new SessionController(dataService));
             services.AddTransient(ctx => new UserController(dataService));
             services.AddTransient(ctx => new CommentController(dataService));
+            services.AddTransient(ctx => new MarkController(dataService));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

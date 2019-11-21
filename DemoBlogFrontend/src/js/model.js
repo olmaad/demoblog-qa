@@ -75,3 +75,41 @@ export class Comment {
         return comment;
     }
 }
+
+export const MarkType = {
+    post: 1,
+    comment: 2
+};
+
+export class Mark {
+    constructor() {
+        this.id = -1;
+        this.type = -1;
+        this.entityId = -1;
+        this.userId = -1;
+        this.value = 0;
+    }
+
+    static fromJson(json) {
+        let mark = new Mark();
+
+        mark.id = json.id;
+        mark.type = json.type;
+        mark.entityId = json.entityId;
+        mark.userId = json.userId;
+        mark.value = json.value;
+
+        return mark;
+    }
+
+    static create(type, userId, entityId, value) {
+        let mark = new Mark();
+
+        mark.type = MarkType.post;
+        mark.entityId = entityId;
+        mark.userId = userId;
+        mark.value = value;
+
+        return mark;
+    }
+}

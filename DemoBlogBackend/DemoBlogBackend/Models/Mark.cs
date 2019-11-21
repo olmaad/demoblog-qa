@@ -15,6 +15,8 @@ namespace DemoBlogBackend.Models
         public long Id { get; set; }
 
         public EntityType Type { get; set; }
+        public long EntityId { get; set; }
+        public long UserId { get; set; }
         public int Value { get; set; }
 
         public object Clone()
