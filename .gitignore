@@ -1,10 +1,12 @@
 # DemoBlogFrontend
+DemoBlogFrontend/.vscode/
 DemoBlogFrontend/.DS_Store
 DemoBlogFrontend/node_modules
 DemoBlogFrontend/public/*bundle*
 DemoBlogFrontend/public/*.css
 DemoBlogFrontend/package-lock.json
 DemoBlogFrontend/publish.sh
+DemoBlogFrontend/publish.ps1
 
 # DemoBlogBackend
 DemoBlogBackend/.vs/
