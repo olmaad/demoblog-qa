@@ -1,7 +1,24 @@
-import { Session, User, Post, Comment } from './model.js';
+import { Session, User, Post, Comment, Vote, VoteType } from './model.js';
 
-export const loadPostsAsync = async function() {
-    const response = await fetch("/api/posts");
+const buildGetQuery = async function(params) {
+    let query = Object.keys(params)
+        .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
+        .join('&');
+
+    console.debug("Api: build get query:");
+    console.debug(query);
+
+    if (query == "") {
+        return "";
+    }
+
+    return "?" + query;
+};
+
+export const loadPostsAsync = async function(session) {
+    const query = await buildGetQuery((session == null) ? {} : { userId: session.userId });
+
+    const response = await fetch("/api/posts" + query);
 
     const json = await response.json();
 
@@ -23,11 +40,28 @@ export const loadPostsAsync = async function() {
         users.set(user.id, user);
     }
 
+    let votes = new Map();
+
+    for (let it in json.votes) {
+        const vote = Vote.fromJson(json.votes[it]);
+
+        if (!votes.has(vote.userId)) {
+            votes.set(vote.userId, new Map());
+        }
+
+        votes.get(vote.userId).set(vote.entityId, vote);
+    }
+
     console.debug("Api: loaded posts:");
     console.debug(posts);
     console.debug(users);
+    console.debug(votes);
 
-    return { posts: posts, users: users };
+    return {
+        posts: posts,
+        users: users,
+        votes: votes
+    };
 };
 
 export const submitPostAsync = async function(post) {

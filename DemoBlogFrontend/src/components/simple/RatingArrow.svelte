@@ -33,4 +33,4 @@
 	class:icon-down={!up}
 	class:normal={!active}
 	class:active={active}
-	on:click/>
+	on:click|stopPropagation/>

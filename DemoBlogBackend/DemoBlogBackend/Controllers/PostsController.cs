@@ -29,7 +29,7 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public PostsReturnBundle Get()
+        public PostsReturnBundle Get(long ? userId)
         {
             var posts = mDataService.DbContext.Posts.ToList();
 
@@ -43,16 +43,30 @@ namespace DemoBlogBackend.Controllers
                 return temp;
             });
 
+            var postIds = posts.Select(p => p.Id).ToHashSet();
+
+            List<Vote> votes = new List<Vote>();
+
+            if (userId != null)
+            {
+                votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Post && v.UserId == userId.Value && postIds.Contains(v.EntityId)).ToList();
+            }
+            else
+            {
+                votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Post && postIds.Contains(v.EntityId)).ToList();
+            }
+
             return new PostsReturnBundle()
             {
                 Posts = posts,
-                Users = users
+                Users = users,
+                Votes = votes
             };
         }
 
         // GET: api/Posts/5
         [HttpGet("{id}", Name = "GetPost")]
-        public Post Get(long id)
+        public Post GetPost(long id)
         {
             var post = mDataService.DbContext.Find<Post>(id);
 

@@ -11,8 +11,10 @@
     export let user = null;
     export let vote = null;
 
-    let value = 0;
-    let backgroundItem;
+    let upButton;
+    let downButton;
+
+    $: voteValue = (vote == null) ? 0 : vote.value; 
 
     let md = new Remarkable();
 
@@ -21,12 +23,6 @@
     const dispatch = createEventDispatcher();
 
 	const handleShow = async function(event) {
-        if (event.target != backgroundItem) {
-            return;
-        }
-
-        console.debug(event.target);
-
         dispatch("show", {
             post: post,
             user: user
@@ -34,19 +30,19 @@
     };
 
     const handleRatingUp = async function() {
-        value = 1;
+        voteValue = 1;
 
         dispatch("vote", {
-            value: value,
+            value: voteValue,
             post: post
         });
     };
 
     const handleRatingDown = async function() {
-        value = -1;
+        voteValue = -1;
 
         dispatch("vote", {
-            value: value,
+            value: voteValue,
             post: post
         });
     };
@@ -138,7 +134,7 @@
 </style>
 
 <div class="post-border">
-    <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} bind:this={backgroundItem} on:click={handleShow}>
+    <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} on:click={handleShow}>
         <h2>{post.title}</h2>
         <div class="post-text post-component-rendered">
             {@html propertiesBuilder.text()}
@@ -146,8 +142,8 @@
         <div class="post-footer">
             <span class="post-footer-author">{user.name}</span>
             <div class="footer-filler"/>
-            <RatingArrow up={true} active={value > 0} on:click={handleRatingUp} />
-            <RatingArrow up={false} active={value < 0} on:click={handleRatingDown} />
+            <RatingArrow up={true} active={voteValue > 0} bind:this={upButton} on:click={handleRatingUp} />
+            <RatingArrow up={false} active={voteValue < 0} bind:this={downButton} on:click={handleRatingDown} />
         </div>
     </div>
 </div>

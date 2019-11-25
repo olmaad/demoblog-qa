@@ -13,13 +13,14 @@
 	$: viewerPost = null;
 	$: viewerUser = null;
 	$: viewerComments = [];
-	$: viewerUsers = new Map();;
+	$: viewerUsers = new Map();
 	$: session = null;
 	$: user = null;
 	$: showLoginError = false;
 
 	let postListData = [];
 	let postListUsers = new Map();
+	let postListVotes = new Map();
 
 	let commentEditorText;
 
@@ -29,15 +30,20 @@
 	let sessionLogin;
 	let sessionPassword;
 
+	const updatePosts = async function() {
+		const postsBundle = await Api.loadPostsAsync(session);
+
+		if (postsBundle != null) {
+			postListData = postsBundle.posts;
+			postListUsers = postsBundle.users;
+			postListVotes = postsBundle.votes;
+		}
+	};
+
 	const switchPage = async function(to) {
 		switch (to) {
 			case 0:
-				const postsBundle = await Api.loadPostsAsync();
-
-				if (postsBundle != null) {
-					postListData = postsBundle.posts;
-					postListUsers = postsBundle.users;
-				}
+				await updatePosts();
 
 				break;
 			case 1:
@@ -108,6 +114,8 @@
 			await Api.removeSessionAsync(session.id);
 		}
 
+		localStorage.removeItem("sessionId");
+
 		session = null;
 		user = null;
 	};
@@ -139,7 +147,12 @@
 
 		const sessionBundle = await Api.loadSessionAsync(localSessionId);
 
-		if (sessionBundle == null || sessionBundle.session == null) {
+		if (sessionBundle == null || sessionBundle.session == null || !sessionBundle.session.valid) {
+			localStorage.removeItem("sessionId");
+
+			session = null;
+			user = null;
+
 			return;
 		}
 
@@ -154,9 +167,9 @@
 	};
 
 	const init = async function() {
-		switchPage(0);
+		await initUser();
 
-		initUser();
+		await updatePosts();
 	};
 
 	init();
@@ -195,8 +208,10 @@
 	<div class="page-container">
 		{#if page == 0}
 			<PostList
+				user={user}
 				posts={postListData}
 				users={postListUsers}
+				votes={postListVotes}
 				bind:viewerPost={viewerPost}
 				on:show={handleShowPost}
 				on:vote={handlePostVote} />
