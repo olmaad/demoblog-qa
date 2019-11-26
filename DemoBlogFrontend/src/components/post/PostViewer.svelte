@@ -7,8 +7,10 @@
 
 	export let post = null;
 	export let user = null;
+	export let vote = null;
 	export let comments;
 	export let users;
+	export let commentsVotes;
 	export let commentEditorText;
 	
 	const dispatch = createEventDispatcher();
@@ -64,7 +66,7 @@
 				Удалить
 			</button>
 		</div>
-		<CommentList comments={comments} users={users}/>
+		<CommentList user={user} comments={comments} users={users} commentsVotes={commentsVotes} on:vote/>
 		<CommentEditor bind:text={commentEditorText} on:submit={submitComment}/>
 	</div>
 {/if}

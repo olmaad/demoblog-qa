@@ -19,6 +19,7 @@ namespace DemoBlogBackend.Controllers
         {
             public IEnumerable<Comment> Comments { get; set; }
             public IEnumerable<User> Users { get; set; }
+            public IEnumerable<Vote> Votes { get; set; }
         }
 
         public CommentController(DataService service)
@@ -34,12 +35,14 @@ namespace DemoBlogBackend.Controllers
         }
 
         // GET: api/Comment/5
-        [HttpGet("{id}", Name = "GetComments")]
-        public CommentReturnBundle Get(long id)
+        [HttpGet("{postId}", Name = "GetComments")]
+        public CommentReturnBundle Get(long postId, long? userId)
         {
-            var commentsQuery = mDataService.DbContext.Comments.Where(c => c.PostId == id);
+            var commentsQuery = mDataService.DbContext.Comments.Where(c => c.PostId == postId);
 
             var comments = commentsQuery.ToList();
+
+            var commentIds = commentsQuery.Select(c => c.Id).ToHashSet();
 
             var userIds = commentsQuery.Select(c => c.UserId).ToHashSet();
 
@@ -47,10 +50,18 @@ namespace DemoBlogBackend.Controllers
 
             var users = dbUsers.Select(u => { var temp = u.Clone() as User; temp.PasswordHash = null; return temp; }).ToList();
 
+            List<Vote> votes = new List<Vote>();
+
+            if (userId != null)
+            {
+                votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Comment && v.UserId == userId.Value && commentIds.Contains(v.EntityId)).ToList();
+            }
+
             return new CommentReturnBundle()
             {
                 Comments = comments,
-                Users = users
+                Users = users,
+                Votes = votes
             };
         }
 

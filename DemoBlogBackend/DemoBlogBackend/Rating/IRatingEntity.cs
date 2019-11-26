@@ -7,6 +7,10 @@ namespace DemoBlogBackend.Rating
 {
     public interface IRatingEntity
     {
+        double WeightToSelf { get; }
+        double WeightToUser { get; }
+        double WeightToPersonal { get; }
+
         long UserId { get; }
         double Rating { get; set; }
     }

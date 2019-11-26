@@ -51,10 +51,6 @@ namespace DemoBlogBackend.Controllers
             {
                 votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Post && v.UserId == userId.Value && postIds.Contains(v.EntityId)).ToList();
             }
-            else
-            {
-                votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Post && postIds.Contains(v.EntityId)).ToList();
-            }
 
             return new PostsReturnBundle()
             {

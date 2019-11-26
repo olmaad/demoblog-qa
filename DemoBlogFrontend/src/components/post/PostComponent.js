@@ -32,9 +32,6 @@ export class PostComponentPropertiesBuilder {
 
         let render = this.markdown.render(source);
 
-        console.debug("Rendered markdown:");
-        console.debug(render);
-
         return render;
     }
 }

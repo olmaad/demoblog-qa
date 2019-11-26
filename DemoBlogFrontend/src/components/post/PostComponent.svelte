@@ -11,9 +11,6 @@
     export let user = null;
     export let vote = null;
 
-    let upButton;
-    let downButton;
-
     $: voteValue = (vote == null) ? 0 : vote.value; 
 
     let md = new Remarkable();
@@ -30,20 +27,32 @@
     };
 
     const handleRatingUp = async function() {
-        voteValue = 1;
+        if (vote != null) {
+            if (vote.value > 0) {
+                vote.value = 0;
+            }
+            else {
+                vote.value = 1;
+            }
+        }
 
         dispatch("vote", {
-            value: voteValue,
-            post: post
+            vote: vote
         });
     };
 
     const handleRatingDown = async function() {
-        voteValue = -1;
+        if (vote != null) {
+            if (vote.value < 0) {
+                vote.value = 0;
+            }
+            else {
+                vote.value = -1;
+            }
+        }
 
         dispatch("vote", {
-            value: voteValue,
-            post: post
+            vote: vote
         });
     };
 </script>
@@ -142,8 +151,8 @@
         <div class="post-footer">
             <span class="post-footer-author">{user.name}</span>
             <div class="footer-filler"/>
-            <RatingArrow up={true} active={voteValue > 0} bind:this={upButton} on:click={handleRatingUp} />
-            <RatingArrow up={false} active={voteValue < 0} bind:this={downButton} on:click={handleRatingDown} />
+            <RatingArrow up={true} active={voteValue > 0} on:click={handleRatingUp} />
+            <RatingArrow up={false} active={voteValue < 0} on:click={handleRatingDown} />
         </div>
     </div>
 </div>

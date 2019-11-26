@@ -6,6 +6,10 @@ namespace DemoBlogBackend.Models
 {
     public class Post : ICloneable, IRatingEntity
     {
+        public double WeightToSelf { get; } = RatingWeights.PostVoteToPost;
+        public double WeightToUser { get; } = RatingWeights.PostVoteToUser;
+        public double WeightToPersonal { get; } = RatingWeights.PostVoteToPersonal;
+
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 

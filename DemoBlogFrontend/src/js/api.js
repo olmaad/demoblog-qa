@@ -1,18 +1,23 @@
 import { Session, User, Post, Comment, Vote, VoteType } from './model.js';
 
+export * from "./api_vote.js";
+
 const buildGetQuery = async function(params) {
     let query = Object.keys(params)
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&');
 
-    console.debug("Api: build get query:");
-    console.debug(query);
+    console.group("Api: build get query:");
+    console.debug("params:");
+    console.debug(params);
+    console.debug("query: " + query);
+    console.groupEnd();
 
     if (query == "") {
         return "";
     }
 
-    return "?" + query;
+    return ("?" + query);
 };
 
 export const loadPostsAsync = async function(session) {
@@ -45,17 +50,14 @@ export const loadPostsAsync = async function(session) {
     for (let it in json.votes) {
         const vote = Vote.fromJson(json.votes[it]);
 
-        if (!votes.has(vote.userId)) {
-            votes.set(vote.userId, new Map());
-        }
-
-        votes.get(vote.userId).set(vote.entityId, vote);
+        votes.set(vote.entityId, vote)
     }
 
-    console.debug("Api: loaded posts:");
+    console.group("Api: loaded posts:");
     console.debug(posts);
     console.debug(users);
     console.debug(votes);
+    console.groupEnd();
 
     return {
         posts: posts,
@@ -115,8 +117,9 @@ export const createSessionAsync = async function(login, password) {
     const session = json.session == null ? null : Session.fromJson(json.session);
     const user = json.user == null ? null : User.fromJson(json.user);
 
-    console.debug("Api: created session:");
+    console.group("Api: created session:");
     console.debug(session);
+    console.groupEnd();
 
     return { session: session, user: user };
 };
@@ -133,8 +136,9 @@ export const loadSessionAsync = async function(id) {
     const session = json.session == null ? null : Session.fromJson(json.session);
     const user = json.user == null ? null : User.fromJson(json.user);
 
-    console.debug("Api: loaded session:");
+    console.group("Api: loaded session:");
     console.debug(session);
+    console.groupEnd();
 
     return { session: session, user: user };
 };
@@ -194,14 +198,17 @@ export const submitCommentAsync = async function(comment) {
 
     const id = Number(await response.text());
 
-    console.debug("Api: posted comment:");
+    console.group("Api: posted comment:");
     console.debug("Id = " + id);
+    console.groupEnd();
 
     return id;
 };
 
-export const loadCommentsAsync = async function(postId) {
-    const response = await fetch("/api/comment/" + postId);
+export const loadCommentsAsync = async function(postId, session) {
+    const query = await buildGetQuery((session == null) ? {} : { userId: session.userId});
+
+    const response = await fetch("/api/comment/" + postId + query);
 
     if (!response.ok) {
         return null;
@@ -227,23 +234,19 @@ export const loadCommentsAsync = async function(postId) {
         users.set(user.id, user);
     }
 
-    console.debug("Api: loaded comments:");
+    let votes = new Map();
+
+    for (let it in json.votes) {
+        const vote = Vote.fromJson(json.votes[it]);
+
+        votes.set(vote.entityId, vote);
+    }
+
+    console.group("Api: loaded comments:");
     console.debug(comments);
     console.debug(users);
+    console.debug(votes);
+    console.groupEnd();
 
-    return { comments: comments, users: users };
+    return { comments: comments, users: users, votes: votes };
 };
-
-export const postVoteAsync = async function(vote) {
-    const response = await fetch("/api/vote", {
-        headers: {
-            "Content-Type": "application/json"
-        },
-        method: "POST",
-        body: JSON.stringify(vote)
-    });
-
-    console.debug("Api: posted vote");
-
-    return response.ok;
-}

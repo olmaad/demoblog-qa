@@ -22,6 +22,8 @@
 	let postListUsers = new Map();
 	let postListVotes = new Map();
 
+	let viewerCommentsVotes = new Map();
+
 	let commentEditorText;
 
 	let editorPost;
@@ -70,10 +72,15 @@
 
 		await switchPage(2);
 
-		const commentsBundle = await Api.loadCommentsAsync(viewerPost.id);
+		const commentsBundle = await Api.loadCommentsAsync(viewerPost.id, session);
+
+		if (commentsBundle == null) {
+			console.debug("App: unable to load comments");
+		}
 
 		viewerComments = commentsBundle.comments;
 		viewerUsers = commentsBundle.users;
+		viewerCommentsVotes = commentsBundle.votes;
 	}
 
 	const handleRemovePost = async function() {
@@ -134,6 +141,26 @@
 		}
 	};
 
+	const handleVote = async function(event) {
+		const vote = event.detail.vote;
+
+		if (vote == null) {
+			// TODO: Show authorization error
+			return;
+		}
+
+		// TODO: Show result on error
+		if (vote.id < 0) {
+			const result = await Api.postVoteAsync(vote);
+		}
+		else if (vote.value == 0) {
+			const result = await Api.deleteVoteAsync(vote);
+		}
+		else {
+			const result = await Api.putVoteAsync(vote);
+		}
+	};
+
 	const handleSwitchPage = async function(event) {
 		await switchPage(event.detail);
 	};
@@ -187,6 +214,7 @@
 		position: absolute;
 		top: 0;
 		left: 0;
+		background: var(--color-background-noise);
 	}
 
 	.page-container {
@@ -214,7 +242,7 @@
 				votes={postListVotes}
 				bind:viewerPost={viewerPost}
 				on:show={handleShowPost}
-				on:vote={handlePostVote} />
+				on:vote={handleVote} />
 		{:else if page == 1}
 			<PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={handleEditorSubmit}/>
 		{:else if page == 2}
@@ -223,10 +251,12 @@
 				user={viewerUser}
 				comments={viewerComments}
 				users={viewerUsers}
+				commentsVotes={viewerCommentsVotes}
 				bind:commentEditorText={commentEditorText}
 				on:edit={handleEditPost}
 				on:remove={handleRemovePost}
-				on:submitComment={handleSubmitComment}/>
+				on:submitComment={handleSubmitComment}
+				on:vote={handleVote}/>
 		{/if}
 		<div style="height: 100%"/>
 	</div>

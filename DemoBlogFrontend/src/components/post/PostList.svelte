@@ -1,4 +1,5 @@
 <script>
+	import { Vote, VoteType } from "./../../js/model.js";
 	import PostComponent from "./PostComponent.svelte";
 
 	export let user = null;
@@ -7,20 +8,21 @@
 	export let votes = new Map();
 
 	const getVote = function(postId) {
-		if (user == null || !votes.has(user.id)) {
+		if (user == null) {
 			return null;
 		}
 
-		let postVotes = votes.get(user.id);
+		if (!votes.has(postId)) {
+			console.debug("PostList: vote not found, created empty");
 
-		if (!postVotes.has(postId)) {
-			return null;
+			return Vote.create(VoteType.post, user.id, postId, 0);
 		}
 
-		let vote = postVotes.get(postId)
+		let vote = votes.get(postId)
 
-		console.debug("PostList: found vote:");
+		console.group("PostList: found vote:");
 		console.debug(vote);
+		console.groupEnd();
 
 		return vote;
 	};
@@ -49,7 +51,7 @@
 				mode={"preview"}
 				vote={getVote(post.id)}
 				on:show
-				on:vote />
+				on:vote/>
         {/each}
     </div>
 {/if}

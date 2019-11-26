@@ -1,28 +1,45 @@
 <script>
+    import { createEventDispatcher } from "svelte";
+
     import RatingArrow from "../simple/RatingArrow.svelte";
 
     export let index = 0;
     export let comment = null;
     export let user = null;
+    export let vote = null;
 
-    let rating = 0;
+    $: voteValue = (vote == null) ? 0 : vote.value; 
 
-    const handleUpClicked = async function() {
-        if (rating > 0) {
-            rating = 0;
+    const dispatch = createEventDispatcher();
+
+    const handleRatingUp = async function() {
+        if (vote != null) {
+            if (vote.value > 0) {
+                vote.value = 0;
+            }
+            else {
+                vote.value = 1;
+            }
         }
-        else {
-            rating = 1;
-        }
+
+        dispatch("vote", {
+            vote: vote
+        });
     };
 
-    const handleDownClicked = async function() {
-        if (rating < 0) {
-            rating = 0;
+    const handleRatingDown = async function() {
+        if (vote != null) {
+            if (vote.value < 0) {
+                vote.value = 0;
+            }
+            else {
+                vote.value = -1;
+            }
         }
-        else {
-            rating = -1;
-        }
+
+        dispatch("vote", {
+            vote: vote
+        });
     };
 </script>
 
@@ -93,8 +110,8 @@
             <div class="header-container">
                 <span class="username">{user.name}</span>
                 <div class="header-filler"/>
-                <RatingArrow up={true} active={rating > 0} on:click={handleUpClicked}/>
-                <RatingArrow up={false} active={rating < 0} on:click={handleDownClicked}/>
+                <RatingArrow up={true} active={voteValue > 0} on:click={handleRatingUp}/>
+                <RatingArrow up={false} active={voteValue < 0} on:click={handleRatingDown}/>
             </div>
             <p class="text">{comment.text}</p>
         </div>
