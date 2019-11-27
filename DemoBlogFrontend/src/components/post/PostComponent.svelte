@@ -22,7 +22,8 @@
 	const handleShow = async function(event) {
         dispatch("show", {
             post: post,
-            user: user
+            user: user,
+            vote: vote
         });
     };
 

@@ -56,7 +56,7 @@
 
 {#if post != null}
 	<div class="viewer_container">
-		<PostComponent mode={"content"} post={post} user={user}/>
+		<PostComponent mode={"content"} post={post} user={user} vote={vote} on:vote/>
 		<div class="button_container">
 			<div style="width: 100%"/>
 			<button class="positive" on:click={edit}>

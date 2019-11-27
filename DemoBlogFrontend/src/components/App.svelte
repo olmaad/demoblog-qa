@@ -22,6 +22,7 @@
 	let postListUsers = new Map();
 	let postListVotes = new Map();
 
+	let viewerVote = null;
 	let viewerCommentsVotes = new Map();
 
 	let commentEditorText;
@@ -69,6 +70,7 @@
 	const handleShowPost = async function(event) {
 		viewerPost = event.detail.post;
 		viewerUser = event.detail.user;
+		viewerVote = event.detail.vote;
 
 		await switchPage(2);
 
@@ -249,6 +251,7 @@
 			<PostViewer
 				post={viewerPost}
 				user={viewerUser}
+				vote={viewerVote}
 				comments={viewerComments}
 				users={viewerUsers}
 				commentsVotes={viewerCommentsVotes}
