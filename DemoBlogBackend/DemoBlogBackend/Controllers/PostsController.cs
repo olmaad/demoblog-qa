@@ -29,28 +29,42 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public PostsReturnBundle Get(long ? userId)
+        public PostsReturnBundle Get(long? userId)
         {
-            var posts = mDataService.DbContext.Posts.ToList();
+            long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
-            var userIds = posts.Select(p => p.UserId).ToHashSet();
+            var query = from post in mDataService.DbContext.Posts
+                        join user in mDataService.DbContext.Users on post.UserId equals user.Id
+                        join personal in mDataService.DbContext.PersonalRatings on
+                        new { UserId = userIdDefaulted, AuthorId = post.UserId }
+                        equals
+                        new { personal.UserId, personal.AuthorId }
+                        into personaJoin
+                        join vote in mDataService.DbContext.Votes on
+                        new { UserId = userIdDefaulted, Type = Vote.EntityType.Post, EntityId = post.Id }
+                        equals
+                        new { vote.UserId, vote.Type, vote.EntityId }
+                        into voteJoin
+                        from p in personaJoin.DefaultIfEmpty()
+                        from v in voteJoin.DefaultIfEmpty()
+                        select new
+                        {
+                            Rating = post.Rating * user.Rating * (p != null ? p.Rating : 1),
+                            Post = post,
+                            User = user,
+                            Personal = p,
+                            Vote = v
+                        };
 
-            var users = mDataService.DbContext.Users.Where(u => userIds.Contains(u.Id)).ToList().Select(u =>
+            var posts = query.OrderByDescending(o => o.Rating).Select(o => o.Post).ToList();
+            var users = query.Select(o => o.User).ToList().Select(u =>
             {
                 var temp = u.Clone() as User;
                 temp.PasswordHash = null;
 
                 return temp;
-            });
-
-            var postIds = posts.Select(p => p.Id).ToHashSet();
-
-            List<Vote> votes = new List<Vote>();
-
-            if (userId != null)
-            {
-                votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Post && v.UserId == userId.Value && postIds.Contains(v.EntityId)).ToList();
-            }
+            }).ToList();
+            var votes = query.Where(o => o.Vote != null).Select(o => o.Vote).ToList();
 
             return new PostsReturnBundle()
             {
