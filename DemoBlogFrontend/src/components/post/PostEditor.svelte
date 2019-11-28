@@ -5,6 +5,8 @@
     import { Post } from "../../js/model.js";
     import { Modes, PostEditorPropertiesBuilder } from "./PostEditor.js";
 
+    import ToggleSwitchButton from "./../simple/ToggleSwitchButton.svelte";
+
     export let post = new Post();
 
     export const clear = function() {
@@ -12,24 +14,19 @@
     };
 
     let mode = Modes.editor;
+    let switchEnabled = false;
 
     var md = new Remarkable();
 
     $: propertiesBuilder = new PostEditorPropertiesBuilder(mode, post, md);
+    $: mode = (switchEnabled ? Modes.preview : Modes.editor);
 
     const dispatch = createEventDispatcher();
 
-    const submit = () => dispatch("submit");
+    const handleSubmit = async function() {
+        switchEnabled = false;
 
-    const handleSwitchMode = function() {
-        switch (mode) {
-            case Modes.editor:
-                mode = Modes.preview;
-                break;
-            case Modes.preview:
-                mode = Modes.editor;
-                break;
-        }
+        dispatch("submit");
     };
 </script>
 
@@ -64,6 +61,7 @@
         flex-direction: row;
         align-items: flex-end;
         justify-content: space-between;
+        margin-bottom: 16px;
     }
 
     .footer-container {
@@ -87,7 +85,7 @@
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
         color: var(--color-text);
-        margin-bottom: 16px;
+        margin-bottom: 0px;
     }
 
     button {
@@ -125,7 +123,7 @@
     <div class="container">
         <div class="header-container">
             <h2>{propertiesBuilder.headerText()}</h2>
-            <button class="highlighted button-preview" on:click={handleSwitchMode}>{propertiesBuilder.switchButtonText()}</button>
+            <ToggleSwitchButton textDisabled={"Редактор"} textEnabled={"Предпросмотр"} bind:enabled={switchEnabled}/>
         </div>
         {#if mode == Modes.editor}
             <textarea bind:value={post.title} style="height: 50px"/>
@@ -142,7 +140,7 @@
             </div>
         {/if}
         <div class="footer-container">
-            <button class="highlighted button-submit" on:click={submit}>Опубликовать</button>
+            <button class="highlighted button-submit" on:click={handleSubmit}>Опубликовать</button>
         </div>
     </div>
 </div>
