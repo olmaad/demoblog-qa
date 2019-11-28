@@ -63,12 +63,27 @@
 		color: var(--color-text);
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
+        margin-bottom: 0px;
+    }
+
+    label {
+        color: var(--color-text-dark);
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
     }
 
 	div {
         color: var(--color-text);
 		font-family: 'Roboto', sans-serif;
-	}
+    }
+    
+    .header {
+        display: flex;
+        flex-flow: row;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 16px;
+    }
 
 	div.post {
 		display: flex;
@@ -118,6 +133,7 @@
         max-width: 100px;
         font-weight: bold;
         margin-right: 16px;
+        color: var(--color-text-dark);
     }
 
 	.post-footer {
@@ -145,7 +161,10 @@
 
 <div class="post-border">
     <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} on:click={handleShow}>
-        <h2>{post.title}</h2>
+        <div class="header">
+            <h2>{post.title}</h2>
+            <label>{post.date.toLocaleTimeString("ru-RU", { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit" })}</label>
+        </div>
         <div class="post-text post-component-rendered">
             {@html propertiesBuilder.text()}
         </div>

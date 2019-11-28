@@ -85,6 +85,10 @@
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
         color: var(--color-text);
+        margin-bottom: 16px;
+    }
+
+    .header-container h2 {
         margin-bottom: 0px;
     }
 

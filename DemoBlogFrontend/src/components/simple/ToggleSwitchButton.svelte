@@ -18,10 +18,30 @@
     }
 
     .container {
+        position: relative;
         width: 256px;
         border-radius: 4px;
         background: var(--color-background-3);
         cursor: pointer;
+    }
+
+    .container-overlap {
+        position: absolute;
+        display: flex;
+        flex-flow: row;
+
+        top: 0px;
+        left: 0px;
+        width: 256px;
+        height: 38px;
+        background: transparent;
+    }
+
+    .container-text {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex: 1;
     }
 
     .slider {
@@ -44,19 +64,16 @@
     .slider-enabled {
         transform: translate(128px);
     }
-
-    .slider-content-disabled {
-        opacity: 0;
-    }
-
-    .slider-content-enabled {
-        opacity: 1;
-    }
 </style>
 
 <div class="container" on:click={handleClick}>
-    <div class="slider" class:slider-disabled={!enabled} class:slider-enabled={enabled}>
-        <span class:slider-content-disabled={enabled} class:slider-content-enabled={!enabled}>{textDisabled}</span>
-        <span class:slider-content-disabled={!enabled} class:slider-content-enabled={enabled}>{textEnabled}</span>
+    <div class="slider" class:slider-disabled={!enabled} class:slider-enabled={enabled}></div>
+    <div class="container-overlap">
+        <div class="container-text">
+            <span>{textDisabled}</span>
+        </div>
+        <div class="container-text">
+            <span>{textEnabled}</span>
+        </div>
     </div>
 </div>

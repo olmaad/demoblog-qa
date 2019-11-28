@@ -41,6 +41,7 @@ export class Post {
         this.title = "";
         this.preview = "";
         this.content = "";
+        this.date = new Date();
     }
 
     static fromJson(json) {
@@ -51,6 +52,7 @@ export class Post {
         post.title = json.title;
         post.preview = json.preview;
         post.content = json.content;
+        post.date = new Date(json.date);
 
         return post;
     }

@@ -17,6 +17,7 @@ namespace DemoBlogBackend.Models
         public string Title { get; set; }
         public string Preview { get; set; }
         public string Content { get; set; }
+        public DateTime Date { get; set; }
         public double Rating { get; set; } = 1;
 
         public object Clone()

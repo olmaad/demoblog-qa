@@ -100,6 +100,7 @@ namespace DemoBlogBackend.Controllers
             }
 
             value.Id = 0;
+            value.Date = DateTime.UtcNow;
 
             mDataService.DbContext.Add(value);
             mDataService.DbContext.SaveChanges();
