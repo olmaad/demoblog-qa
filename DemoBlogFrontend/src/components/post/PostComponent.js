@@ -16,6 +16,10 @@ export class PostComponentPropertiesBuilder {
         }
     }
 
+    link() {
+        return "view/" + this.post.id;
+    }
+
     text() {
         let source = "";
 

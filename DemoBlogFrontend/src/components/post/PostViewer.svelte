@@ -1,9 +1,13 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
+	import { getPostBundle } from "./../../js/data_store.js";
+
 	import PostComponent from "./PostComponent.svelte";
 	import CommentList from "./../comment/CommentList.svelte";
 	import CommentEditor from "./../comment/CommentEditor.svelte";
+
+	export let postId = -1;
 
 	export let post = null;
 	export let user = null;
@@ -12,6 +16,24 @@
 	export let users;
 	export let commentsVotes;
 	export let commentEditorText;
+
+	const updateData = async function(id) {
+		let postBundle = await getPostBundle(id);
+
+		user = postBundle.user;
+		post = postBundle.post;
+		vote = postBundle.vote;
+
+		console.log(post);
+	};
+
+	$: {
+		updateData(postId);
+	}
+
+	export const showPost = async function(bundle) {
+
+	};
 	
 	const dispatch = createEventDispatcher();
 

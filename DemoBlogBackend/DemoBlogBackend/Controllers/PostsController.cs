@@ -22,6 +22,13 @@ namespace DemoBlogBackend.Controllers
             public IEnumerable<Vote> Votes { get; set; }
         }
 
+        public class PostReturnBundle
+        {
+            public Post Post { get; set; }
+            public User User { get; set; }
+            public Vote Vote { get; set; }
+        }
+
         public PostsController(DataService service)
         {
             mDataService = service;
@@ -75,12 +82,37 @@ namespace DemoBlogBackend.Controllers
         }
 
         // GET: api/Posts/5
-        [HttpGet("{id}", Name = "GetPost")]
-        public Post GetPost(long id)
+        [HttpGet("{postId}", Name = "GetPost")]
+        public PostReturnBundle GetPost(long postId, long? userId)
         {
-            var post = mDataService.DbContext.Find<Post>(id);
+            long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
-            return post;
+            var query = from post in mDataService.DbContext.Posts
+                        join user in mDataService.DbContext.Users on post.UserId equals user.Id
+                        join vote in mDataService.DbContext.Votes on
+                        new { UserId = userIdDefaulted, Type = Vote.EntityType.Post, EntityId = post.Id }
+                        equals
+                        new { vote.UserId, vote.Type, vote.EntityId }
+                        into voteJoin
+                        from v in voteJoin.DefaultIfEmpty()
+                        where post.Id == postId
+                        select new
+                        {
+                            Post = post,
+                            User = user,
+                            Vote = v
+                        };
+
+            var postValue = query.Select(o => o.Post).Single();
+            var userValue = query.Select(o => o.User).Single();
+            var voteValue = query.Select(o => o.Vote).SingleOrDefault();
+
+            return new PostReturnBundle()
+            {
+                Post = postValue,
+                User = userValue,
+                Vote = voteValue
+            };
         }
 
         // POST: api/Posts

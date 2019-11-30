@@ -1,6 +1,8 @@
 <script>
     import { createEventDispatcher } from "svelte";
+
     import { Remarkable } from "remarkable";
+    import { Link } from "svelte-routing";
 
     import { PostComponentPropertiesBuilder } from "./PostComponent.js";
 
@@ -64,6 +66,17 @@
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
         margin-bottom: 0px;
+    }
+
+    a {
+        color: var(--color-text);
+        font-family: 'Roboto', sans-serif;
+        font-size: 20px;
+        margin-bottom: 0px;
+    }
+
+    a:visited {
+        color: var(--color-text-dark);
     }
 
     label {
@@ -157,12 +170,20 @@
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
     }
+
+    :global(.header a) {
+        color: var(--color-text);
+    }
 </style>
 
 <div class="post-border">
     <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} on:click={handleShow}>
         <div class="header">
-            <h2>{post.title}</h2>
+            {#if propertiesBuilder.isClickable()}
+                <h2><Link to={propertiesBuilder.link()}>{post.title}</Link></h2>
+            {:else}
+                <h2>{post.title}</h2>
+            {/if}
             <label>{post.date.toLocaleTimeString("ru-RU", { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit" })}</label>
         </div>
         <div class="post-text post-component-rendered">

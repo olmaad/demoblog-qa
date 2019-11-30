@@ -1,13 +1,24 @@
 <script>
+	import { navigate, Router, Link, Route } from "svelte-routing";
+
 	import * as Api from "./../js/api.js";
 	import { Comment, Vote, VoteType } from "./../js/model.js";
+	import * as DataStore from "./../js/data_store.js";
+	import { updatePosts } from "./App.js";
 
 	import "./../less/App.less";
 
+	import PageHost from "./PageHost.svelte";
 	import PostList from "./post/PostList.svelte";
 	import PostEditor from "./post/PostEditor.svelte";
 	import PostViewer from "./post/PostViewer.svelte";
 	import SideMenu from "./SideMenu.svelte";
+
+	let postListData = new Map();
+	let postListUsers = new Map();
+	let postListVotes = new Map();
+
+	let postRouteParams;
 
 	$: page = 0;
 	$: viewerPost = null;
@@ -17,10 +28,6 @@
 	$: session = null;
 	$: user = null;
 	$: showLoginError = false;
-
-	let postListData = [];
-	let postListUsers = new Map();
-	let postListVotes = new Map();
 
 	let viewerVote = null;
 	let viewerCommentsVotes = new Map();
@@ -33,29 +40,25 @@
 	let sessionLogin;
 	let sessionPassword;
 
-	const updatePosts = async function() {
-		const postsBundle = await Api.loadPostsAsync(session);
-
-		if (postsBundle != null) {
-			postListData = postsBundle.posts;
-			postListUsers = postsBundle.users;
-			postListVotes = postsBundle.votes;
-		}
-	};
-
-	const switchPage = async function(to) {
-		switch (to) {
+	const switchPage = async function(type) {
+		switch (type) {
 			case 0:
+				navigate("/posts");
+
 				await updatePosts();
 
 				break;
 			case 1:
+				navigate("/create");
+
 				break;
 			case 2:
 				break;
+			default:
+				return;
 		}
 
-		page = to;
+		page = type;
 	};
 
 	const handleEditorSubmit = async function() {
@@ -185,6 +188,8 @@
 			return;
 		}
 
+		DataStore.consumeSessionBundle(sessionBundle);
+
 		session = sessionBundle.session;
 		user = sessionBundle.user;
 	};
@@ -201,7 +206,7 @@
 		await updatePosts();
 	};
 
-	init();
+	let initPromise = init();
 </script>
 
 <style>
@@ -234,40 +239,19 @@
 	<link rel="stylesheet" href="/Roboto-Medium.ttf">
 </svelte:head>
 
-<div class="main-container">
-	<div class="page-container">
-		{#if page == 0}
-			<PostList
-				user={user}
-				posts={postListData}
-				users={postListUsers}
-				votes={postListVotes}
-				bind:viewerPost={viewerPost}
-				on:show={handleShowPost}
-				on:vote={handleVote} />
-		{:else if page == 1}
-			<PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={handleEditorSubmit}/>
-		{:else if page == 2}
-			<PostViewer
-				post={viewerPost}
-				user={viewerUser}
-				vote={viewerVote}
-				comments={viewerComments}
-				users={viewerUsers}
-				commentsVotes={viewerCommentsVotes}
-				bind:commentEditorText={commentEditorText}
-				on:edit={handleEditPost}
-				on:remove={handleRemovePost}
-				on:submitComment={handleSubmitComment}
-				on:vote={handleVote}/>
-		{/if}
-		<div style="height: 100%"/>
-	</div>
-</div>
+{#await initPromise}
+	<label>Loading...</label>
+{:then value}
+	<Router url="">
+		<div class="main-container">
+			<PageHost/>
+		</div>
+	</Router>
 
-<SideMenu
-	user={user}
-	on:login={handleLogin}
-	on:logout={handleLogout}
-	on:register={handleRegister}
-	on:switchPage={handleSwitchPage}/>
+	<SideMenu
+		user={user}
+		on:login={handleLogin}
+		on:logout={handleLogout}
+		on:register={handleRegister}
+		on:switchPage={handleSwitchPage}/>
+{/await}

@@ -31,10 +31,12 @@ export const loadPostsAsync = async function(session) {
         return null;
     }
 
-    let posts = [];
+    let posts = new Map();
 
     for (let it in json.posts) {
-        posts.push(Post.fromJson(json.posts[it]));
+        const post = Post.fromJson(json.posts[it])
+
+        posts.set(post.id, post);
     }
 
     let users = new Map();
@@ -63,6 +65,34 @@ export const loadPostsAsync = async function(session) {
         posts: posts,
         users: users,
         votes: votes
+    };
+};
+
+export const loadPostAsync = async function(id, session) {
+    const query = await buildGetQuery((session == null) ? {} : { userId: session.userId });
+
+    const response = await fetch("/api/posts/" + id + query);
+
+    const json = await response.json();
+
+    if (json == null || json.post == null || json.user == null) {
+        return null;
+    }
+
+    const post = Post.fromJson(json.post);
+    const user = User.fromJson(json.user);
+    const vote = Vote.fromJson(json.vote);
+
+    console.group("Api: loaded post:");
+    console.debug(post);
+    console.debug(user);
+    console.debug(vote);
+    console.groupEnd();
+
+    return {
+        post: post,
+        user: user,
+        vote: vote
     };
 };
 
