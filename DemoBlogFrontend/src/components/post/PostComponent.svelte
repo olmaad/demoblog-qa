@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte";
 
     import { Remarkable } from "remarkable";
-    import { Link } from "svelte-routing";
+    import { link } from "svelte-routing";
 
     import { PostComponentPropertiesBuilder } from "./PostComponent.js";
 
@@ -170,17 +170,13 @@
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
     }
-
-    :global(.header a) {
-        color: var(--color-text);
-    }
 </style>
 
 <div class="post-border">
     <div class={"post" + (propertiesBuilder.isClickable() ? " post-clickable" : "")} on:click={handleShow}>
         <div class="header">
             {#if propertiesBuilder.isClickable()}
-                <h2><Link to={propertiesBuilder.link()}>{post.title}</Link></h2>
+                <h2><a href={propertiesBuilder.link()} use:link>{post.title}</a></h2>
             {:else}
                 <h2>{post.title}</h2>
             {/if}
