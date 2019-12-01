@@ -1,4 +1,4 @@
-import { User } from './model.js';
+import { User, Comment, Vote } from './model.js';
 import { buildGetQuery } from "./api_util.js";
 
 export const submitCommentAsync = async function(comment) {

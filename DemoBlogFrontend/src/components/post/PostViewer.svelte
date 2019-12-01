@@ -1,7 +1,9 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
-	import { getPostBundle, getCommentBundle } from "./../../js/data_store.js";
+	import { session, getPostBundle } from "./../../js/data_store.js";
+	import { consumeCommentBundle } from "./../../js/post_data_store.js";
+	import { loadCommentsAsync } from "./../../js/api.js";
 
 	import PostComponent from "./PostComponent.svelte";
 	import CommentList from "./../comment/CommentList.svelte";
@@ -17,8 +19,6 @@
 	let commentUsers = new Map();
 	let commentVotes = new Map();
 
-	export let commentEditorText;
-
 	const updateData = async function(id) {
 		let postBundle = await getPostBundle(id);
 
@@ -26,7 +26,9 @@
 		post = postBundle.post;
 		vote = postBundle.vote;
 
-		let commentBundle = await getCommentBundle(id);
+		const commentBundle = await loadCommentsAsync(id, $session);
+
+		await consumeCommentBundle(commentBundle);
 
 		commentList = commentBundle.comments;
 		commentUsers = commentBundle.users;
@@ -38,14 +40,13 @@
 	}
 
 	export const showPost = async function(bundle) {
-
+		
 	};
 	
 	const dispatch = createEventDispatcher();
 
 	const edit = () => dispatch("edit");
 	const remove = () => dispatch("remove");
-	const submitComment = () => dispatch("submitComment");
 </script>
 
 <style>
@@ -95,6 +96,8 @@
 			</button>
 		</div>
 		<CommentList user={user} comments={commentList} users={commentUsers} commentsVotes={commentVotes} on:vote/>
-		<CommentEditor bind:text={commentEditorText} on:submit={submitComment}/>
+		<CommentEditor
+			postId={post == null ? -1 : post.id}
+			on:submitComment/>
 	</div>
 {/if}

@@ -37,7 +37,8 @@
                 params={params}
                 let:postId>
                 <PostViewer
-                    postId={postId}/>
+                    postId={postId}
+                    on:submitComment/>
             </PostViewerRouteParser>
         </Route>
         <div class="filler"/>

@@ -1,10 +1,6 @@
-import { get, writable, readable } from 'svelte/store';
+import { get, writable } from 'svelte/store';
 
 import { loadPostAsync, loadCommentsAsync } from "./api.js";
-
-export const routePostId = writable(-1);
-
-export const post = readable(null);
 
 export const user = writable(null);
 export const session = writable(null);

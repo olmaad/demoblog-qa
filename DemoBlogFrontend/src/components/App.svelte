@@ -4,6 +4,7 @@
 	import * as Api from "./../js/api.js";
 	import { Comment, Vote, VoteType } from "./../js/model.js";
 	import * as DataStore from "./../js/data_store.js";
+	import { addComment } from "./../js/post_data_store.js";
 	import { updatePosts } from "./App.js";
 
 	import "./../less/App.less";
@@ -132,17 +133,16 @@
 		user = null;
 	};
 
-	const handleSubmitComment = async function() {
+	const handleSubmitComment = async function(event) {
 		let comment = new Comment();
 		comment.userId = user.id;
-		comment.postId = viewerPost.id;
-		comment.text = commentEditorText;
+		comment.postId = event.detail.postId;
+		comment.text = event.detail.text;
 
 		comment.id = await Api.submitCommentAsync(comment);
 
 		if (comment.id != null) {
-			viewerComments = [...viewerComments, comment];
-			commentEditorText = "";
+			addComment(comment);
 		}
 	};
 
@@ -244,7 +244,8 @@
 {:then value}
 	<Router url="">
 		<div class="main-container">
-			<PageHost/>
+			<PageHost
+				on:submitComment={handleSubmitComment}/>
 		</div>
 	</Router>
 

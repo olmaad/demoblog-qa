@@ -1,11 +1,20 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
-    export let text;
+    export let postId;
+
+    let text;
 	
 	const dispatch = createEventDispatcher();
 
-	const submit = () => dispatch("submit");
+	const submit = async function() {
+        dispatch("submitComment", {
+            postId: postId,
+            text: text
+        });
+
+        text = "";
+    };
 </script>
 
 <style>

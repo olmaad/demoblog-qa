@@ -1,14 +1,16 @@
 <script>
     import { Vote, VoteType } from "./../../js/model.js";
+
+    import { user } from "./../../js/data_store.js";
+    import { commentList, commentUsers, commentVotes } from "./../../js/post_data_store.js";
+
     import CommentItem from "./CommentItem.svelte";
 
-    export let user = null;
-    export let comments = [];
     export let users = new Map();
     export let commentsVotes = new Map();
 
     const getVote = function(commentId) {
-		if (user == null) {
+		if ($user == null) {
 			return null;
 		}
 
@@ -39,9 +41,9 @@
 	}
 </style>
 
-{#if comments.length > 0}
+{#if $commentList.length > 0}
     <div class="container">
-        {#each comments as comment, i}
+        {#each $commentList as comment, i}
             <CommentItem
                 index={i}
                 comment={comment}
