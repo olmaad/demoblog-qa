@@ -1,6 +1,6 @@
 import { get, writable, readable } from 'svelte/store';
 
-import { loadPostAsync } from "./api.js";
+import { loadPostAsync, loadCommentsAsync } from "./api.js";
 
 export const routePostId = writable(-1);
 
@@ -50,7 +50,13 @@ export const getPostBundle = async function(id) {
         return bundle;
     }
 
-    const bundle = await loadPostAsync(id, session);
+    const bundle = await loadPostAsync(id, get(session));
+
+    return bundle;
+};
+
+export const getCommentBundle = async function(postId) {
+    const bundle = await loadCommentsAsync(postId, get(session));
 
     return bundle;
 };

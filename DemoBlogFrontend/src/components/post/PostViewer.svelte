@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
-	import { getPostBundle } from "./../../js/data_store.js";
+	import { getPostBundle, getCommentBundle } from "./../../js/data_store.js";
 
 	import PostComponent from "./PostComponent.svelte";
 	import CommentList from "./../comment/CommentList.svelte";
@@ -9,12 +9,14 @@
 
 	export let postId = -1;
 
-	export let post = null;
-	export let user = null;
-	export let vote = null;
-	export let comments;
-	export let users;
-	export let commentsVotes;
+	let post = null;
+	let user = null;
+	let vote = null;
+
+	let commentList = [];
+	let commentUsers = new Map();
+	let commentVotes = new Map();
+
 	export let commentEditorText;
 
 	const updateData = async function(id) {
@@ -24,7 +26,11 @@
 		post = postBundle.post;
 		vote = postBundle.vote;
 
-		console.log(post);
+		let commentBundle = await getCommentBundle(id);
+
+		commentList = commentBundle.comments;
+		commentUsers = commentBundle.users;
+		commentVotes = commentBundle.votes;
 	};
 
 	$: {
@@ -88,7 +94,7 @@
 				Удалить
 			</button>
 		</div>
-		<CommentList user={user} comments={comments} users={users} commentsVotes={commentsVotes} on:vote/>
+		<CommentList user={user} comments={commentList} users={commentUsers} commentsVotes={commentVotes} on:vote/>
 		<CommentEditor bind:text={commentEditorText} on:submit={submitComment}/>
 	</div>
 {/if}
