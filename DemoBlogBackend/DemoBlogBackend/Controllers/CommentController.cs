@@ -38,24 +38,33 @@ namespace DemoBlogBackend.Controllers
         [HttpGet("{postId}", Name = "GetComments")]
         public CommentReturnBundle Get(long postId, long? userId)
         {
-            var commentsQuery = mDataService.DbContext.Comments.Where(c => c.PostId == postId);
+            long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
-            var comments = commentsQuery.ToList();
+            var query = from comment in mDataService.DbContext.Comments
+                        join user in mDataService.DbContext.Users on comment.UserId equals user.Id
+                        join vote in mDataService.DbContext.Votes on
+                        new { UserId = userIdDefaulted, Type = Vote.EntityType.Comment, EntityId = comment.Id }
+                        equals
+                        new { vote.UserId, vote.Type, vote.EntityId }
+                        into voteJoin
+                        from v in voteJoin.DefaultIfEmpty()
+                        where comment.PostId == postId
+                        select new
+                        {
+                            Comment = comment,
+                            User = user,
+                            Vote = v
+                        };
 
-            var commentIds = commentsQuery.Select(c => c.Id).ToHashSet();
-
-            var userIds = commentsQuery.Select(c => c.UserId).ToHashSet();
-
-            var dbUsers = mDataService.DbContext.Users.Where(u => userIds.Contains(u.Id)).ToList();
-
-            var users = dbUsers.Select(u => { var temp = u.Clone() as User; temp.PasswordHash = null; return temp; }).ToList();
-
-            List<Vote> votes = new List<Vote>();
-
-            if (userId != null)
+            var comments = query.Select(o => o.Comment).ToList();
+            var users = query.Select(o => o.User).Distinct().ToList().Select(u =>
             {
-                votes = mDataService.DbContext.Votes.Where(v => v.Type == Vote.EntityType.Comment && v.UserId == userId.Value && commentIds.Contains(v.EntityId)).ToList();
-            }
+                var temp = u.Clone() as User;
+                temp.PasswordHash = null;
+
+                return temp;
+            }).ToList();
+            var votes = query.Where(o => o.Vote != null).Select(o => o.Vote).ToList();
 
             return new CommentReturnBundle()
             {

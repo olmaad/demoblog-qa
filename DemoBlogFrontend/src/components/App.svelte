@@ -231,6 +231,7 @@
 	<Router url="">
 		<div class="main-container">
 			<PageHost
+				on:vote={handleVote}
 				on:submitComment={handleSubmitComment}/>
 		</div>
 	</Router>

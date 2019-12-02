@@ -1,4 +1,6 @@
 <script>
+    import { get } from 'svelte/store';
+
     import { Vote, VoteType } from "./../../js/model.js";
 
     import { user } from "./../../js/data_store.js";
@@ -6,21 +8,28 @@
 
     import CommentItem from "./CommentItem.svelte";
 
-    export let users = new Map();
-    export let commentsVotes = new Map();
+    const getUser = function(userId) {
+        let users = get(commentUsers);
+
+        return users.get(userId);
+    };
 
     const getVote = function(commentId) {
-		if ($user == null) {
-			return null;
-		}
+        let userValue = get(user);
 
-		if (!commentsVotes.has(commentId)) {
+		if (userValue == null) {
+			return null;
+        }
+        
+        let votes = get(commentVotes);
+
+		if (!votes.has(commentId)) {
 			console.debug("CommentList: vote not found, created empty");
 
-			return Vote.create(VoteType.comment, user.id, commentId, 0);
+			return Vote.create(VoteType.comment, userValue.id, commentId, 0);
 		}
 
-		let vote = commentsVotes.get(commentId)
+		let vote = votes.get(commentId)
 
 		console.group("CommentList: found vote:");
 		console.debug(vote);
@@ -47,7 +56,7 @@
             <CommentItem
                 index={i}
                 comment={comment}
-                user={users.get(comment.userId)}
+                user={getUser(comment.userId)}
                 vote={getVote(comment.id)}
                 on:vote/>
         {/each}

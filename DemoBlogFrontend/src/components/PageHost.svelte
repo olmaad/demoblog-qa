@@ -38,7 +38,8 @@
                 let:postId>
                 <PostViewer
                     postId={postId}
-                    on:submitComment/>
+                    on:submitComment
+                    on:vote/>
             </PostViewerRouteParser>
         </Route>
         <div class="filler"/>

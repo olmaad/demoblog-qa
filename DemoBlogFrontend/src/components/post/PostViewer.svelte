@@ -15,10 +15,6 @@
 	let user = null;
 	let vote = null;
 
-	let commentList = [];
-	let commentUsers = new Map();
-	let commentVotes = new Map();
-
 	const updateData = async function(id) {
 		let postBundle = await getPostBundle(id);
 
@@ -29,10 +25,6 @@
 		const commentBundle = await loadCommentsAsync(id, $session);
 
 		await consumeCommentBundle(commentBundle);
-
-		commentList = commentBundle.comments;
-		commentUsers = commentBundle.users;
-		commentVotes = commentBundle.votes;
 	};
 
 	$: {
@@ -85,7 +77,12 @@
 
 {#if post != null}
 	<div class="viewer_container">
-		<PostComponent mode={"content"} post={post} user={user} vote={vote} on:vote/>
+		<PostComponent
+			mode={"content"}
+			post={post}
+			user={user}
+			vote={vote}
+			on:vote/>
 		<div class="button_container">
 			<div style="width: 100%"/>
 			<button class="positive" on:click={edit}>
@@ -95,7 +92,8 @@
 				Удалить
 			</button>
 		</div>
-		<CommentList user={user} comments={commentList} users={commentUsers} commentsVotes={commentVotes} on:vote/>
+		<CommentList
+			on:vote/>
 		<CommentEditor
 			postId={post == null ? -1 : post.id}
 			on:submitComment/>
