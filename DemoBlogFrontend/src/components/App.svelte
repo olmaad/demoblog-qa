@@ -72,21 +72,7 @@
 	};
 
 	const handleShowPost = async function(event) {
-		viewerPost = event.detail.post;
-		viewerUser = event.detail.user;
-		viewerVote = event.detail.vote;
-
-		await switchPage(2);
-
-		const commentsBundle = await Api.loadCommentsAsync(viewerPost.id, session);
-
-		if (commentsBundle == null) {
-			console.debug("App: unable to load comments");
-		}
-
-		viewerComments = commentsBundle.comments;
-		viewerUsers = commentsBundle.users;
-		viewerCommentsVotes = commentsBundle.votes;
+		navigate("view/" + event.detail.id);
 	}
 
 	const handleRemovePost = async function() {

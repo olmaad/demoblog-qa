@@ -2,7 +2,7 @@
     import { createEventDispatcher } from "svelte";
 
     import { Remarkable } from "remarkable";
-    import { link } from "svelte-routing";
+    import { link, navigate } from "svelte-routing";
 
     import { PostComponentPropertiesBuilder } from "./PostComponent.js";
 
@@ -22,11 +22,11 @@
     const dispatch = createEventDispatcher();
 
 	const handleShow = async function(event) {
-        dispatch("show", {
-            post: post,
-            user: user,
-            vote: vote
-        });
+        if (!propertiesBuilder.isClickable()) {
+            return;
+        }
+
+        navigate("view/" + post.id);
     };
 
     const handleRatingUp = async function() {
