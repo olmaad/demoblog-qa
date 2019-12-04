@@ -26,7 +26,10 @@
     const handleSubmit = async function() {
         switchEnabled = false;
 
-        dispatch("submit");
+        dispatch("submitPost", {
+            post: post,
+            clear: clear
+        });
     };
 </script>
 

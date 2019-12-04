@@ -62,13 +62,20 @@
 		page = type;
 	};
 
-	const handleEditorSubmit = async function() {
-		editorPost.userId = user.id;
+	const handleEditorSubmit = async function(event) {
+		let post = event.detail.post;
+		post.userId = user.id;
 
-		if (await Api.submitPostAsync(editorPost)) {
-			editorClear();
-			await switchPage(0);
+		post.id = await Api.submitPostAsync(post)
+
+		if (post.id < 0) {
+			// TODO: Show error
+			return;
 		}
+
+		event.detail.clear();
+
+		navigate("view/" + post.id);
 	};
 
 	const handleShowPost = async function(event) {
@@ -232,7 +239,8 @@
 		<div class="main-container">
 			<PageHost
 				on:vote={handleVote}
-				on:submitComment={handleSubmitComment}/>
+				on:submitComment={handleSubmitComment}
+				on:submitPost={handleEditorSubmit}/>
 		</div>
 	</Router>
 

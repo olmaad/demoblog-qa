@@ -117,18 +117,18 @@ namespace DemoBlogBackend.Controllers
 
         // POST: api/Posts
         [HttpPost]
-        public void Post([FromBody] Post value)
+        public long Post([FromBody] Post value)
         {
             if (string.IsNullOrEmpty(value.Title) || string.IsNullOrEmpty(value.Content))
             {
-                return;
+                return -1;
             }
 
             bool userExists = (mDataService.DbContext.Users.Find(value.UserId) != null);
 
             if (!userExists)
             {
-                return;
+                return -1;
             }
 
             value.Id = 0;
@@ -136,6 +136,8 @@ namespace DemoBlogBackend.Controllers
 
             mDataService.DbContext.Add(value);
             mDataService.DbContext.SaveChanges();
+
+            return value.Id;
         }
 
         // PUT: api/Posts/5

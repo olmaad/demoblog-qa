@@ -62,7 +62,12 @@ export const loadPostAsync = async function(id, session) {
 
     const post = Post.fromJson(json.post);
     const user = User.fromJson(json.user);
-    const vote = Vote.fromJson(json.vote);
+
+    let vote = null;
+
+    if (json.vote != null) {
+        vote = Vote.fromJson(json.vote);
+    }
 
     console.group("Api: loaded post:");
     console.debug(post);
@@ -98,7 +103,14 @@ export const submitPostAsync = async function(post) {
         body: JSON.stringify(post)
     });
 
-    return response.ok;
+    const text = await response.text();
+    const id = parseInt(text);
+
+    console.group("Api: posted post:")
+    console.debug("Id = " + id);
+    console.groupEnd();
+
+    return id;
 };
 
 export const removePostAsync = async function(id) {

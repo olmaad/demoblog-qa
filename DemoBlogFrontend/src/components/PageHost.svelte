@@ -4,6 +4,7 @@
     import PostViewerRouteParser from "./routing/PostViewerRouteParser.svelte";
     import PostList from "./post/PostList.svelte";
     import PostViewer from "./post/PostViewer.svelte";
+    import PostEditor from "./post/PostEditor.svelte";
 </script>
 
 <style>
@@ -27,9 +28,10 @@
 					on:show
 					on:vote/>
         </Route>
-        <!-- <Route path="create">
-            <PostEditor bind:post={editorPost} bind:clear={editorClear} on:submit={handleEditorSubmit}/>
-        </Route> -->
+        <Route path="create">
+            <PostEditor
+                on:submitPost/>
+        </Route>
         <Route
             path="view/:id"
             let:params>
