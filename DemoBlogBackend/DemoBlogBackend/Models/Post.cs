@@ -1,4 +1,5 @@
 ﻿using DemoBlogBackend.Rating;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -6,8 +7,11 @@ namespace DemoBlogBackend.Models
 {
     public class Post : ICloneable, IRatingEntity
     {
+        [JsonIgnore]
         public double WeightToSelf { get; } = RatingWeights.PostVoteToPost;
+        [JsonIgnore]
         public double WeightToUser { get; } = RatingWeights.PostVoteToUser;
+        [JsonIgnore]
         public double WeightToPersonal { get; } = RatingWeights.PostVoteToPersonal;
 
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]

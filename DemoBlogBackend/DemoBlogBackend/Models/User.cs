@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DemoBlogBackend.Models
@@ -9,6 +10,7 @@ namespace DemoBlogBackend.Models
         public long Id { get; set; }
 
         public string Login { get; set; }
+        [JsonIgnore]
         public byte[] PasswordHash { get; set; }
         public string Name { get; set; }
         public double Rating { get; set; } = 1;

@@ -14,6 +14,8 @@
 	import PostEditor from "./post/PostEditor.svelte";
 	import PostViewer from "./post/PostViewer.svelte";
 	import SideMenu from "./SideMenu.svelte";
+	import SideSubmenu from "./SideSubmenu.svelte";
+	import DateWidget from "./simple/DateWidget.svelte";
 
 	let postListData = new Map();
 	let postListUsers = new Map();
@@ -40,6 +42,9 @@
 
 	let sessionLogin;
 	let sessionPassword;
+
+	let contentOffset = 0;
+	let contentWidth = 0;
 
 	const switchPage = async function(type) {
 		switch (type) {
@@ -286,4 +291,8 @@
 		on:logout={handleLogout}
 		on:register={handleRegister}
 		on:switchPage={handleSwitchPage}/>
+
+	<SideSubmenu>
+		<DateWidget/>
+	</SideSubmenu>
 {/await}

@@ -64,13 +64,7 @@ namespace DemoBlogBackend.Controllers
                         };
 
             var posts = query.OrderByDescending(o => o.Rating).Select(o => o.Post).ToList();
-            var users = query.Select(o => o.User).Distinct().ToList().Select(u =>
-            {
-                var temp = u.Clone() as User;
-                temp.PasswordHash = null;
-
-                return temp;
-            }).ToList();
+            var users = query.Select(o => o.User).Distinct().ToList().ToList();
             var votes = query.Where(o => o.Vote != null).Select(o => o.Vote).ToList();
 
             return new PostsReturnBundle()
