@@ -2,6 +2,7 @@
     import { navigate, Router, Link, Route } from "svelte-routing";
 
     import PostViewerRouteParser from "./routing/PostViewerRouteParser.svelte";
+    import FallbackRedirector from "./routing/FallbackRedirector.svelte";
     import PostList from "./post/PostList.svelte";
     import PostViewer from "./post/PostViewer.svelte";
     import PostEditor from "./post/PostEditor.svelte";
@@ -43,6 +44,9 @@
                     on:submitComment
                     on:vote/>
             </PostViewerRouteParser>
+        </Route>
+        <Route>
+            <FallbackRedirector/>
         </Route>
         <div class="filler"/>
     </div>

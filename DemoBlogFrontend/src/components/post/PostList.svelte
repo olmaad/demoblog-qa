@@ -1,4 +1,5 @@
 <script>
+	import { onDestroy } from 'svelte';
 	import { get } from 'svelte/store';
 
 	import { user, posts, users, postVotes } from "./../../js/data_store.js";
@@ -6,7 +7,7 @@
 
 	import PostComponent from "./PostComponent.svelte";
 
-	$: postList = [...$posts.values()];
+	let postList = [];
 
 	const getVote = function(postId) {
 		if ($user == null) {
@@ -27,6 +28,14 @@
 
 		return vote;
 	};
+
+	let postsUnsubscribe = posts.subscribe(function(value) {
+		postList = [...value.values()];
+	});
+
+	console.debug(postList.length);
+
+	onDestroy(postsUnsubscribe);
 </script>
 
 <style>
