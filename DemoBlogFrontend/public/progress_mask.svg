@@ -1,0 +1,16 @@
+<svg width="30" height="30" version="1.1" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+      <linearGradient id="Gradient1">
+        <stop class="stop2" offset="0%"/>
+		<stop class="stop1" offset="50%"/>
+        <stop class="stop2" offset="100%"/>
+      </linearGradient>
+      <style type="text/css"><![CDATA[
+        #rect1 { fill: url(#Gradient1); }
+        .stop1 { stop-color: black; }
+        .stop2 { stop-color: black; stop-opacity: 0; }
+      ]]></style>
+  </defs>
+ 
+  <rect width="30" height="30" fill="url(#Gradient1)"/>
+</svg>

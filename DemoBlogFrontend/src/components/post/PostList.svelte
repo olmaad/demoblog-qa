@@ -33,8 +33,6 @@
 		postList = [...value.values()];
 	});
 
-	console.debug(postList.length);
-
 	onDestroy(postsUnsubscribe);
 </script>
 

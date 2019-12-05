@@ -217,12 +217,44 @@
 		background: var(--color-background-noise);
 	}
 
-	.page-container {
+	.loading-container {
 		display: flex;
-		flex-direction: column;
-		max-width: 1000px;
-		width: 1000px;
-		padding-top: 20px;
+		justify-content: center;
+		align-items: center;
+		width: 100%;
+		height: 100%;
+	}
+
+	.progress-bar {
+		position: relative;
+		overflow: hidden;
+		border-color: var(--color-text);
+		border-radius: 10px;
+		border-width: 2px;
+		border-style: solid;
+		background: var(--color-primary-gradient-0);
+		height: 30px;
+		width: 300px;
+	}
+
+	@keyframes blink-move {
+        from {
+            transform: translate(-30px, 0px);
+        }
+        to {
+            transform: translate(330px, 0px);
+        }
+    }
+
+	.progress-bar-blink {
+        position: absolute;
+        top: 0;
+        left: -20px;
+        width: 30px;
+        height: 30px;
+        mask: url(/progress_mask.svg);
+		background: var(--color-text);
+		animation: blink-move 1.2s ease-in-out infinite;
 	}
 </style>
 
@@ -233,7 +265,11 @@
 </svelte:head>
 
 {#await initPromise}
-	<label>Loading...</label>
+	<div class="loading-container">
+		<div class="progress-bar">
+			<div class="progress-bar-blink"></div>
+		</div>
+	</div>
 {:then value}
 	<Router url="">
 		<div class="main-container">
