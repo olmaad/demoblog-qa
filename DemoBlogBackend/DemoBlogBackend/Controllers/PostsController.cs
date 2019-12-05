@@ -36,9 +36,21 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public PostsReturnBundle Get(long? userId)
+        public PostsReturnBundle Get(long? userId, string date)
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
+
+            DateTime dateDefaulted = DateTime.Now;
+
+            if (date != null)
+            {
+                DateTime temp;
+
+                if (DateTime.TryParseExact(date, "yyyy-MM-dd", null, 0, out temp))
+                {
+                    dateDefaulted = temp;
+                }
+            }
 
             var query = from post in mDataService.DbContext.Posts
                         join user in mDataService.DbContext.Users on post.UserId equals user.Id
@@ -54,6 +66,7 @@ namespace DemoBlogBackend.Controllers
                         into voteJoin
                         from p in personaJoin.DefaultIfEmpty()
                         from v in voteJoin.DefaultIfEmpty()
+                        where post.Date.Date >= dateDefaulted.Date && post.Date.Date < dateDefaulted.AddDays(1).Date
                         select new
                         {
                             Rating = post.Rating * user.Rating * (p != null ? p.Rating : 1),
