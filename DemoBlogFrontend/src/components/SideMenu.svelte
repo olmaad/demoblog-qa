@@ -177,7 +177,7 @@
 
 <div class="menu-container" bind:clientWidth={width}>
     <div class="menu-button-border">
-        <div class="menu-button">
+        <div class="menu-button" on:click={() => switchPage(3)}>
             <div class="icon-logo">
                 <div class="logo-background"/>
                 <div class="logo-masker">

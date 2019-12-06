@@ -6,6 +6,7 @@
     import PostList from "./post/PostList.svelte";
     import PostViewer from "./post/PostViewer.svelte";
     import PostEditor from "./post/PostEditor.svelte";
+    import About from "./About.svelte";
 </script>
 
 <style>
@@ -25,9 +26,9 @@
 <Router>
     <div class="container">
         <Route path="posts">
-				<PostList
-					on:show
-					on:vote/>
+            <PostList
+                on:show
+                on:vote/>
         </Route>
         <Route path="create">
             <PostEditor
@@ -44,6 +45,9 @@
                     on:submitComment
                     on:vote/>
             </PostViewerRouteParser>
+        </Route>
+        <Route path="about">
+            <About/>
         </Route>
         <Route>
             <FallbackRedirector/>

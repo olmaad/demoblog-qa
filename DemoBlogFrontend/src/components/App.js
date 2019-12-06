@@ -9,8 +9,8 @@ export const PageType = {
     viewer: 3
 };
 
-export const updatePosts = async function() {
-    const bundle = await Api.loadPostsAsync(get(DataStore.session));
+export const updatePosts = async function(date) {
+    const bundle = await Api.loadPostsAsync(get(DataStore.session), date);
 
     if (bundle == null) {
         return;

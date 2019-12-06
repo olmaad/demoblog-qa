@@ -1,38 +1,36 @@
 <script>
+    import { onDestroy } from "svelte";
+
+    import { date } from "./../../js/post_list_data_store.js";
+
     import DayItem from "./DayItem.svelte";
 
-    let currentDate = new Date();
     let itemList = [];
 
-    const setCurrentDate = async function(value) {
-        itemList = [];
-
-        currentDate = value;
-
-        let previous = new Date(currentDate.getTime());
+    let dateUnsubscribe = date.subscribe(async function(value) {
+        let previous = new Date(value.getTime());
         previous.setHours(-24);
 
-        let next = new Date(currentDate.getTime());
+        let current = new Date(value.getTime());
+
+        let next = new Date(value.getTime());
         next.setHours(next.getHours() + 24);
 
-        console.debug(previous);
-
-        itemList.push({ highlighted: false, date: previous });
-
-        itemList.push({ highlighted: true, date: currentDate });
+        itemList = [
+            { highlighted: false, date: previous },
+            { highlighted: true, date: current }
+        ];
 
         if (next <= (new Date())) {
             itemList.push({ highlighted: false, date: next });
         }
-    };
+    });
 
     const handleClick = async function(event) {
-        console.debug(event.detail.date);
-
-        await setCurrentDate(event.detail.date);
+        $date = event.detail.date;
     };
 
-    setCurrentDate(new Date());
+    onDestroy(dateUnsubscribe);
 </script>
 
 <style>

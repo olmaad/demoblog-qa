@@ -8,8 +8,6 @@ export const loadPostsAsync = async function(session, date) {
         queryParams["userId"] = session.userId;
     }
 
-    date = new Date();
-
     if (date != null) {
         queryParams["date"] = "" + date.getFullYear() + "-" + (date.getMonth() + 1).toString().padStart(2, "0") + "-" + date.getDate().toString().padStart(2, "0");
     }

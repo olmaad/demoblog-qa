@@ -1,10 +1,14 @@
 <script>
+	import { onDestroy } from "svelte";
+	import { get } from 'svelte/store';
+
 	import { navigate, Router, Link, Route } from "svelte-routing";
 
 	import * as Api from "./../js/api.js";
 	import { Comment, Vote, VoteType } from "./../js/model.js";
 	import * as DataStore from "./../js/data_store.js";
 	import { addComment } from "./../js/post_data_store.js";
+	import { date as postListDate } from "./../js/post_list_data_store.js";
 	import { updatePosts } from "./App.js";
 
 	import "./../less/App.less";
@@ -60,6 +64,8 @@
 				break;
 			case 2:
 				break;
+			case 3:
+				navigate("/about");
 			default:
 				return;
 		}
@@ -200,9 +206,13 @@
 
 	const init = async function() {
 		await initUser();
-
-		await updatePosts();
 	};
+
+	let postListUnsubscribe = postListDate.subscribe(async function(value) {
+		updatePosts(value);
+	});
+
+	onDestroy(postListUnsubscribe);
 
 	let initPromise = init();
 </script>
@@ -292,7 +302,5 @@
 		on:register={handleRegister}
 		on:switchPage={handleSwitchPage}/>
 
-	<SideSubmenu>
-		<DateWidget/>
-	</SideSubmenu>
+	<SideSubmenu/>
 {/await}
