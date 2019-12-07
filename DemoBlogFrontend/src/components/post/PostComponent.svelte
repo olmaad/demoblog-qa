@@ -123,11 +123,6 @@
 		box-shadow: 0px 0px 10px 5px rgba(31,23,32,0.3);
 	}
 
-	div.post-text {
-        color: var(--color-text);
-		font-family: 'Roboto', sans-serif;
-	}
-
 	[class*="icon-"] {
 		width: 30px;
 		height: 30px;
@@ -160,21 +155,17 @@
         flex: 1;
     }
 
+    .post-text {
+        color: var(--color-text);
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+        font-weight: normal;
+	}
+
     :global(.post-text h1, .post-text h2, .post-text h3, .post-text h4, .post-text h5, .post-text h6) {
         color: var(--color-text);
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
-    }
-
-    :global(.post-text p, .post-text em, .post-text li) {
-        color: var(--color-text);
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
-    }
-
-    :global(.post-text a) {
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
     }
 </style>
 

@@ -112,18 +112,15 @@
     .editor-preview-rendered {
         display: flex;
         flex-flow: column;
+        color: var(--color-text);
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
     }
 
     :global(.editor-preview-rendered h1, .editor-preview-rendered h2, .editor-preview-rendered h3, .editor-preview-rendered h4, .editor-preview-rendered h5, .editor-preview-rendered h6) {
         color: var(--color-text);
         font-family: 'Roboto', sans-serif;
         font-size: 20px;
-    }
-
-    :global(.editor-preview-rendered p, .editor-preview-rendered em, .editor-preview-rendered li) {
-        color: var(--color-text);
-        font-family: 'Roboto', sans-serif;
-        font-size: 16px;
     }
 </style>
 
@@ -143,7 +140,7 @@
             <textarea bind:value={post.content} style="height: 300px"/>
         {:else if mode == Modes.preview}
             <div class="editor-preview-rendered">
-                <h2>{post.title}<h2>
+                <h2>{post.title}</h2>
                 {@html propertiesBuilder.text()}
             </div>
         {/if}
