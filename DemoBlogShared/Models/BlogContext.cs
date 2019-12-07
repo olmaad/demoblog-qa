@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 
-namespace DemoBlogBackend.Models
+namespace DemoBlogShared.Models
 {
     public class BlogContext : DbContext
     {

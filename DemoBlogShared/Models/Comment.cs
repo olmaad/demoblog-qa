@@ -1,8 +1,8 @@
-﻿using DemoBlogBackend.Rating;
+﻿using DemoBlogShared.Models.Rating;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DemoBlogBackend.Models
+namespace DemoBlogShared.Models
 {
     public class Comment : ICloneable, IRatingEntity
     {

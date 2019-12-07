@@ -1,9 +1,9 @@
-﻿using DemoBlogBackend.Rating;
+﻿using DemoBlogShared.Models.Rating;
 using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DemoBlogBackend.Models
+namespace DemoBlogShared.Models
 {
     public class Post : ICloneable, IRatingEntity
     {

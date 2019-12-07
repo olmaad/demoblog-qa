@@ -1,8 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.Security.Cryptography;
 using System.Text;
-using DemoBlogBackend.Models;
 using DemoBlogBackend.Services;
+using DemoBlogShared.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoBlogBackend.Controllers

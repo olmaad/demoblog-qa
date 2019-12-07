@@ -1,16 +1,15 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DemoBlogBackend.Models
+namespace DemoBlogShared.Models
 {
-    public class PersonalRating : ICloneable
+    public class Session : ICloneable
     {
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public long Id { get; set; }
+        public Guid Id { get; set; }
 
         public long UserId { get; set; }
-        public long AuthorId { get; set; }
-        public double Rating { get; set; } = 1;
+        public bool Valid { get; set; }
 
         public object Clone()
         {

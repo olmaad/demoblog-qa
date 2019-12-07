@@ -1,4 +1,4 @@
-﻿using DemoBlogBackend.Models;
+﻿using DemoBlogShared.Models;
 
 namespace DemoBlogBackend.Services
 {

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace DemoBlogBackend.Models
+namespace DemoBlogShared.Models
 {
     public class Vote : ICloneable
     {

@@ -1,4 +1,4 @@
-﻿namespace DemoBlogBackend.Rating
+﻿namespace DemoBlogShared.Models.Rating
 {
     public static class RatingWeights
     {

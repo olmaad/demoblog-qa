@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using DemoBlogBackend.Models;
-using DemoBlogBackend.Rating;
 using DemoBlogBackend.Services;
+using DemoBlogShared.Models;
+using DemoBlogShared.Models.Rating;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoBlogBackend.Controllers

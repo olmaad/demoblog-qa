@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace DemoBlogBackend.Rating
+namespace DemoBlogShared.Models.Rating
 {
     public interface IRatingEntity
     {
