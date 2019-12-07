@@ -31,6 +31,12 @@
     const handleShowRegisterDialog = async function() {
         currentWidget = "register";
     };
+
+    const handleRegister = async function(event) {
+        currentWidget = "login";
+
+        dispatch("register", event.detail);
+    };
 </script>
 
 <style>
@@ -172,7 +178,7 @@
             on:login/>
     {:else if currentWidget == "register"}
         <UserRegisterWidget
-            on:register/>
+            on:register={handleRegister}/>
     {/if}
 </UserWidgetContainer>
 
