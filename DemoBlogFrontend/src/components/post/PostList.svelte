@@ -48,6 +48,21 @@
         max-width: 100%;
 		width: 100%;
 	}
+
+	.post-list-placeholder {
+		display: flex;
+		height: 300px;
+		justify-content: center;
+		align-items: center;
+	}
+
+	.post-list-placeholder-text {
+		font-weight: bold;
+		color: var(--color-text);
+        font-family: 'Roboto', sans-serif;
+		font-size: 22px;
+		text-align: center;
+	}
 </style>
 
 {#if postList.length > 0}
@@ -62,4 +77,8 @@
 				on:vote/>
         {/each}
     </div>
+{:else}
+	<div class="post-list-placeholder">
+		<p class="post-list-placeholder-text">Нет постов :(<br/><br/>Попробуйте выбрать другую дату или написать новый.</p>
+	</div>
 {/if}
