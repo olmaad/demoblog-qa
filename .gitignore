@@ -14,3 +14,6 @@ bin/
 obj/
 *.user
 *.db
+
+# DemoBlogBaseBuilder
+DemoBlogBaseBuilder/Properties/
