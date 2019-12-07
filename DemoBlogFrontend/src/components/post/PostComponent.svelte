@@ -173,13 +173,8 @@
     }
 
     :global(.post-text a) {
-        color: var(--color-primary-0);
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
-    }
-
-    :global(.post-text a:visited) {
-        color: var(--color-primary-3);
     }
 </style>
 

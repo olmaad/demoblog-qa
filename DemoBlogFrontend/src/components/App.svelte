@@ -270,11 +270,11 @@
 	}
 
 	:global(a) {
-		color: var(--color-primary-0);
+		color: var(--color-secondary-2-1);
 	}
 
 	:global(a:visited) {
-        color: var(--color-primary-3);
+        color: var(--color-secondary-2-0);
     }
 </style>
 
