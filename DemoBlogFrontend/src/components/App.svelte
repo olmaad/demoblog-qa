@@ -8,8 +8,8 @@
 	import { Comment, Vote, VoteType } from "./../js/model.js";
 	import * as DataStore from "./../js/data_store.js";
 	import { addComment } from "./../js/post_data_store.js";
-	import { date as postListDate } from "./../js/post_list_data_store.js";
 	import { updatePosts } from "./App.js";
+	import { init as initDataLoader } from "./../js/data_loader.js";
 
 	import "./../less/App.less";
 
@@ -33,7 +33,6 @@
 	$: viewerComments = [];
 	$: viewerUsers = new Map();
 	$: session = null;
-	$: user = null;
 	$: showLoginError = false;
 
 	let viewerVote = null;
@@ -75,7 +74,7 @@
 
 	const handleEditorSubmit = async function(event) {
 		let post = event.detail.post;
-		post.userId = user.id;
+		post.userId = get(DataStore.user).id;
 
 		post.id = await Api.submitPostAsync(post)
 
@@ -117,9 +116,10 @@
 		}
 
 		session = sessionBundle.session;
-		user = sessionBundle.user;
 
 		localStorage.setItem("sessionId", session.id);
+
+		DataStore.consumeSessionBundle(sessionBundle);
 
 		sessionLogin = "";
 		sessionPassword = "";
@@ -133,13 +133,15 @@
 
 		localStorage.removeItem("sessionId");
 
+		DataStore.user.set(null);
+		DataStore.session.set(null);
+
 		session = null;
-		user = null;
 	};
 
 	const handleSubmitComment = async function(event) {
 		let comment = new Comment();
-		comment.userId = user.id;
+		comment.userId = get(DataStore.user).id;
 		comment.postId = event.detail.postId;
 		comment.text = event.detail.text;
 
@@ -195,7 +197,6 @@
 		DataStore.consumeSessionBundle(sessionBundle);
 
 		session = sessionBundle.session;
-		user = sessionBundle.user;
 	};
 
 	const handlePostVote = async function(event) {
@@ -206,13 +207,9 @@
 
 	const init = async function() {
 		await initUser();
+
+		await initDataLoader();
 	};
-
-	let postListUnsubscribe = postListDate.subscribe(async function(value) {
-		updatePosts(value);
-	});
-
-	onDestroy(postListUnsubscribe);
 
 	let initPromise = init();
 </script>
@@ -296,7 +293,6 @@
 	</Router>
 
 	<SideMenu
-		user={user}
 		on:login={handleLogin}
 		on:logout={handleLogout}
 		on:register={handleRegister}

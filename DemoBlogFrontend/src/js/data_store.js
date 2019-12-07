@@ -5,6 +5,8 @@ import { loadPostAsync, loadCommentsAsync } from "./api.js";
 export const user = writable(null);
 export const session = writable(null);
 
+export const date = writable(new Date());
+
 export let users = writable(new Map());
 export let posts = writable(new Map());
 export let postVotes = writable(new Map());

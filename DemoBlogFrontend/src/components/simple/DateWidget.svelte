@@ -1,7 +1,7 @@
 <script>
     import { onDestroy } from "svelte";
 
-    import { date } from "./../../js/post_list_data_store.js";
+    import { date } from "./../../js/data_store.js";
 
     import DayItem from "./DayItem.svelte";
 

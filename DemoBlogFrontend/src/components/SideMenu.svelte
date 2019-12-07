@@ -1,12 +1,13 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { get } from 'svelte/store';
+
+    import { user } from "./../js/data_store.js";
 
     import UserLoginWidget from "./user/UserLoginWidget.svelte";
     import UserViewWidget from "./user/UserViewWidget.svelte";
     import UserRegisterWidget from "./user/UserRegisterWidget.svelte";
     import UserWidgetContainer from "./user/UserWidgetContainer.svelte";
-
-    export let user;
 
     let width;
     let userButtonY;
@@ -160,9 +161,9 @@
     onVisible={userWidgetFocus}
     onHidden={reset}
     bind:toggle={userWidgetToggle}>
-    {#if user != null}
+    {#if $user != null}
         <UserViewWidget
-            username={user == null ? "" : user.name}
+            username={$user == null ? "" : $user.name}
             on:logout/>
     {:else if currentWidget == "login"}
         <UserLoginWidget
@@ -189,10 +190,10 @@
     <div class="menu-button-border" bind:offsetHeight={userButtonY} bind:clientHeight={userButtonHeight} on:click={userWidgetToggle}>
 	    <div class="menu-button">
             <div class="icon-user"/>
-            {#if user == null}
+            {#if $user == null}
                 <span>Войти</span>
             {:else}
-                <span>{user.name}</span>
+                <span>{$user.name}</span>
             {/if}
         </div>
     </div>
