@@ -9,7 +9,7 @@ DemoBlogFrontend/publish.sh
 DemoBlogFrontend/publish.ps1
 
 # DemoBlogBackend
-DemoBlogBackend/.vs/
+.vs/
 bin/
 obj/
 *.user
