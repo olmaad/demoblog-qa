@@ -90,7 +90,7 @@
 
 	const handleShowPost = async function(event) {
 		navigate("view/" + event.detail.id);
-	}
+	};
 
 	const handleRemovePost = async function() {
 		if (await Api.removePostAsync(viewerPost.id)) {
@@ -268,6 +268,14 @@
 		background: var(--color-text);
 		animation: blink-move 1.2s ease-in-out infinite;
 	}
+
+	:global(a) {
+		color: var(--color-primary-0);
+	}
+
+	:global(a:visited) {
+        color: var(--color-primary-3);
+    }
 </style>
 
 <svelte:head>

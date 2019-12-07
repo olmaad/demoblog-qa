@@ -1,6 +1,7 @@
 <script>
     import { createEventDispatcher } from "svelte";
     import { Remarkable } from "remarkable";
+    import { linkify } from 'remarkable/linkify';
     
     import { Post } from "../../js/model.js";
     import { Modes, PostEditorPropertiesBuilder } from "./PostEditor.js";
@@ -16,7 +17,7 @@
     let mode = Modes.editor;
     let switchEnabled = false;
 
-    var md = new Remarkable();
+    var md = new Remarkable().use(linkify);
 
     $: propertiesBuilder = new PostEditorPropertiesBuilder(mode, post, md);
     $: mode = (switchEnabled ? Modes.preview : Modes.editor);

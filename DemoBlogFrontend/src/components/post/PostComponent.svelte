@@ -1,8 +1,9 @@
 <script>
     import { createEventDispatcher } from "svelte";
+    import { link, navigate } from "svelte-routing";
 
     import { Remarkable } from "remarkable";
-    import { link, navigate } from "svelte-routing";
+    import { linkify } from 'remarkable/linkify';
 
     import { PostComponentPropertiesBuilder } from "./PostComponent.js";
 
@@ -15,7 +16,7 @@
 
     $: voteValue = (vote == null) ? 0 : vote.value; 
 
-    let md = new Remarkable();
+    let md = new Remarkable().use(linkify);
 
     $: propertiesBuilder = new PostComponentPropertiesBuilder(mode, post, md);
 
@@ -169,6 +170,16 @@
         color: var(--color-text);
         font-family: 'Roboto', sans-serif;
         font-size: 16px;
+    }
+
+    :global(.post-text a) {
+        color: var(--color-primary-0);
+        font-family: 'Roboto', sans-serif;
+        font-size: 16px;
+    }
+
+    :global(.post-text a:visited) {
+        color: var(--color-primary-3);
     }
 </style>
 
