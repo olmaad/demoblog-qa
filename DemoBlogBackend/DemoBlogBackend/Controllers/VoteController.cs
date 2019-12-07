@@ -21,16 +21,16 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/Vote
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return BadRequest();
         }
 
         // GET: api/Vote/5
         [HttpGet("{id}", Name = "GetVote")]
-        public string Get(int id)
+        public IActionResult Get(int id)
         {
-            return "value";
+            return BadRequest();
         }
 
         // POST: api/Vote

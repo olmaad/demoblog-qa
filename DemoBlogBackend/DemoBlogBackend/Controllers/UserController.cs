@@ -30,9 +30,9 @@ namespace DemoBlogBackend.Controllers
 
         // GET: api/User
         [HttpGet]
-        public IEnumerable<string> Get()
+        public IActionResult Get()
         {
-            return new string[] { "value1", "value2" };
+            return BadRequest();
         }
 
         // GET: api/User/5
@@ -75,12 +75,14 @@ namespace DemoBlogBackend.Controllers
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
+            // TODO
         }
 
         // DELETE: api/ApiWithActions/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
+            // TODO
         }
     }
 }
