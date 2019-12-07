@@ -1,7 +1,7 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
-	import { session, getPostBundle } from "./../../js/data_store.js";
+	import { user as dataStoreUser, session, getPostBundle } from "./../../js/data_store.js";
 	import { consumeCommentBundle } from "./../../js/post_data_store.js";
 	import { loadCommentsAsync } from "./../../js/api.js";
 
@@ -94,8 +94,10 @@
 		</div>
 		<CommentList
 			on:vote/>
-		<CommentEditor
-			postId={post == null ? -1 : post.id}
-			on:submitComment/>
+		{#if $dataStoreUser != null}
+			<CommentEditor
+				postId={post == null ? -1 : post.id}
+				on:submitComment/>
+		{/if}
 	</div>
 {/if}
