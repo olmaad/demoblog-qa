@@ -17,3 +17,6 @@ obj/
 
 # DemoBlogBaseBuilder
 DemoBlogBaseBuilder/Properties/
+
+# Doc
+Doc/*.pdf
