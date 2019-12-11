@@ -1,4 +1,5 @@
 ﻿using OpenQA.Selenium;
+using OpenQA.Selenium.Interactions;
 using OpenQA.Selenium.Support.UI;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,16 @@ namespace DemoBlogUiLib.PageComponents
         protected IWebElement WaitAndGet(Func<IWebElement> getter)
         {
             return mWaiter.Until((d) => { return getter(); });
+        }
+
+        protected void ClearInput(IWebElement element)
+        {
+            // SELENIUM PLS
+
+            element.Click();
+
+            element.SendKeys(Keys.Control + "a");
+            element.SendKeys(Keys.Delete);
         }
     }
 }

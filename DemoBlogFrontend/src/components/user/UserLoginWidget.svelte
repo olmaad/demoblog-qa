@@ -48,14 +48,14 @@
 		margin-bottom: 0;
 	}
 
-    .container {
+    .user-login-widget-container {
 		display: flex;
 		flex: auto;
 		flex-direction: column;
 	}
 </style>
 
-<div class="container">
+<div class="user-login-widget-container">
     <input placeholder="логин" bind:value={login} bind:this={focusInput} on:keyup={handleKeyup}/>
     <input placeholder="пароль" type="password" bind:value={password} on:keyup={handleKeyup}/>
     <button class="highlighted" style="margin-bottom: 8px;" on:click={handleLogin}>Войти</button>

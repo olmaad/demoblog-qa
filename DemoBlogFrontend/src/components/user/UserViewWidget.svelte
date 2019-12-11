@@ -14,7 +14,7 @@
 		color: var(--color-text);
 	}
 
-    div.container {
+    .user-view-widget-container {
 		display: flex;
 		flex-direction: column;
 	}
@@ -38,7 +38,7 @@
 	}
 </style>
 
-<div class="container">
-    <h4>Привет {username}!</h4>
+<div class="user-view-widget-container">
+    <h4 class="greeting">Привет {username}!</h4>
     <button class="button-highlighted no-bottom-margin" on:click={logout}>Выйти</button>
 </div>

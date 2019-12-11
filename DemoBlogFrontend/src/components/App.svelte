@@ -105,6 +105,8 @@
 
 	const handleRegister = async function(event) {
 		const registerResult = await Api.registerUserAsync(event.detail.login, event.detail.name, event.detail.password);
+
+		event.detail.resultHandler(registerResult);
 	};
 
 	const handleLogin = async function(event) {

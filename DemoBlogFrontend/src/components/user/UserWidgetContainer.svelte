@@ -38,7 +38,7 @@
         font-family: 'Roboto', sans-serif;
     }
 
-    .container {
+    .user-widget-container {
         display: flex;
         flex-flow: row;
         flex-direction: row-reverse;
@@ -60,7 +60,7 @@
         box-shadow: 0px 0px 30px 5px rgba(31,23,32,0.5);
     }
 
-    .header-container {
+    .header {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
@@ -75,9 +75,9 @@
     }
 </style>
 
-<div class="container" style={containerStyle} bind:this={container}>
+<div class="user-widget-container" style={containerStyle} bind:this={container}>
     <div class="widget-container">
-        <div class="header-container">
+        <div class="header">
             <label>{header}</label>
             <div class="button-close" on:click={handleClose}/>
         </div>

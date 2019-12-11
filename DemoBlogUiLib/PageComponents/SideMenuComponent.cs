@@ -8,6 +8,11 @@ namespace DemoBlogUiLib.PageComponents
     {
         public UserMenuComponent UserMenu { get; private set; }
 
+        protected IWebElement GetSideMenuRoot()
+        {
+            return mDriver.FindElement(By.ClassName("menu-container"));
+        }
+
         protected IWebElement GetUserMenuButton()
         {
             return mDriver.FindElement(By.XPath("//div[contains(@class, 'menu-button')][div[contains(@class, 'icon-user')]]"));
@@ -22,6 +27,11 @@ namespace DemoBlogUiLib.PageComponents
             base(driver, waiter)
         {
             UserMenu = new UserMenuComponent(mDriver, mWaiter);
+        }
+
+        public void WaitCreated()
+        {
+            Wait(GetSideMenuRoot);
         }
 
         public void OpenUserMenu()

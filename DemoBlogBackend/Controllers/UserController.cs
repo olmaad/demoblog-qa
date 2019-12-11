@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Security.Cryptography;
+﻿using System.Security.Cryptography;
 using System.Text;
 using DemoBlogBackend.Services;
 using DemoBlogShared.Models;
 using Microsoft.AspNetCore.Mvc;
+using System.Linq;
 
 namespace DemoBlogBackend.Controllers
 {
@@ -61,11 +61,20 @@ namespace DemoBlogBackend.Controllers
                 return BadRequest();
             }
 
+            var query = from user in mDataService.DbContext.Users
+                        where user.Login == value.Login || user.Name == value.Name
+                        select user;
+
+            if (query.Any())
+            {
+                return BadRequest();
+            }
+
             byte[] hashValue = sha256.ComputeHash(Encoding.UTF8.GetBytes(value.Password));
 
-            var user = new User() { Login = value.Login, PasswordHash = hashValue, Name = value.Name };
+            var created = new User() { Login = value.Login, PasswordHash = hashValue, Name = value.Name };
 
-            mDataService.DbContext.Users.Add(user);
+            mDataService.DbContext.Users.Add(created);
             mDataService.DbContext.SaveChanges();
 
             return Ok();

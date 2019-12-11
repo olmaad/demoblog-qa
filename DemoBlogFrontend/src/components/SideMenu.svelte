@@ -32,8 +32,17 @@
         currentWidget = "register";
     };
 
+    const handleRegisterResult = async function(ok) {
+        if (ok) {
+            currentWidget = "login";
+        }
+        else {
+            // TODO: Show error
+        }
+    };
+
     const handleRegister = async function(event) {
-        currentWidget = "login";
+        event.detail["resultHandler"] = handleRegisterResult;
 
         dispatch("register", event.detail);
     };

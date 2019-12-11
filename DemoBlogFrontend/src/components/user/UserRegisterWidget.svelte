@@ -1,9 +1,9 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
-    let login;
-    let name;
-	let password;
+    let login = "";
+    let name = "";
+	let password = "";
 
 	const dispatch = createEventDispatcher();
 
@@ -36,14 +36,14 @@
 		background: var(--color-primary-gradient-0);
 	}
 
-    .container {
+    .user-register-widget-container {
 		display: flex;
 		flex: auto;
 		flex-direction: column;
 	}
 </style>
 
-<div class="container">
+<div class="user-register-widget-container">
     <input placeholder="логин" bind:value={login}/>
     <input placeholder="имя" bind:value={name}/>
     <input placeholder="пароль" bind:value={password}/>
