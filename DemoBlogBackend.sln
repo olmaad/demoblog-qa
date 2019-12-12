@@ -13,11 +13,25 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoBlogBaseBuilder", "DemoBlogBaseBuilder\DemoBlogBaseBuilder.csproj", "{8158E566-A2FC-4B70-9CE1-96552661FF0E}"
 	ProjectSection(ProjectDependencies) = postProject
 		{98B2441E-0298-4FBA-AD5B-BFAA866B7B49} = {98B2441E-0298-4FBA-AD5B-BFAA866B7B49}
+		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75} = {EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoBlogUiLib", "DemoBlogUiLib\DemoBlogUiLib.csproj", "{6F4A3F8E-85AD-422C-8943-00B42B91978F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoBlogTests", "DemoBlogTests\DemoBlogTests.csproj", "{FBF4EFCC-5B8A-4CA5-B30D-72ABA77CBCC2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DemoBlogTests", "DemoBlogTests\DemoBlogTests.csproj", "{FBF4EFCC-5B8A-4CA5-B30D-72ABA77CBCC2}"
+	ProjectSection(ProjectDependencies) = postProject
+		{4654A5F0-CB7A-4E3C-8054-53763F7C8B5C} = {4654A5F0-CB7A-4E3C-8054-53763F7C8B5C}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DemoBlogApiTestLib", "DemoBlogApiTestLib\DemoBlogApiTestLib.csproj", "{4654A5F0-CB7A-4E3C-8054-53763F7C8B5C}"
+	ProjectSection(ProjectDependencies) = postProject
+		{98B2441E-0298-4FBA-AD5B-BFAA866B7B49} = {98B2441E-0298-4FBA-AD5B-BFAA866B7B49}
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestDataLib", "TestDataLib\TestDataLib.csproj", "{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}"
+	ProjectSection(ProjectDependencies) = postProject
+		{98B2441E-0298-4FBA-AD5B-BFAA866B7B49} = {98B2441E-0298-4FBA-AD5B-BFAA866B7B49}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,6 +59,14 @@ Global
 		{FBF4EFCC-5B8A-4CA5-B30D-72ABA77CBCC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FBF4EFCC-5B8A-4CA5-B30D-72ABA77CBCC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FBF4EFCC-5B8A-4CA5-B30D-72ABA77CBCC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4654A5F0-CB7A-4E3C-8054-53763F7C8B5C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4654A5F0-CB7A-4E3C-8054-53763F7C8B5C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4654A5F0-CB7A-4E3C-8054-53763F7C8B5C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4654A5F0-CB7A-4E3C-8054-53763F7C8B5C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -40,7 +40,7 @@ namespace DemoBlogBackend.Controllers
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
-            DateTime dateDefaulted = DateTime.Now;
+            DateTime dateDefaulted = DateTime.UtcNow;
 
             if (date != null)
             {

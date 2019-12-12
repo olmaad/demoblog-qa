@@ -3,10 +3,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace DemoBlogBaseBuilder
+namespace TestDataLib
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class PostData
+    public class PostData
     {
         [JsonProperty]
         public long Id { get; set; }
@@ -23,7 +23,7 @@ namespace DemoBlogBaseBuilder
     }
 
     [JsonObject(MemberSerialization.OptIn)]
-    class PostsData
+    public class PostsData
     {
         [JsonProperty]
         public IList<PostData> Posts { get; set; }

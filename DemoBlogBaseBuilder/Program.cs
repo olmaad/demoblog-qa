@@ -6,6 +6,7 @@ using System;
 using System.IO;
 using System.Security.Cryptography;
 using System.Text;
+using TestDataLib;
 
 namespace DemoBlogBaseBuilder
 {
@@ -56,13 +57,7 @@ namespace DemoBlogBaseBuilder
 
                 foreach (var user in users.Users)
                 {
-                    context.Users.Add(new User()
-                    {
-                        Id = user.Id,
-                        Login = user.Login,
-                        Name = user.Name,
-                        PasswordHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(user.Password))
-                    });
+                    context.Users.Add(DataConverter.ToModel(user));
                 }
 
                 var posts = new PostsData();
@@ -76,15 +71,7 @@ namespace DemoBlogBaseBuilder
 
                 foreach (var post in posts.Posts)
                 {
-                    context.Posts.Add(new Post()
-                    {
-                        Id = post.Id,
-                        UserId = post.UserId,
-                        Date = (DateTime.Now.Date + new TimeSpan(post.DateOffset, 0, 0, 0)),
-                        Title = post.Title,
-                        Preview = post.Preview,
-                        Content = post.Content
-                    });
+                    context.Posts.Add(DataConverter.ToModel(post));
                 }
 
                 var comments = new CommentsData();

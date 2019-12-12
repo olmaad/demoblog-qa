@@ -1,12 +1,10 @@
 ﻿using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
-namespace DemoBlogBaseBuilder
+namespace TestDataLib
 {
     [JsonObject(MemberSerialization.OptIn)]
-    class UserData
+    public class UserData
     {
         [JsonProperty]
         public long Id { get; set; }
@@ -19,7 +17,7 @@ namespace DemoBlogBaseBuilder
     }
 
     [JsonObject(MemberSerialization.OptIn)]
-    class UsersData
+    public class UsersData
     {
         [JsonProperty]
         public IList<UserData> Users { get; set; }

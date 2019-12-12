@@ -13,6 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\DemoBlogShared\DemoBlogShared.csproj" />
+    <ProjectReference Include="..\TestDataLib\TestDataLib.csproj" />
   </ItemGroup>
 
 </Project>

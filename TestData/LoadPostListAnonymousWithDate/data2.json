@@ -1,0 +1,21 @@
+{
+	"posts": [
+		{
+			"id": 2,
+			"userId": 1,
+			"title": "Заголовок поста",
+			"preview": "Превью",
+			"content": "Содержимое",
+			"dateOffset": -1
+		}
+	],
+	
+	"users": [
+		{
+			"id": 1,
+			"login": "1",
+			"password": "1",
+			"name": "Olma"
+		}
+	]
+}
