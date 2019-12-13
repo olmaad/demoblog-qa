@@ -28,6 +28,7 @@ namespace DemoBlog.Tests.Api
             mClient = new Client("http://localhost:8080/");
         }
 
+        [Order(1)]
         [TestCase("LoadPostListAnonymous/data.json")]
         public void LoadPostListAnonymous(string expectedDataPath)
         {
@@ -41,6 +42,7 @@ namespace DemoBlog.Tests.Api
             AssertPostListBundle(bundle, posts, users);
         }
 
+        [Order(1)]
         [TestCase(0, "LoadPostListAnonymousWithDate/data.json")]
         [TestCase(-1, "LoadPostListAnonymousWithDate/data2.json")]
         public void LoadPostListAnonymousWithDate(int dateOffset, string expectedDataPath)
