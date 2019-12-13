@@ -20,3 +20,6 @@ BaseBuilder/Properties/
 
 # Doc
 Doc/*.pdf
+
+# Tests
+Tests/Resources/Strings.Designer.cs

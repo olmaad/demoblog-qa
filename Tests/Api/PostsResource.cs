@@ -2,11 +2,14 @@
 using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using DemoBlog.TestDataLib;
+using DemoBlog.Tests.Resources;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace DemoBlog.Tests.Api
@@ -17,7 +20,7 @@ namespace DemoBlog.Tests.Api
         DataLoaderFactory mDataLoaderFactory;
         Client mClient;
 
-        [SetUp]
+        [OneTimeSetUp]
         public void SetUp()
         {
             mDataLoaderFactory = new DataLoaderFactory()
@@ -63,8 +66,8 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, "Неверное количество постов в тестовых данных");
-            Assume.That(loader.Data.Users, Has.Exactly(1).Items, "Неверное количество пользователей в тестовых данных");
+            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
+            Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
 
             var post = DataConverter.ToModel(loader.Data.Posts.First());
             var user = DataConverter.ToModel(loader.Data.Users.First());
@@ -79,13 +82,13 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, "Неверное количество постов в тестовых данных");
+            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
             var post = DataConverter.ToModel(loader.Data.Posts.First());
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
-            Assert.That(id, Is.EqualTo(-1), "Возвращен id вместо ошибки");
+            Assert.That(id, Is.EqualTo(-1), Strings.IdReturnedInsteadOfError);
         }
 
         [TestCase("CreatePost/data1.json")]
@@ -95,13 +98,13 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, "Неверное количество постов в тестовых данных");
+            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
             var post = DataConverter.ToModel(loader.Data.Posts.First());
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
-            Assert.That(id, Is.Not.EqualTo(-1), "Возвращена ошибка");
+            Assert.That(id, Is.Not.EqualTo(-1), Strings.ErrorReturned);
         }
 
         [TestCase("CreatePostNegative/data1.json")]
@@ -110,21 +113,21 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, "Неверное количество постов в тестовых данных");
+            Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
             var post = DataConverter.ToModel(loader.Data.Posts.First());
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
-            Assert.That(id, Is.EqualTo(-1), "Возвращен id вместо ошибки");
+            Assert.That(id, Is.EqualTo(-1), Strings.IdReturnedInsteadOfError);
         }
 
         private void AssertPostListBundle(PostListBundle bundle, IEnumerable<Post> posts, IEnumerable<User> users)
         {
             Assert.Multiple(() =>
             {
-                Assert.That(bundle.Posts, Is.EquivalentTo(posts), "Неверный список постов");
-                Assert.That(bundle.Users, Is.EquivalentTo(users), "Неверный список пользователей");
+                Assert.That(bundle.Posts, Is.EquivalentTo(posts), Strings.WrongPostList);
+                Assert.That(bundle.Users, Is.EquivalentTo(users), Strings.WrongUserList);
             });
         }
 
@@ -132,8 +135,8 @@ namespace DemoBlog.Tests.Api
         {
             Assert.Multiple(() =>
             {
-                Assert.That(bundle.Post, Is.EqualTo(post), "Неверный пост");
-                Assert.That(bundle.User, Is.EqualTo(user), "Неверный пользователь");
+                Assert.That(bundle.Post, Is.EqualTo(post), Strings.WrongPost);
+                Assert.That(bundle.User, Is.EqualTo(user), Strings.WrongUser);
             });
         }
     }
