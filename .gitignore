@@ -1,12 +1,12 @@
 # DemoBlogFrontend
-DemoBlogFrontend/.vscode/
-DemoBlogFrontend/.DS_Store
-DemoBlogFrontend/node_modules
-DemoBlogFrontend/public/*bundle*
-DemoBlogFrontend/public/*.css
-DemoBlogFrontend/package-lock.json
-DemoBlogFrontend/publish.sh
-DemoBlogFrontend/publish.ps1
+Frontend/.vscode/
+Frontend/.DS_Store
+Frontend/node_modules
+Frontend/public/*bundle*
+Frontend/public/*.css
+Frontend/package-lock.json
+Frontend/publish.sh
+Frontend/publish.ps1
 
 # DemoBlogBackend
 .vs/
@@ -16,7 +16,7 @@ obj/
 *.db
 
 # DemoBlogBaseBuilder
-DemoBlogBaseBuilder/Properties/
+BaseBuilder/Properties/
 
 # Doc
 Doc/*.pdf

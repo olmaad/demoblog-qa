@@ -1,9 +1,9 @@
-﻿using DemoBlogShared.Models;
+﻿using DemoBlog.DataLib.Models;
 using System;
 using System.Security.Cryptography;
 using System.Text;
 
-namespace TestDataLib
+namespace DemoBlog.TestDataLib
 {
     public class DataConverter
     {

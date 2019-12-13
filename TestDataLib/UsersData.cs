@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.Collections.Generic;
 
-namespace TestDataLib
+namespace DemoBlog.TestDataLib
 {
     [JsonObject(MemberSerialization.OptIn)]
     public class UserData
