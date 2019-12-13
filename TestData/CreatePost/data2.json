@@ -1,0 +1,12 @@
+{
+	"posts": [
+		{
+			"id": 0,
+			"userId": 2,
+			"title": "Созданный пост 2",
+			"preview": "Превью",
+			"content": "Содержимое",
+			"dateOffset": 0
+		}
+	]
+}

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace DemoBlog.DataLib.Bundles
 {
-    public class PostsBundle
+    public class PostListBundle
     {
         public IEnumerable<Post> Posts { get; set; }
         public IEnumerable<User> Users { get; set; }

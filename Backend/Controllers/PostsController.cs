@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DemoBlog.Backend.Services;
+using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,20 +14,6 @@ namespace DemoBlog.Backend.Controllers
     {
         private DataService mDataService;
 
-        public class PostsReturnBundle
-        {
-            public IEnumerable<Post> Posts { get; set; }
-            public IEnumerable<User> Users { get; set; }
-            public IEnumerable<Vote> Votes { get; set; }
-        }
-
-        public class PostReturnBundle
-        {
-            public Post Post { get; set; }
-            public User User { get; set; }
-            public Vote Vote { get; set; }
-        }
-
         public PostsController(DataService service)
         {
             mDataService = service;
@@ -34,7 +21,7 @@ namespace DemoBlog.Backend.Controllers
 
         // GET: api/Posts
         [HttpGet]
-        public PostsReturnBundle Get(long? userId, string date)
+        public PostListBundle Get(long? userId, string date)
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
@@ -78,7 +65,7 @@ namespace DemoBlog.Backend.Controllers
             var users = query.Select(o => o.User).Distinct().ToList().ToList();
             var votes = query.Where(o => o.Vote != null).Select(o => o.Vote).ToList();
 
-            return new PostsReturnBundle()
+            return new PostListBundle()
             {
                 Posts = posts,
                 Users = users,
@@ -88,7 +75,7 @@ namespace DemoBlog.Backend.Controllers
 
         // GET: api/Posts/5
         [HttpGet("{postId}", Name = "GetPost")]
-        public PostReturnBundle GetPost(long postId, long? userId)
+        public PostBundle GetPost(long postId, long? userId)
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
@@ -112,7 +99,7 @@ namespace DemoBlog.Backend.Controllers
             var userValue = query.Select(o => o.User).Single();
             var voteValue = query.Select(o => o.Vote).SingleOrDefault();
 
-            return new PostReturnBundle()
+            return new PostBundle()
             {
                 Post = postValue,
                 User = userValue,
@@ -124,7 +111,7 @@ namespace DemoBlog.Backend.Controllers
         [HttpPost]
         public long Post([FromBody] Post value)
         {
-            if (string.IsNullOrEmpty(value.Title) || string.IsNullOrEmpty(value.Content))
+            if (string.IsNullOrEmpty(value.Title) || string.IsNullOrEmpty(value.Preview))
             {
                 return -1;
             }

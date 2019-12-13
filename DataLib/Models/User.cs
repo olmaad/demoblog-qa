@@ -44,5 +44,10 @@ namespace DemoBlog.DataLib.Models
         {
             return Id.GetHashCode();
         }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
+        }
     }
 }
