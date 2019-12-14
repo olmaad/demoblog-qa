@@ -1,3 +1,5 @@
+import { _ } from "svelte-i18n";
+
 export const Modes = {
     editor: 0,
     preview: 1
@@ -8,15 +10,6 @@ export class PostEditorPropertiesBuilder {
         this.mode = mode;
         this.post = post;
         this.markdown = markdown;
-    }
-
-    headerText() {
-        switch(this.mode) {
-            case Modes.editor:
-                return "Заголовок:";
-            case Modes.preview:
-                return "Предпросмотр:";
-        }
     }
 
     switchButtonText() {

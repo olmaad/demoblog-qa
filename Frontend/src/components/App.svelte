@@ -3,6 +3,7 @@
 	import { get } from 'svelte/store';
 
 	import { navigate, Router, Link, Route } from "svelte-routing";
+	import { addMessages, init as i18nInit, locale } from 'svelte-i18n';
 
 	import * as Api from "./../js/api.js";
 	import { Comment, Vote, VoteType } from "./../js/model.js";
@@ -12,6 +13,9 @@
 	import { init as initDataLoader } from "./../js/data_loader.js";
 
 	import "./../less/App.less";
+
+	import en from './../localization/en.json';
+	import ru from './../localization/ru.json';
 
 	import PageHost from "./PageHost.svelte";
 	import PostList from "./post/PostList.svelte";
@@ -48,6 +52,13 @@
 
 	let contentOffset = 0;
 	let contentWidth = 0;
+
+	addMessages("en", en);
+	addMessages("ru", ru);
+
+	i18nInit({
+		fallbackLocale: "en"
+	});
 
 	const switchPage = async function(type) {
 		switch (type) {
@@ -207,13 +218,31 @@
 		const result = await Api.postVoteAsync(vote);
 	};
 
+	let localeToRestore = localStorage.getItem("locale");
+
 	const init = async function() {
+		if (localeToRestore != null) {
+			$locale = localeToRestore;
+
+			console.debug("Restored locale " + localeToRestore);
+		}
+
 		await initUser();
 
 		await initDataLoader();
 	};
 
+	const handleLocaleChanged = async function(value) {
+		localStorage.setItem("locale", value);
+		
+		console.debug("Locale changed to " + value);
+	};
+
+	let localeUnsubscribe = locale.subscribe(handleLocaleChanged);
+
 	let initPromise = init();
+
+	onDestroy(localeUnsubscribe);
 </script>
 
 <style>

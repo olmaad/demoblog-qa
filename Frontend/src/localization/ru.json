@@ -1,0 +1,46 @@
+{
+	"component": {
+		"sideMenu": {
+			"login": "Войти",
+			"posts": "Посты",
+			"create": "Написать",
+			"language": "Язык",
+			"userHeaderLogin": "Вход",
+			"userHeaderRegister": "Регистрация",
+			"userHeaderView": "Пользователь"
+		},
+		"postList": {
+			"placeholder1": "Нет постов :(",
+			"placeholder2": "Попробуйте выбрать другую дату или написать новый."
+		},
+		"userLoginWidget": {
+			"placeholderLogin": "логин",
+			"placeholderPassword": "пароль",
+			"signIn": "Войти",
+			"signUp": "Регистрация"
+		},
+		"userRegisterWidget": {
+			"placeholderLogin": "логин",
+			"placeholderPassword": "пароль",
+			"placeholderName": "имя",
+			"signUp": "Регистрация"
+		},
+		"userViewWidget": {
+			"greeting": "Привет",
+			"logout": "Выйти"
+		},
+		"postEditor": {
+			"headerEdit": "Редактор",
+			"headerPreview": "Предпросмотр",
+			"preview": "Превью",
+			"content": "Основной текст",
+			"switchEditor": "Редактор",
+			"switchPreview": "Предпросмотр",
+			"submit": "Опубликовать"
+		},
+		"commentEditor": {
+			"placeholder": "Текст комментария...",
+			"submit": "Отправить"
+		}
+	}
+}

@@ -2,6 +2,8 @@
 	import { onDestroy } from 'svelte';
 	import { get } from 'svelte/store';
 
+	import { _ } from "svelte-i18n";
+
 	import { user, posts, users, postVotes } from "./../../js/data_store.js";
 	import { Vote, VoteType } from "./../../js/model.js";
 
@@ -79,6 +81,6 @@
     </div>
 {:else}
 	<div class="post-list-placeholder">
-		<p class="post-list-placeholder-text">Нет постов :(<br/><br/>Попробуйте выбрать другую дату или написать новый.</p>
+		<p class="post-list-placeholder-text">{$_("component.postList.placeholder1")}<br/><br/>{$_("component.postList.placeholder2")}</p>
 	</div>
 {/if}

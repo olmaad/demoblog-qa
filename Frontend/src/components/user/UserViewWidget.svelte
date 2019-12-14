@@ -1,6 +1,8 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
+	import { _ } from "svelte-i18n";
+
 	export let username;
 
     const dispatch = createEventDispatcher();
@@ -39,6 +41,6 @@
 </style>
 
 <div class="user-view-widget-container">
-    <h4 class="greeting">Привет {username}!</h4>
-    <button class="button-highlighted no-bottom-margin" on:click={logout}>Выйти</button>
+    <h4 class="greeting">{$_("component.userViewWidget.greeting")} {username}!</h4>
+    <button class="button-highlighted no-bottom-margin" on:click={logout}>{$_("component.userViewWidget.logout")}</button>
 </div>

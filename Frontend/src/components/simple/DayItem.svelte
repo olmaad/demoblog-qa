@@ -1,6 +1,8 @@
 <script>
     import { createEventDispatcher } from "svelte";
 
+    import { locale } from "svelte-i18n";
+
     export let highlighted = false;
     export let date = new Date();
 
@@ -42,6 +44,6 @@
 
 <div class="border" class:border-highlighted={highlighted} on:click={handleClick}>
     <div class="container">
-        {date.toLocaleDateString("ru-RU", { day: "numeric", month: "short" })}
+        {date.toLocaleDateString($locale, { day: "numeric", month: "short" })}
     </div>
 </div>

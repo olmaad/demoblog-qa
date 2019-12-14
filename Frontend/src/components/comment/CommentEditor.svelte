@@ -1,5 +1,7 @@
 <script>
-	import { createEventDispatcher } from "svelte";
+    import { createEventDispatcher } from "svelte";
+    
+    import { _ } from "svelte-i18n";
 
     export let postId;
 
@@ -59,11 +61,11 @@
 
 <div class="container">
     <div class="border">
-        <textarea placeholder="Текст комментария..." bind:value={text}/>
+        <textarea placeholder={$_("component.commentEditor.placeholder")} bind:value={text}/>
     </div>
     <div class="footer-container">
         <button class="highlighted" on:click={submit}>
-            Отправить
+            {$_("component.commentEditor.submit")}
         </button>
     </div>
 </div>

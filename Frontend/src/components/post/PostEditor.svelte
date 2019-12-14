@@ -1,5 +1,8 @@
 <script>
     import { createEventDispatcher } from "svelte";
+
+    import { _ } from "svelte-i18n";
+
     import { Remarkable } from "remarkable";
     import { linkify } from 'remarkable/linkify';
     
@@ -21,6 +24,15 @@
 
     $: propertiesBuilder = new PostEditorPropertiesBuilder(mode, post, md);
     $: mode = (switchEnabled ? Modes.preview : Modes.editor);
+
+    $: headerText = function() {
+        switch(mode) {
+            case Modes.editor:
+                return $_("component.postEditor.headerEdit");
+            case Modes.preview:
+                return $_("component.postEditor.headerPreview");
+        }
+    }();
 
     const dispatch = createEventDispatcher();
 
@@ -127,16 +139,16 @@
 <div class="border" class:border-editor={mode == Modes.editor} class:border-preview={mode == Modes.preview}>
     <div class="container">
         <div class="header-container">
-            <h2>{propertiesBuilder.headerText()}</h2>
-            <ToggleSwitchButton textDisabled={"Редактор"} textEnabled={"Предпросмотр"} bind:enabled={switchEnabled}/>
+            <h2>{headerText}</h2>
+            <ToggleSwitchButton textDisabled={$_("component.postEditor.switchEditor")} textEnabled={$_("component.postEditor.switchPreview")} bind:enabled={switchEnabled}/>
         </div>
         {#if mode == Modes.editor}
             <textarea bind:value={post.title} style="height: 50px"/>
 
-            <h2>Превью:</h2>
+            <h2>{$_("component.postEditor.preview")}:</h2>
             <textarea bind:value={post.preview} style="height: 300px"/>
 
-            <h2>Основной текст:</h2>
+            <h2>{$_("component.postEditor.content")}:</h2>
             <textarea bind:value={post.content} style="height: 300px"/>
         {:else if mode == Modes.preview}
             <div class="editor-preview-rendered">
@@ -145,7 +157,7 @@
             </div>
         {/if}
         <div class="footer-container">
-            <button class="highlighted button-submit" on:click={handleSubmit}>Опубликовать</button>
+            <button class="highlighted button-submit" on:click={handleSubmit}>{$_("component.postEditor.submit")}</button>
         </div>
     </div>
 </div>

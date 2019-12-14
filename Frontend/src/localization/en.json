@@ -1,0 +1,46 @@
+{
+	"component": {
+		"sideMenu": {
+			"login": "Sign in",
+			"posts": "Posts",
+			"create": "Create",
+			"language": "Language",
+			"userHeaderLogin": "Sign in",
+			"userHeaderRegister": "Sign up",
+			"userHeaderView": "User"
+		},
+		"postList": {
+			"placeholder1": "No posts :(",
+			"placeholder2": "Try to choose another date or create new post."
+		},
+		"userLoginWidget": {
+			"placeholderLogin": "login",
+			"placeholderPassword": "password",
+			"signIn": "Sign in",
+			"signUp": "Sign up"
+		},
+		"userRegisterWidget": {
+			"placeholderLogin": "login",
+			"placeholderPassword": "password",
+			"placeholderName": "name",
+			"signUp": "Sign up"
+		},
+		"userViewWidget": {
+			"greeting": "Hello",
+			"logout": "Sign out"
+		},
+		"postEditor": {
+			"headerEdit": "Edit",
+			"headerPreview": "Preview",
+			"preview": "Post preview",
+			"content": "Post content",
+			"switchEditor": "Editor",
+			"switchPreview": "Preview",
+			"submit": "Publish"
+		},
+		"commentEditor": {
+			"placeholder": "Comment text...",
+			"submit": "Send"
+		}
+	}
+}

@@ -2,6 +2,8 @@
     import { createEventDispatcher } from "svelte";
     import { get } from 'svelte/store';
 
+    import { _, locale } from "svelte-i18n";
+
     import { user } from "./../js/data_store.js";
 
     import UserLoginWidget from "./user/UserLoginWidget.svelte";
@@ -18,7 +20,21 @@
 
     let currentWidget = "login";
 
-    $: header = (user != null) ? "Пользователь" : (currentWidget == "login") ? "Вход" : "Регистрация";
+    $: header = function() {
+        if ($user != null) {
+            return $_("component.sideMenu.userHeaderView");
+        }
+
+        if (currentWidget == "login") {
+            return $_("component.sideMenu.userHeaderLogin");
+        }
+
+        if (currentWidget == "register") {
+            return $_("component.sideMenu.userHeaderRegister");
+        }
+
+        return "";
+    }();
 
     const dispatch = createEventDispatcher();
 
@@ -166,6 +182,47 @@
         mask-position: 0px -120px;
         transition: all 0.3s linear 0s;
     }
+
+    .spacer {
+        flex: 1;
+    }
+
+    .language-selector {
+        justify-self: end;
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 4px;
+        background: var(--color-background-3);
+        margin: 0 16px 16px 16px;
+    }
+
+    .language-label {
+        margin-left: 10px;
+        width: 20px;
+        height: 20px;
+        mask: url(/fontawesome/language-solid.svg) no-repeat center;
+        background: var(--color-text);
+    }
+
+    .language-select {
+        appearance: none;
+        -moz-appearance: none;
+        -webkit-appearance: none;
+        background: url(/select_arrow.svg) 90% / 15% no-repeat;
+        border: transparent;
+        margin: 0;
+        color: var(--color-text);
+        font-family: 'Roboto', sans-serif;
+        font-size: 14px;
+        width: 100px;
+    }
+
+    option {
+        background: var(--color-background-3);
+        border: transparent;
+    }
 </style>
 
 <UserWidgetContainer
@@ -206,7 +263,7 @@
 	    <div class="menu-button">
             <div class="icon-user"/>
             {#if $user == null}
-                <span>Войти</span>
+                <span>{$_("component.sideMenu.login")}</span>
             {:else}
                 <span>{$user.name}</span>
             {/if}
@@ -215,13 +272,21 @@
     <div class="menu-button-border">
 	    <div class="menu-button" on:click={() => switchPage(0)}>
             <div class="icon-posts"/>
-            <span>Посты</span>
+            <span>{$_("component.sideMenu.posts")}</span>
         </div>
     </div>
     <div class="menu-button-border">
 	    <div class="menu-button" on:click={() => switchPage(1)}>
             <div class="icon-add"/>
-            <span>Написать</span>
+            <span>{$_("component.sideMenu.create")}</span>
         </div>
+    </div>
+    <div class="spacer"/>
+    <div class="language-selector">
+        <div class="language-label"/>
+        <select class="language-select" bind:value={$locale}>
+            <option value="en">English</option>
+            <option value="ru">Русский</option>
+        </select>
     </div>
 </div>

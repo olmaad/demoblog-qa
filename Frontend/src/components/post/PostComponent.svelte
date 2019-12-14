@@ -1,6 +1,8 @@
 <script>
     import { createEventDispatcher } from "svelte";
+
     import { link, navigate } from "svelte-routing";
+    import { _, locale } from "svelte-i18n";
 
     import { Remarkable } from "remarkable";
     import { linkify } from 'remarkable/linkify';
@@ -177,7 +179,7 @@
             {:else}
                 <h2>{post.title}</h2>
             {/if}
-            <label>{post.date.toLocaleTimeString("ru-RU", { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit" })}</label>
+            <label>{post.date.toLocaleTimeString($locale, { day: "numeric", month: "long", year: "numeric", hour: "numeric", minute: "2-digit" })}</label>
         </div>
         <div class="post-text post-component-rendered">
             {@html propertiesBuilder.text()}

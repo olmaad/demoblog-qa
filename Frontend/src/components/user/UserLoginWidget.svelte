@@ -1,6 +1,8 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
+	import { _ } from "svelte-i18n";
+
 	let login;
 	let password;
 	let focusInput = null;
@@ -56,8 +58,8 @@
 </style>
 
 <div class="user-login-widget-container">
-    <input placeholder="логин" bind:value={login} bind:this={focusInput} on:keyup={handleKeyup}/>
-    <input placeholder="пароль" type="password" bind:value={password} on:keyup={handleKeyup}/>
-    <button class="highlighted" style="margin-bottom: 8px;" on:click={handleLogin}>Войти</button>
-	<button class="normal no-bottom-margin" on:click={handleRegister}>Регистрация</button>
+    <input placeholder={$_("component.userLoginWidget.placeholderLogin")} bind:value={login} bind:this={focusInput} on:keyup={handleKeyup}/>
+    <input placeholder={$_("component.userLoginWidget.placeholderPassword")} type="password" bind:value={password} on:keyup={handleKeyup}/>
+    <button class="highlighted" style="margin-bottom: 8px;" on:click={handleLogin}>{$_("component.userLoginWidget.signIn")}</button>
+	<button class="normal no-bottom-margin" on:click={handleRegister}>{$_("component.userLoginWidget.signUp")}</button>
 </div>

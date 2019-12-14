@@ -1,6 +1,8 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
+	import { _ } from "svelte-i18n";
+
     let login = "";
     let name = "";
 	let password = "";
@@ -44,8 +46,8 @@
 </style>
 
 <div class="user-register-widget-container">
-    <input placeholder="логин" bind:value={login}/>
-    <input placeholder="имя" bind:value={name}/>
-    <input placeholder="пароль" bind:value={password}/>
-    <button on:click={submitRegister}>Регистрация</button>
+    <input placeholder={$_("component.userRegisterWidget.placeholderLogin")} bind:value={login}/>
+    <input placeholder={$_("component.userRegisterWidget.placeholderName")} bind:value={name}/>
+    <input placeholder={$_("component.userRegisterWidget.placeholderPassword")} bind:value={password}/>
+    <button on:click={submitRegister}>{$_("component.userRegisterWidget.signUp")}</button>
 </div>
