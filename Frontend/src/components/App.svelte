@@ -312,7 +312,6 @@
 <svelte:head>
 	<title>Demo blog</title>
 	<link rel="stylesheet" href="/less.css">
-	<link rel="stylesheet" href="/Roboto-Medium.ttf">
 </svelte:head>
 
 {#await initPromise}
