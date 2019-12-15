@@ -14,6 +14,11 @@ namespace DemoBlog.Tests.Api
         DataLoaderFactory mDataLoaderFactory;
         Client mClient;
 
+        public UserResource()
+        {
+            mClient = new Client("http://localhost:8080/");
+        }
+
         [OneTimeSetUp]
         public void SetUp()
         {
@@ -21,8 +26,6 @@ namespace DemoBlog.Tests.Api
             {
                 BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiUser")
             };
-
-            mClient = new Client("http://localhost:8080/");
         }
 
         [TestCase("CreateUser/data1.json")]

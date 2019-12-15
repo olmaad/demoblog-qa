@@ -20,6 +20,13 @@ namespace DemoBlog.Tests.Api
         Client mClient;
         SessionHelper mSessionHelper;
 
+        public PostsResource()
+        {
+            mClient = new Client("http://localhost:8080/");
+
+            mSessionHelper = new SessionHelper(mClient);
+        }
+
         [OneTimeSetUp]
         public void SetUp()
         {
@@ -27,10 +34,6 @@ namespace DemoBlog.Tests.Api
             {
                 BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiPosts")
             };
-
-            mClient = new Client("http://localhost:8080/");
-
-            mSessionHelper = new SessionHelper(mClient);
         }
 
         [Order(1)]
@@ -80,9 +83,9 @@ namespace DemoBlog.Tests.Api
         }
 
         [TestCase("CreatePostAnonymousNegative/data1.json")]
-        public void CreatePostAnonymousNegative(string expectedDataPath)
+        public void CreatePostAnonymousNegative(string inputDataPath)
         {
-            var loader = mDataLoaderFactory.Create(expectedDataPath);
+            var loader = mDataLoaderFactory.Create(inputDataPath);
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
@@ -96,9 +99,9 @@ namespace DemoBlog.Tests.Api
         [TestCase("CreatePost/data1.json")]
         [TestCase("CreatePost/data2.json")]
         [TestCase("CreatePost/data3.json")]
-        public void CreatePost(string expectedDataPath)
+        public void CreatePost(string inputDataPath)
         {
-            var loader = mDataLoaderFactory.Create(expectedDataPath);
+            var loader = mDataLoaderFactory.Create(inputDataPath);
 
             Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
@@ -116,9 +119,9 @@ namespace DemoBlog.Tests.Api
 
         [TestCase("CreatePostNegative/data1.json")]
         [TestCase("CreatePostNegative/data2.json")]
-        public void CreatePostNegative(string expectedDataPath)
+        public void CreatePostNegative(string inputDataPath)
         {
-            var loader = mDataLoaderFactory.Create(expectedDataPath);
+            var loader = mDataLoaderFactory.Create(inputDataPath);
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
