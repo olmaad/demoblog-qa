@@ -55,7 +55,7 @@ namespace DemoBlog.BaseBuilder
 
                 foreach (var user in users.Users)
                 {
-                    context.Users.Add(DataConverter.ToModelType(new DataConverter.DataType<UserData>(user)));
+                    context.Users.Add(DataConverter.ToModelType(user, DataConverter.OutputTypeData));
                 }
 
                 var posts = new PostsData();

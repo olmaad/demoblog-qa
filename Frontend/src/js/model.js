@@ -21,6 +21,8 @@ export class Session {
         this.valid = false;
         this.id = "";
         this.userId = -1;
+        this.key = "";
+        this.restoreKey = "";
     }
 
     static fromJson(json) {
@@ -29,6 +31,8 @@ export class Session {
         session.valid = json.valid;
         session.id = json.id;
         session.userId = json.userId;
+        session.key = json.key;
+        session.restoreKey = json.restoreKey;
 
         return session;
     }

@@ -130,7 +130,7 @@
 
 		session = sessionBundle.session;
 
-		localStorage.setItem("sessionId", session.id);
+		localStorage.setItem("sessionRestore", session.restoreKey);
 
 		DataStore.consumeSessionBundle(sessionBundle);
 
@@ -144,7 +144,7 @@
 			await Api.removeSessionAsync(session.id);
 		}
 
-		localStorage.removeItem("sessionId");
+		localStorage.removeItem("sessionRestore");
 
 		DataStore.user.set(null);
 		DataStore.session.set(null);
@@ -190,16 +190,16 @@
 	};
 
 	const initUser = async function() {
-		const localSessionId = localStorage.getItem("sessionId");
+		const sessionRestoreKey = localStorage.getItem("sessionRestore");
 
-		if (localSessionId == null) {
+		if (sessionRestoreKey == null) {
 			return;
 		}
 
-		const sessionBundle = await Api.loadSessionAsync(localSessionId);
+		const sessionBundle = await Api.restoreSessionAsync(sessionRestoreKey);
 
 		if (sessionBundle == null || sessionBundle.session == null || !sessionBundle.session.valid) {
-			localStorage.removeItem("sessionId");
+			localStorage.removeItem("sessionRestore");
 
 			session = null;
 			user = null;

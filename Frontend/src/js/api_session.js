@@ -1,13 +1,13 @@
 import { Session, User } from './model.js';
 
-export const createSessionAsync = async function(login, password) {
+const postSessionAsync = async function(body) {
     const response = await fetch("/api/session", {
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
         method: "POST",
-        body: JSON.stringify({ login: login, password: password })
+        body: JSON.stringify(body)
     });
 
     if (!response.ok) {
@@ -19,30 +19,31 @@ export const createSessionAsync = async function(login, password) {
     const session = json.session == null ? null : Session.fromJson(json.session);
     const user = json.user == null ? null : User.fromJson(json.user);
 
-    console.group("Api: created session:");
-    console.debug(session);
-    console.groupEnd();
-
     return { session: session, user: user };
-};
+}
 
-export const loadSessionAsync = async function(id) {
-    const response = await fetch("/api/session/" + id);
+export const createSessionAsync = async function(login, password) {
+    const bundle = await postSessionAsync({ restore: false, login: login, password: password });
 
-    if (!response.ok) {
-        return null;
+    if (bundle != null) {
+        console.group("Api: created session:");
+        console.debug(bundle.session);
+        console.groupEnd();
     }
 
-    const json = await response.json();
+    return bundle;
+};
 
-    const session = json.session == null ? null : Session.fromJson(json.session);
-    const user = json.user == null ? null : User.fromJson(json.user);
+export const restoreSessionAsync = async function(restoreKey) {
+    const bundle = await postSessionAsync({ restore: true, restoreKey: restoreKey });
 
-    console.group("Api: loaded session:");
-    console.debug(session);
-    console.groupEnd();
+    if (bundle != null) {
+        console.group("Api: restored session:");
+        console.debug(bundle.session);
+        console.groupEnd();
+    }
 
-    return { session: session, user: user };
+    return bundle;
 };
 
 export const removeSessionAsync = async function(id) {
