@@ -37,19 +37,9 @@ namespace DemoBlog.Backend.Controllers
 
         // GET: api/User/5
         [HttpGet("{id}", Name = "GetUser")]
-        public User Get(long id)
+        public IActionResult Get(long id)
         {
-            var find = mDataService.DbContext.Find<User>(id);
-
-            if (find == null)
-            {
-                return null;
-            }
-
-            var user = find.Clone() as User;
-            user.PasswordHash = null;
-
-            return user;
+            return BadRequest();
         }
 
         // POST: api/User

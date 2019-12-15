@@ -19,17 +19,3 @@ export const registerUserAsync = async function(login, name, password) {
 
     return response.ok;
 }
-
-export const loadUserAsync = async function(id) {
-    const response = await fetch("/api/user/" + id);
-
-    if (!response.ok) {
-        return null;
-    }
-
-    const json = await response.json();
-
-    const user = User.fromJson(json);
-
-    return user;
-};
