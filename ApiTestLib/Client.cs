@@ -54,9 +54,9 @@ namespace DemoBlog.ApiTestLib
             return bundle;
         }
 
-        public async Task<long> PostPost(Post post)
+        public async Task<long> PostPost(PostCreateArguments arguments)
         {
-            var response = await mClient.PostAsync(mHost + "/api/posts", new StringContent(JsonConvert.SerializeObject(post), Encoding.UTF8, "application/json"));
+            var response = await mClient.PostAsync(mHost + "/api/posts", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
 
             var responseString = await response.Content.ReadAsStringAsync();
 
@@ -70,6 +70,17 @@ namespace DemoBlog.ApiTestLib
             var response = await mClient.PostAsync(mHost + "/api/user", new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
 
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<SessionBundle> PostSessionAsync(SessionCreateArguments arguments)
+        {
+            var response = await mClient.PostAsync(mHost + "/api/session", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            var bundle = JsonConvert.DeserializeObject<SessionBundle>(responseString, mSerializerSettings);
+
+            return bundle;
         }
     }
 }

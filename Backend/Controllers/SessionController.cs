@@ -93,7 +93,7 @@ namespace DemoBlog.Backend.Controllers
 
             mDataService.DbContext.SaveChanges();
 
-            var user = mDataService.DbContext.Users.Where(u => u.Id == session.UserId).First();
+            var user = mDataService.DbContext.Users.Find(session.UserId);
 
             return new SessionBundle()
             {

@@ -2,6 +2,7 @@
 using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using DemoBlog.TestDataLib;
+using DemoBlog.Tests.Helpers;
 using DemoBlog.Tests.Resources;
 using NUnit.Framework;
 using System;
@@ -17,6 +18,7 @@ namespace DemoBlog.Tests.Api
     {
         DataLoaderFactory mDataLoaderFactory;
         Client mClient;
+        SessionHelper mSessionHelper;
 
         [OneTimeSetUp]
         public void SetUp()
@@ -27,6 +29,8 @@ namespace DemoBlog.Tests.Api
             };
 
             mClient = new Client("http://localhost:8080/");
+
+            mSessionHelper = new SessionHelper(mClient);
         }
 
         [Order(1)]
@@ -35,7 +39,7 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d)).ToList();
+            var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
             var users = loader.Data.Users.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
 
             var bundle = Task.Run(async () => await mClient.GetPostsAsync()).Result;
@@ -50,7 +54,7 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d)).ToList();
+            var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
             var users = loader.Data.Users.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
 
             var bundle = Task.Run(async () => await mClient.GetPostsByDateAsync(DateTime.UtcNow.Date + new TimeSpan(dateOffset, 0, 0, 0))).Result;
@@ -67,7 +71,7 @@ namespace DemoBlog.Tests.Api
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
             Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
 
-            var post = DataConverter.ToModelType(loader.Data.Posts.First());
+            var post = DataConverter.ToModelType(loader.Data.Posts.First(), DataConverter.OutputTypeData);
             var user = DataConverter.ToModelType(loader.Data.Users.First(), DataConverter.OutputTypeData);
 
             var bundle = Task.Run(async () => await mClient.GetSpecificPost(id)).Result;
@@ -82,7 +86,7 @@ namespace DemoBlog.Tests.Api
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
-            var post = DataConverter.ToModelType(loader.Data.Posts.First());
+            var post = DataConverter.ToModelType("", loader.Data.Posts.First(), DataConverter.OutputTypeCreate);
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
@@ -96,9 +100,14 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
+            Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
-            var post = DataConverter.ToModelType(loader.Data.Posts.First());
+            var session = mSessionHelper.Create(loader.Data.Users.First());
+
+            Assert.That(session.Session.Valid, Is.EqualTo(true), Strings.ErrorCreateSession);
+
+            var post = DataConverter.ToModelType(session.Session.Key, loader.Data.Posts.First(), DataConverter.OutputTypeCreate);
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
@@ -113,7 +122,9 @@ namespace DemoBlog.Tests.Api
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
-            var post = DataConverter.ToModelType(loader.Data.Posts.First());
+            var session = mSessionHelper.Create(loader.Data.Users.First());
+
+            var post = DataConverter.ToModelType(session.Session.Key, loader.Data.Posts.First(), DataConverter.OutputTypeCreate);
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 

@@ -36,7 +36,6 @@
 	$: viewerUser = null;
 	$: viewerComments = [];
 	$: viewerUsers = new Map();
-	$: session = null;
 	$: showLoginError = false;
 
 	let viewerVote = null;
@@ -46,9 +45,6 @@
 
 	let editorPost;
 	let editorClear;
-
-	let sessionLogin;
-	let sessionPassword;
 
 	let contentOffset = 0;
 	let contentWidth = 0;
@@ -84,10 +80,19 @@
 	};
 
 	const handleEditorSubmit = async function(event) {
-		let post = event.detail.post;
-		post.userId = get(DataStore.user).id;
+		const user = get(DataStore.user);
+		const session = get(DataStore.session);
 
-		post.id = await Api.submitPostAsync(post)
+		if (session == null || user == null) {
+			return;
+		}
+
+		let post = event.detail.post;
+		post.userId = user.id;
+
+		const sessionKey = session.key;
+
+		post.id = await Api.submitPostAsync(sessionKey, post);
 
 		if (post.id < 0) {
 			// TODO: Show error
@@ -128,18 +133,16 @@
 			return;
 		}
 
-		session = sessionBundle.session;
-
-		localStorage.setItem("sessionRestore", session.restoreKey);
+		localStorage.setItem("sessionRestore", sessionBundle.session.restoreKey);
 
 		DataStore.consumeSessionBundle(sessionBundle);
 
-		sessionLogin = "";
-		sessionPassword = "";
 		showLoginError = false;
 	};
 
 	const handleLogout = async function() {
+		const session = get(DataStore.session);
+
 		if (session != null) {
 			await Api.removeSessionAsync(session.id);
 		}
@@ -148,8 +151,6 @@
 
 		DataStore.user.set(null);
 		DataStore.session.set(null);
-
-		session = null;
 	};
 
 	const handleSubmitComment = async function(event) {
@@ -201,15 +202,10 @@
 		if (sessionBundle == null || sessionBundle.session == null || !sessionBundle.session.valid) {
 			localStorage.removeItem("sessionRestore");
 
-			session = null;
-			user = null;
-
 			return;
 		}
 
 		DataStore.consumeSessionBundle(sessionBundle);
-
-		session = sessionBundle.session;
 	};
 
 	const handlePostVote = async function(event) {

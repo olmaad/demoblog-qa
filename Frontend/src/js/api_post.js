@@ -92,7 +92,7 @@ export const loadPostAsync = async function(id, session) {
     };
 };
 
-export const submitPostAsync = async function(post) {
+export const submitPostAsync = async function(sessionKey, post) {
     let method;
     let url;
 
@@ -110,7 +110,7 @@ export const submitPostAsync = async function(post) {
             "Content-Type": "application/json"
         },
         method: method,
-        body: JSON.stringify(post)
+        body: JSON.stringify({ sessionKey: sessionKey, post: post })
     });
 
     const text = await response.text();

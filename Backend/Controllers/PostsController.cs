@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DemoBlog.Backend.Services;
+using DemoBlog.DataLib.Arguments;
 using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -109,27 +110,27 @@ namespace DemoBlog.Backend.Controllers
 
         // POST: api/Posts
         [HttpPost]
-        public long Post([FromBody] Post value)
+        public long Post([FromBody] PostCreateArguments value)
         {
-            if (string.IsNullOrEmpty(value.Title) || string.IsNullOrEmpty(value.Preview))
+            if (string.IsNullOrEmpty(value.SessionKey) || string.IsNullOrEmpty(value.Post.Title) || string.IsNullOrEmpty(value.Post.Preview))
             {
                 return -1;
             }
 
-            bool userExists = (mDataService.DbContext.Users.Find(value.UserId) != null);
+            var session = mDataService.DbContext.Sessions.Where(s => s.Key == value.SessionKey).FirstOrDefault();
 
-            if (!userExists)
+            if (session == null)
             {
                 return -1;
             }
 
-            value.Id = 0;
-            value.Date = DateTime.UtcNow;
+            value.Post.Id = 0;
+            value.Post.Date = DateTime.UtcNow;
 
-            mDataService.DbContext.Add(value);
+            mDataService.DbContext.Add(value.Post);
             mDataService.DbContext.SaveChanges();
 
-            return value.Id;
+            return value.Post.Id;
         }
 
         // PUT: api/Posts/5

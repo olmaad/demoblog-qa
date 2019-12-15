@@ -23,7 +23,7 @@ namespace DemoBlog.TestDataLib
         public class OutputTypeDataClass { }
         public class OutputTypeCreateClass { }
 
-        public static Post ToModelType(PostData data)
+        public static Post ToModelType(PostData data, OutputTypeDataClass o)
         {
             return new Post()
             {
@@ -33,6 +33,15 @@ namespace DemoBlog.TestDataLib
                 Title = data.Title,
                 Preview = data.Preview,
                 Content = data.Content
+            };
+        }
+
+        public static PostCreateArguments ToModelType(string sessionKey, PostData data, OutputTypeCreateClass o)
+        {
+            return new PostCreateArguments()
+            {
+                SessionKey = sessionKey,
+                Post = ToModelType(data, OutputTypeData)
             };
         }
 
