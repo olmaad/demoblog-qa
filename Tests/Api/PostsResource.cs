@@ -35,8 +35,8 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            var posts = loader.Data.Posts.Select(d => DataConverter.ToModel(d)).ToList();
-            var users = loader.Data.Users.Select(d => DataConverter.ToModel(d)).ToList();
+            var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d)).ToList();
+            var users = loader.Data.Users.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
 
             var bundle = Task.Run(async () => await mClient.GetPostsAsync()).Result;
 
@@ -50,8 +50,8 @@ namespace DemoBlog.Tests.Api
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
-            var posts = loader.Data.Posts.Select(d => DataConverter.ToModel(d)).ToList();
-            var users = loader.Data.Users.Select(d => DataConverter.ToModel(d)).ToList();
+            var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d)).ToList();
+            var users = loader.Data.Users.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
 
             var bundle = Task.Run(async () => await mClient.GetPostsByDateAsync(DateTime.UtcNow.Date + new TimeSpan(dateOffset, 0, 0, 0))).Result;
 
@@ -67,8 +67,8 @@ namespace DemoBlog.Tests.Api
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
             Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
 
-            var post = DataConverter.ToModel(loader.Data.Posts.First());
-            var user = DataConverter.ToModel(loader.Data.Users.First());
+            var post = DataConverter.ToModelType(loader.Data.Posts.First());
+            var user = DataConverter.ToModelType(loader.Data.Users.First(), DataConverter.OutputTypeData);
 
             var bundle = Task.Run(async () => await mClient.GetSpecificPost(id)).Result;
 
@@ -82,7 +82,7 @@ namespace DemoBlog.Tests.Api
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
-            var post = DataConverter.ToModel(loader.Data.Posts.First());
+            var post = DataConverter.ToModelType(loader.Data.Posts.First());
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
@@ -98,7 +98,7 @@ namespace DemoBlog.Tests.Api
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
-            var post = DataConverter.ToModel(loader.Data.Posts.First());
+            var post = DataConverter.ToModelType(loader.Data.Posts.First());
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 
@@ -113,7 +113,7 @@ namespace DemoBlog.Tests.Api
 
             Assume.That(loader.Data.Posts, Has.Exactly(1).Items, Strings.WrongTestDataPostAmount);
 
-            var post = DataConverter.ToModel(loader.Data.Posts.First());
+            var post = DataConverter.ToModelType(loader.Data.Posts.First());
 
             var id = Task.Run(async () => await mClient.PostPost(post)).Result;
 

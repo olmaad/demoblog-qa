@@ -55,7 +55,7 @@ namespace DemoBlog.BaseBuilder
 
                 foreach (var user in users.Users)
                 {
-                    context.Users.Add(DataConverter.ToModel(user));
+                    context.Users.Add(DataConverter.ToModelType(new DataConverter.DataType<UserData>(user)));
                 }
 
                 var posts = new PostsData();
@@ -69,7 +69,7 @@ namespace DemoBlog.BaseBuilder
 
                 foreach (var post in posts.Posts)
                 {
-                    context.Posts.Add(DataConverter.ToModel(post));
+                    context.Posts.Add(DataConverter.ToModelType(post));
                 }
 
                 var comments = new CommentsData();

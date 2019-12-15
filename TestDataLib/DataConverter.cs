@@ -1,15 +1,29 @@
-﻿using DemoBlog.DataLib.Models;
+﻿using DemoBlog.DataLib.Arguments;
+using DemoBlog.DataLib.Models;
 using System;
 using System.Security.Cryptography;
 using System.Text;
 
 namespace DemoBlog.TestDataLib
 {
-    public class DataConverter
+    public static class DataConverter
     {
         private static SHA256 sha256 = SHA256.Create();
 
-        public static Post ToModel(PostData data)
+        /// <summary>
+        /// Used to specify conversion type (model data)
+        /// </summary>
+        public static OutputTypeDataClass OutputTypeData { get; } = null;
+
+        /// <summary>
+        /// Used to specify conversion type (create arguments)
+        /// </summary>
+        public static OutputTypeCreateClass OutputTypeCreate { get; } = null;
+
+        public class OutputTypeDataClass { }
+        public class OutputTypeCreateClass { }
+
+        public static Post ToModelType(PostData data)
         {
             return new Post()
             {
@@ -22,7 +36,7 @@ namespace DemoBlog.TestDataLib
             };
         }
 
-        public static User ToModel(UserData data)
+        public static User ToModelType(UserData data, OutputTypeDataClass o)
         {
             return new User()
             {
@@ -30,6 +44,16 @@ namespace DemoBlog.TestDataLib
                 Login = data.Login,
                 Name = data.Name,
                 PasswordHash = sha256.ComputeHash(Encoding.UTF8.GetBytes(data.Password))
+            };
+        }
+        
+        public static UserCreateArguments ToModelType(UserData data, OutputTypeCreateClass o)
+        {
+            return new UserCreateArguments()
+            {
+                Login = data.Login,
+                Name = data.Name,
+                Password = data.Password
             };
         }
     }

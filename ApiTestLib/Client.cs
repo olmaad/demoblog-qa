@@ -1,4 +1,5 @@
-﻿using DemoBlog.DataLib.Bundles;
+﻿using DemoBlog.DataLib.Arguments;
+using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using Newtonsoft.Json;
 using System;
@@ -62,6 +63,13 @@ namespace DemoBlog.ApiTestLib
             long id = long.Parse(responseString);
 
             return id;
+        }
+
+        public async Task<bool> PostUser(UserCreateArguments user)
+        {
+            var response = await mClient.PostAsync(mHost + "/api/user", new StringContent(JsonConvert.SerializeObject(user), Encoding.UTF8, "application/json"));
+
+            return response.IsSuccessStatusCode;
         }
     }
 }

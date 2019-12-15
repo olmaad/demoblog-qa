@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System.Linq;
 using DemoBlog.Backend.Services;
 using DemoBlog.DataLib.Models;
+using DemoBlog.DataLib.Arguments;
 
 namespace DemoBlog.Backend.Controllers
 {
@@ -13,13 +14,6 @@ namespace DemoBlog.Backend.Controllers
     {
         private DataService mDataService;
         private SHA256 sha256;
-
-        public class UserCreateParameters
-        {
-            public string Login { get; set; }
-            public string Password { get; set; }
-            public string Name { get; set; }
-        }
 
         public UserController(DataService service)
         {
@@ -44,7 +38,7 @@ namespace DemoBlog.Backend.Controllers
 
         // POST: api/User
         [HttpPost]
-        public IActionResult Post([FromBody] UserCreateParameters value)
+        public IActionResult Post([FromBody] UserCreateArguments value)
         {
             if (string.IsNullOrEmpty(value.Login) || string.IsNullOrEmpty(value.Name) || string.IsNullOrEmpty(value.Password))
             {

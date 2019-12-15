@@ -123,6 +123,9 @@
   <data name="IdReturnedInsteadOfError" xml:space="preserve">
     <value>Id returned instead of error</value>
   </data>
+  <data name="SuccessReturned" xml:space="preserve">
+    <value>Success returned instead of error</value>
+  </data>
   <data name="WrongPost" xml:space="preserve">
     <value>Wrong post</value>
   </data>

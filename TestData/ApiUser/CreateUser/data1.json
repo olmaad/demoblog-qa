@@ -1,0 +1,10 @@
+{
+	"users": [
+		{
+			"id": 0,
+			"login": "ApiCreateUser",
+			"password": "ApiCreateUser",
+			"name": "ApiCreateUser"
+		}
+	]
+}
