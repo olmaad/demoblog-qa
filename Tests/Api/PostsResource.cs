@@ -6,10 +6,8 @@ using DemoBlog.Tests.Resources;
 using NUnit.Framework;
 using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 
 namespace DemoBlog.Tests.Api
@@ -25,7 +23,7 @@ namespace DemoBlog.Tests.Api
         {
             mDataLoaderFactory = new DataLoaderFactory()
             {
-                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/")
+                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiPosts")
             };
 
             mClient = new Client("http://localhost:8080/");
