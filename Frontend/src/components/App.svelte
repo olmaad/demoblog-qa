@@ -144,7 +144,7 @@
 		const session = get(DataStore.session);
 
 		if (session != null) {
-			await Api.removeSessionAsync(session.id);
+			await Api.removeSessionAsync(session.key);
 		}
 
 		localStorage.removeItem("sessionRestore");

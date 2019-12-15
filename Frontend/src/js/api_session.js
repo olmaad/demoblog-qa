@@ -46,8 +46,8 @@ export const restoreSessionAsync = async function(restoreKey) {
     return bundle;
 };
 
-export const removeSessionAsync = async function(id) {
-    const response = await fetch("/api/session/" + id, {
+export const removeSessionAsync = async function(key) {
+    const response = await fetch("/api/session/" + key, {
         method: "DELETE"
     });
 
