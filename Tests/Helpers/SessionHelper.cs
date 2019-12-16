@@ -2,7 +2,6 @@
 using DemoBlog.DataLib.Arguments;
 using DemoBlog.DataLib.Bundles;
 using DemoBlog.TestDataLib;
-using System.Threading.Tasks;
 
 namespace DemoBlog.Tests.Helpers
 {
@@ -24,7 +23,18 @@ namespace DemoBlog.Tests.Helpers
                 Password = data.Password
             };
 
-            return Task.Run(async () => await mClient.PostSessionAsync(arguments)).Result;
+            return mClient.PostSessionAsync(arguments).Result;
+        }
+
+        public SessionBundle Restore(string restoreKey)
+        {
+            var arguments = new SessionCreateArguments()
+            {
+                Restore = true,
+                RestoreKey = restoreKey
+            };
+
+            return mClient.PostSessionAsync(arguments).Result;
         }
     }
 }
