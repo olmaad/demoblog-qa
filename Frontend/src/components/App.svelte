@@ -154,12 +154,20 @@
 	};
 
 	const handleSubmitComment = async function(event) {
+		const session = get(DataStore.session);
+
+		if (session == null) {
+			// TODO: Show error
+
+			return;
+		}
+
 		let comment = new Comment();
 		comment.userId = get(DataStore.user).id;
 		comment.postId = event.detail.postId;
 		comment.text = event.detail.text;
 
-		comment.id = await Api.submitCommentAsync(comment);
+		comment.id = await Api.submitCommentAsync(session.key, comment);
 
 		if (comment.id != null) {
 			addComment(comment);

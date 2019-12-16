@@ -135,6 +135,9 @@
   <data name="WrongPostList" xml:space="preserve">
     <value>Неверный список постов</value>
   </data>
+  <data name="WrongTestDataCommentAmount" xml:space="preserve">
+    <value>Неверное количество комментариев в тестовых данных</value>
+  </data>
   <data name="WrongTestDataPostAmount" xml:space="preserve">
     <value>Неверное количество постов в тестовых данных</value>
   </data>

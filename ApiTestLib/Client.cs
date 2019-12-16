@@ -82,5 +82,23 @@ namespace DemoBlog.ApiTestLib
 
             return bundle;
         }
+
+        public async Task<bool> DeleteSessionAsync(string key)
+        {
+            var response = await mClient.DeleteAsync(mHost + "/api/session/" + key);
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<long> PostCommentAsync(CommentCreateArguments arguments)
+        {
+            var response = await mClient.PostAsync(mHost + "/api/comment", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            long id = long.Parse(responseString);
+
+            return id;
+        }
     }
 }

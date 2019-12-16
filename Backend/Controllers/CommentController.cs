@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using DemoBlog.Backend.Services;
+using DemoBlog.DataLib.Arguments;
 using DemoBlog.DataLib.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -67,27 +68,34 @@ namespace DemoBlog.Backend.Controllers
 
         // POST: api/Comment
         [HttpPost]
-        public long Post([FromBody] Comment value)
+        public long Post([FromBody] CommentCreateArguments value)
         {
-            if (value.Text == null)
+            if (string.IsNullOrEmpty(value.SessionKey) || string.IsNullOrEmpty(value.Comment.Text))
             {
                 return -1;
             }
 
-            bool postExists = (mDataService.DbContext.Posts.Find(value.PostId) != null);
-            bool userExists = (mDataService.DbContext.Users.Find(value.UserId) != null);
+            var session = mDataService.DbContext.Sessions.Where(s => s.Key == value.SessionKey).FirstOrDefault();
+
+            if (session == null)
+            {
+                return -1;
+            }
+
+            bool postExists = (mDataService.DbContext.Posts.Find(value.Comment.PostId) != null);
+            bool userExists = (mDataService.DbContext.Users.Find(value.Comment.UserId) != null);
 
             if (!postExists || !userExists)
             {
                 return -1;
             }
 
-            value.Id = 0;
+            value.Comment.Id = 0;
 
-            mDataService.DbContext.Comments.Add(value);
+            mDataService.DbContext.Comments.Add(value.Comment);
             mDataService.DbContext.SaveChanges();
 
-            return value.Id;
+            return value.Comment.Id;
         }
 
         // PUT: api/Comment/5

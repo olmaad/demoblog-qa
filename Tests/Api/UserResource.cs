@@ -39,7 +39,7 @@ namespace DemoBlog.Tests.Api
 
             var ok = Task.Run(async () => await mClient.PostUser(user)).Result;
 
-            Assert.That(ok, Is.EqualTo(true), Strings.ErrorReturned);
+            Assert.That(ok, Is.True, Strings.ErrorReturned);
         }
 
         [TestCase("CreateUserNegative/data1.json")]
@@ -57,7 +57,7 @@ namespace DemoBlog.Tests.Api
 
             var ok = Task.Run(async () => await mClient.PostUser(user)).Result;
 
-            Assert.That(ok, Is.EqualTo(false), Strings.SuccessReturned);
+            Assert.That(ok, Is.False, Strings.SuccessReturned);
         }
     }
 }

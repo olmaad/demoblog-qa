@@ -65,5 +65,25 @@ namespace DemoBlog.TestDataLib
                 Password = data.Password
             };
         }
+
+        public static CommentCreateArguments ToModelType(string sessionKey, CommentData data, OutputTypeCreateClass o)
+        {
+            return new CommentCreateArguments()
+            {
+                SessionKey = sessionKey,
+                Comment = ToModelType(data, OutputTypeData)
+            };
+        }
+
+        public static Comment ToModelType(CommentData data, OutputTypeDataClass o)
+        {
+            return new Comment()
+            {
+                Id = 0,
+                PostId = data.PostId,
+                UserId = data.UserId,
+                Text = data.Text
+            };
+        }
     }
 }

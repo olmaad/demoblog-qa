@@ -135,6 +135,9 @@
   <data name="WrongPostList" xml:space="preserve">
     <value>Wrong post list</value>
   </data>
+  <data name="WrongTestDataCommentAmount" xml:space="preserve">
+    <value>Wrong comment amount in test data</value>
+  </data>
   <data name="WrongTestDataPostAmount" xml:space="preserve">
     <value>Wrong post amount in test data</value>
   </data>

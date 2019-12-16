@@ -66,7 +66,7 @@ namespace DemoBlog.Backend.Controllers
         }
 
         // DELETE: api/ApiWithActions/5
-        [HttpDelete("{id}")]
+        [HttpDelete("{key}")]
         public void Delete(string key)
         {
             var session = mDataService.DbContext.Sessions.Where(s => s.Key == key).FirstOrDefault();

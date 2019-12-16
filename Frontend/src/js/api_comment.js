@@ -1,13 +1,13 @@
 import { User, Comment, Vote } from './model.js';
 import { buildGetQuery } from "./api_util.js";
 
-export const submitCommentAsync = async function(comment) {
+export const submitCommentAsync = async function(sessionKey, comment) {
     const response = await fetch("/api/comment", {
         headers: {
             "Content-Type": "application/json"
         },
         method: "POST",
-        body: JSON.stringify(comment)
+        body: JSON.stringify({ sessionKey: sessionKey, comment: comment })
     });
 
     if (!response.ok) {

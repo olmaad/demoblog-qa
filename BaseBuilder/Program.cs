@@ -69,7 +69,7 @@ namespace DemoBlog.BaseBuilder
 
                 foreach (var post in posts.Posts)
                 {
-                    context.Posts.Add(DataConverter.ToModelType(post));
+                    context.Posts.Add(DataConverter.ToModelType(post, DataConverter.OutputTypeData));
                 }
 
                 var comments = new CommentsData();
@@ -83,12 +83,7 @@ namespace DemoBlog.BaseBuilder
 
                 foreach (var comment in comments.Comments)
                 {
-                    context.Comments.Add(new Comment()
-                    {
-                        PostId = comment.PostId,
-                        UserId = comment.UserId,
-                        Text = comment.Text
-                    });
+                    context.Comments.Add(DataConverter.ToModelType(comment, DataConverter.OutputTypeData));
                 }
 
                 context.SaveChanges();

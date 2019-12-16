@@ -1,0 +1,18 @@
+{
+	"users": [
+		{
+			"id": 2,
+			"login": "2",
+			"password": "2",
+			"name": "Alice"
+		}
+	],
+
+	"comments" : [
+		{
+			"postId": 1,
+			"userId": 2,
+			"text": "Hello world"
+		}
+	]
+}

@@ -7,7 +7,6 @@ using DemoBlog.Tests.Resources;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DemoBlog.Tests.Api
 {
@@ -45,7 +44,26 @@ namespace DemoBlog.Tests.Api
 
             var bundle = mSessionHelper.Create(user);
 
-            AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
+            mSessionHelper.AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
+        }
+
+        [TestCase("RecreateSession/data1.json")]
+        [TestCase("RecreateSession/data2.json")]
+        public void RecreateSession(string inputDataPath)
+        {
+            var loader = mDataLoaderFactory.Create(inputDataPath);
+
+            Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
+
+            var user = loader.Data.Users.First();
+
+            var bundle = mSessionHelper.Create(user);
+
+            mSessionHelper.AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
+
+            bundle = mSessionHelper.Create(user);
+
+            mSessionHelper.AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
         }
 
         [TestCase("CreateSessionNegative/data1.json")]
@@ -75,11 +93,11 @@ namespace DemoBlog.Tests.Api
 
             var bundle = mSessionHelper.Create(user);
 
-            AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
+            mSessionHelper.AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
 
             var restoredBundle = mSessionHelper.Restore(bundle.Session.RestoreKey);
 
-            AssertSessionBundle(restoredBundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
+            mSessionHelper.AssertSessionBundle(restoredBundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
         }
 
         [TestCase("")]
@@ -91,22 +109,31 @@ namespace DemoBlog.Tests.Api
             AssertSessionBundleNegative(bundle);
         }
 
-        private void AssertSessionBundle(SessionBundle bundle, User user)
+        [TestCase("RemoveSession/data1.json")]
+        [TestCase("RemoveSession/data2.json")]
+        public void RemoveSession(string inputDataPath)
         {
-            Assert.Multiple(() =>
-            {
-                Assert.That(bundle.Session.Valid, Is.EqualTo(true), Strings.ErrorReturned);
-                Assert.That(bundle.Session.UserId, Is.EqualTo(user.Id), Strings.WrongUser);
-                Assert.That(bundle.User, Is.EqualTo(user), Strings.WrongUser);
-            });
+            var loader = mDataLoaderFactory.Create(inputDataPath);
+
+            Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
+
+            var user = loader.Data.Users.First();
+
+            var bundle = mSessionHelper.Create(user);
+
+            mSessionHelper.AssertSessionBundle(bundle, DataConverter.ToModelType(user, DataConverter.OutputTypeData));
+
+            var ok = mClient.DeleteSessionAsync(bundle.Session.Key).Result;
+
+            Assert.That(ok, Is.True, Strings.ErrorReturned);
         }
 
         private void AssertSessionBundleNegative(SessionBundle bundle)
         {
             Assert.Multiple(() =>
             {
-                Assert.That(bundle.Session.Valid, Is.EqualTo(false), Strings.SuccessReturned);
-                Assert.That(bundle.User, Is.EqualTo(null), Strings.WrongUser);
+                Assert.That(bundle.Session.Valid, Is.False, Strings.SuccessReturned);
+                Assert.That(bundle.User, Is.Null, Strings.WrongUser);
             });
         }
     }
