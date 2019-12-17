@@ -36,7 +36,6 @@ namespace DemoBlog.Tests.Api
             };
         }
 
-        [Order(1)]
         [TestCase("LoadPostListAnonymous/data.json")]
         public void LoadPostListAnonymous(string expectedDataPath)
         {
@@ -50,7 +49,6 @@ namespace DemoBlog.Tests.Api
             AssertPostListBundle(bundle, posts, users);
         }
 
-        [Order(1)]
         [TestCase(0, "LoadPostListAnonymousWithDate/data.json")]
         [TestCase(-1, "LoadPostListAnonymousWithDate/data2.json")]
         public void LoadPostListAnonymousWithDate(int dateOffset, string expectedDataPath)
@@ -66,7 +64,7 @@ namespace DemoBlog.Tests.Api
         }
 
         [TestCase(1, "LoadSpecificPostAnonymous/data1.json")]
-        [TestCase(2, "LoadSpecificPostAnonymous/data2.json")]
+        [TestCase(3, "LoadSpecificPostAnonymous/data2.json")]
         public void LoadSpecificPostAnonymous(long id, string expectedDataPath)
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
@@ -138,8 +136,8 @@ namespace DemoBlog.Tests.Api
         {
             Assert.Multiple(() =>
             {
-                Assert.That(bundle.Posts, Is.EquivalentTo(posts), Strings.WrongPostList);
-                Assert.That(bundle.Users, Is.EquivalentTo(users), Strings.WrongUserList);
+                Assert.That(bundle.Posts, Is.SupersetOf(posts), Strings.WrongPostList);
+                Assert.That(bundle.Users, Is.SupersetOf(users), Strings.WrongUserList);
             });
         }
 

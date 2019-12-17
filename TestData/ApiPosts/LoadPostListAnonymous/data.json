@@ -7,6 +7,15 @@
 			"preview": "Превью",
 			"content": "Содержимое",
 			"dateOffset": 0
+		},
+		
+		{
+			"id": 2,
+			"userId": 1,
+			"title": "Пост для проверки комментариев",
+			"preview": "Превью",
+			"content": "Содержимое",
+			"dateOffset": 0
 		}
 	],
 	

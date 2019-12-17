@@ -26,7 +26,7 @@ namespace DemoBlog.Backend.Controllers
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
-            var dateDefaulted = DateTimeOffset.UtcNow;
+            var dateDefaulted = new DateTimeOffset(DateTime.UtcNow.Date);
 
             if (date != null)
             {
@@ -37,8 +37,6 @@ namespace DemoBlog.Backend.Controllers
                     dateDefaulted = temp;
                 }
             }
-
-            var allposts = mDataService.DbContext.Posts.ToList();
 
             var query = from post in mDataService.DbContext.Posts
                         join user in mDataService.DbContext.Users on post.UserId equals user.Id

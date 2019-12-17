@@ -6,6 +6,7 @@ using System;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web;
 
 namespace DemoBlog.ApiTestLib
 {
@@ -38,7 +39,10 @@ namespace DemoBlog.ApiTestLib
 
         public async Task<PostListBundle> GetPostsByDateAsync(DateTime date)
         {
-            var response = await mClient.GetStringAsync(mHost + "/api/posts?date=" + date.ToString("yyyy-MM-dd"));
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["date"] = date.ToString("yyyy-MM-dd:zzz");
+
+            var response = await mClient.GetStringAsync(mHost + "/api/posts?" + query.ToString());
 
             var bundle = JsonConvert.DeserializeObject<PostListBundle>(response, mSerializerSettings);
 
