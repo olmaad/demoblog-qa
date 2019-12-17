@@ -2,6 +2,7 @@
 using System.Linq;
 using DemoBlog.Backend.Services;
 using DemoBlog.DataLib.Arguments;
+using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using Microsoft.AspNetCore.Mvc;
 
@@ -12,13 +13,6 @@ namespace DemoBlog.Backend.Controllers
     public class CommentController : ControllerBase
     {
         private DataService mDataService;
-
-        public class CommentReturnBundle
-        {
-            public IEnumerable<Comment> Comments { get; set; }
-            public IEnumerable<User> Users { get; set; }
-            public IEnumerable<Vote> Votes { get; set; }
-        }
 
         public CommentController(DataService service)
         {
@@ -34,7 +28,7 @@ namespace DemoBlog.Backend.Controllers
 
         // GET: api/Comment/5
         [HttpGet("{postId}", Name = "GetComments")]
-        public CommentReturnBundle Get(long postId, long? userId)
+        public CommentBundle Get(long postId, long? userId)
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
@@ -58,7 +52,7 @@ namespace DemoBlog.Backend.Controllers
             var users = query.Select(o => o.User).Distinct().ToList().ToList();
             var votes = query.Where(o => o.Vote != null).Select(o => o.Vote).ToList();
 
-            return new CommentReturnBundle()
+            return new CommentBundle()
             {
                 Comments = comments,
                 Users = users,
@@ -70,7 +64,7 @@ namespace DemoBlog.Backend.Controllers
         [HttpPost]
         public long Post([FromBody] CommentCreateArguments value)
         {
-            if (string.IsNullOrEmpty(value.SessionKey) || string.IsNullOrEmpty(value.Comment.Text))
+            if (string.IsNullOrEmpty(value.SessionKey) || string.IsNullOrEmpty(value.Text))
             {
                 return -1;
             }
@@ -82,20 +76,24 @@ namespace DemoBlog.Backend.Controllers
                 return -1;
             }
 
-            bool postExists = (mDataService.DbContext.Posts.Find(value.Comment.PostId) != null);
-            bool userExists = (mDataService.DbContext.Users.Find(value.Comment.UserId) != null);
+            bool postExists = (mDataService.DbContext.Posts.Find(value.PostId) != null);
 
-            if (!postExists || !userExists)
+            if (!postExists)
             {
                 return -1;
             }
 
-            value.Comment.Id = 0;
+            var comment = new Comment()
+            {
+                UserId = session.UserId,
+                PostId = value.PostId,
+                Text = value.Text
+            };
 
-            mDataService.DbContext.Comments.Add(value.Comment);
+            mDataService.DbContext.Comments.Add(comment);
             mDataService.DbContext.SaveChanges();
 
-            return value.Comment.Id;
+            return comment.Id;
         }
 
         // PUT: api/Comment/5

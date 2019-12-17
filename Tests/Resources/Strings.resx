@@ -129,6 +129,9 @@
   <data name="SuccessReturned" xml:space="preserve">
     <value>Success returned instead of error</value>
   </data>
+  <data name="WrongCommentList" xml:space="preserve">
+    <value>Wrong comment list</value>
+  </data>
   <data name="WrongPost" xml:space="preserve">
     <value>Wrong post</value>
   </data>

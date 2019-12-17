@@ -14,8 +14,7 @@ namespace DemoBlog.BaseBuilder
         {
             if (args.Length < 1)
             {
-                Console.WriteLine("Usage: DemoBlogBaseBuilder <data folder path>");
-                Console.ReadKey();
+                Console.WriteLine("Usage: DemoBlogBaseBuilder <data folder path> <output folder path>");
                 return;
             }
 
@@ -24,8 +23,20 @@ namespace DemoBlog.BaseBuilder
             if (!Directory.Exists(dataFolderPath))
             {
                 Console.WriteLine("Data folder not exists");
-                Console.ReadKey();
                 return;
+            }
+
+            string outputFolderPath = null;
+
+            if (args.Length > 1)
+            {
+                outputFolderPath = args[1];
+
+                if (!Directory.Exists(outputFolderPath))
+                {
+                    Console.WriteLine("Output folder not exists");
+                    return;
+                }
             }
 
             try
@@ -89,6 +100,11 @@ namespace DemoBlog.BaseBuilder
                 context.SaveChanges();
 
                 Console.WriteLine("Base created");
+
+                if (outputFolderPath != null)
+                {
+                    File.Copy("blog.db", Path.Combine(outputFolderPath, "blog.db"));
+                }
             }
             catch (Exception e)
             {

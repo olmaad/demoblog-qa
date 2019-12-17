@@ -71,7 +71,8 @@ namespace DemoBlog.TestDataLib
             return new CommentCreateArguments()
             {
                 SessionKey = sessionKey,
-                Comment = ToModelType(data, OutputTypeData)
+                PostId = data.PostId,
+                Text = data.Text
             };
         }
 

@@ -8,8 +8,11 @@
     let itemList = [];
 
     let dateUnsubscribe = date.subscribe(async function(value) {
-        let previous = new Date(value.getTime());
-        previous.setHours(-24);
+        let previous = new Date();
+        previous.setTime(value.getTime());
+        previous.setHours(previous.getHours() - 24);
+
+        console.debug("PREV " + previous);
 
         let current = new Date(value.getTime());
 
@@ -27,6 +30,8 @@
     });
 
     const handleClick = async function(event) {
+        console.debug("Date changed to " + event.detail.date);
+
         $date = event.detail.date;
     };
 

@@ -100,5 +100,14 @@ namespace DemoBlog.ApiTestLib
 
             return id;
         }
+        
+        public async Task<CommentBundle> GetCommentsAsync(long postId, long? userId = null)
+        {
+            var responseString = await mClient.GetStringAsync(mHost + "/api/comment/" + postId);
+
+            var bundle = JsonConvert.DeserializeObject<CommentBundle>(responseString, mSerializerSettings);
+
+            return bundle;
+        }
     }
 }

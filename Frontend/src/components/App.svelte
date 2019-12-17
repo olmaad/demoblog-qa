@@ -162,14 +162,15 @@
 			return;
 		}
 
-		let comment = new Comment();
-		comment.userId = get(DataStore.user).id;
-		comment.postId = event.detail.postId;
-		comment.text = event.detail.text;
+		const id = await Api.submitCommentAsync(session.key, event.detail.postId, event.detail.text);
 
-		comment.id = await Api.submitCommentAsync(session.key, comment);
+		if (id != null && id != -1) {
+			let comment = new Comment();
+			comment.id = id;
+			comment.userId = get(DataStore.user).id;
+			comment.postId = event.detail.postId;
+			comment.text = event.detail.text;
 
-		if (comment.id != null) {
 			addComment(comment);
 		}
 	};

@@ -1,4 +1,5 @@
 ﻿using DemoBlog.DataLib.Models.Rating;
+using Newtonsoft.Json;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -21,6 +22,35 @@ namespace DemoBlog.DataLib.Models
         public object Clone()
         {
             return MemberwiseClone();
+        }
+
+        public bool Equals(Comment other)
+        {
+            if (other == null)
+            {
+                return false;
+            }
+
+            return (
+                PostId == other.PostId &&
+                UserId == other.UserId &&
+                Text == other.Text &&
+                Math.Abs(Rating - other.Rating) < 0.001);
+        }
+
+        public override bool Equals(object other)
+        {
+            return Equals(other as Comment);
+        }
+
+        public override int GetHashCode()
+        {
+            return Text.GetHashCode();
+        }
+
+        public override string ToString()
+        {
+            return JsonConvert.SerializeObject(this);
         }
     }
 }

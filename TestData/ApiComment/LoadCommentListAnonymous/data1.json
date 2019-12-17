@@ -1,17 +1,21 @@
 {
+	"users": [
+		{
+			"id": 1,
+			"login": "1",
+			"password": "1",
+			"name": "Olma"
+		},
+		
+		{
+			"id": 2,
+			"login": "2",
+			"password": "2",
+			"name": "Alice"
+		}
+	],
+
 	"comments": [
-		{
-			"postId": 1,
-			"userId": 2,
-			"text": "Отличный пост"
-		},
-		
-		{
-			"postId": 1,
-			"userId": 2,
-			"text": "Почитаю позже"
-		},
-		
 		{
 			"postId": 2,
 			"userId": 1,
