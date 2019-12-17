@@ -29,7 +29,7 @@ namespace DemoBlog.TestDataLib
             {
                 Id = data.Id,
                 UserId = data.UserId,
-                Date = (DateTime.UtcNow.Date + new TimeSpan(data.DateOffset, 0, 0, 0)),
+                Date = (DateTimeOffset.UtcNow.Date + new TimeSpan(data.DateOffset, 0, 0, 0)),
                 Title = data.Title,
                 Preview = data.Preview,
                 Content = data.Content

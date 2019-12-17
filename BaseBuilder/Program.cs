@@ -103,7 +103,7 @@ namespace DemoBlog.BaseBuilder
 
                 if (outputFolderPath != null)
                 {
-                    File.Copy("blog.db", Path.Combine(outputFolderPath, "blog.db"));
+                    File.Copy("blog.db", Path.Combine(outputFolderPath, "blog.db"), true);
                 }
             }
             catch (Exception e)
