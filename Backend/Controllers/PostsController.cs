@@ -26,17 +26,19 @@ namespace DemoBlog.Backend.Controllers
         {
             long userIdDefaulted = (userId == null) ? -1 : userId.Value;
 
-            DateTime dateDefaulted = DateTime.UtcNow;
+            var dateDefaulted = DateTimeOffset.UtcNow;
 
             if (date != null)
             {
-                DateTime temp;
+                DateTimeOffset temp;
 
-                if (DateTime.TryParseExact(date, "yyyy-MM-dd", null, 0, out temp))
+                if (DateTimeOffset.TryParseExact(date, "yyyy-MM-dd:zzz", null, System.Globalization.DateTimeStyles.AdjustToUniversal, out temp))
                 {
                     dateDefaulted = temp;
                 }
             }
+
+            var allposts = mDataService.DbContext.Posts.ToList();
 
             var query = from post in mDataService.DbContext.Posts
                         join user in mDataService.DbContext.Users on post.UserId equals user.Id
@@ -52,7 +54,7 @@ namespace DemoBlog.Backend.Controllers
                         into voteJoin
                         from p in personaJoin.DefaultIfEmpty()
                         from v in voteJoin.DefaultIfEmpty()
-                        where post.Date.Date >= dateDefaulted.Date && post.Date.Date < dateDefaulted.AddDays(1).Date
+                        where post.Date >= dateDefaulted && post.Date < dateDefaulted.AddDays(1)
                         select new
                         {
                             Rating = post.Rating * user.Rating * (p != null ? p.Rating : 1),
@@ -125,7 +127,7 @@ namespace DemoBlog.Backend.Controllers
             }
 
             value.Post.Id = 0;
-            value.Post.Date = DateTime.UtcNow;
+            value.Post.Date = DateTimeOffset.UtcNow;
 
             mDataService.DbContext.Add(value.Post);
             mDataService.DbContext.SaveChanges();

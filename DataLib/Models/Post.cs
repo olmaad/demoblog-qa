@@ -7,6 +7,8 @@ namespace DemoBlog.DataLib.Models
 {
     public class Post : ICloneable, IRatingEntity, IEquatable<Post>
     {
+        private DateTimeOffset mDate;
+
         [JsonIgnore]
         public double WeightToSelf { get; } = RatingWeights.PostVoteToPost;
         [JsonIgnore]
@@ -21,7 +23,17 @@ namespace DemoBlog.DataLib.Models
         public string Title { get; set; }
         public string Preview { get; set; }
         public string Content { get; set; }
-        public DateTime Date { get; set; }
+        public DateTimeOffset Date
+        {
+            get
+            {
+                return mDate;
+            }
+            set
+            {
+                mDate = new DateTimeOffset(value.DateTime, new TimeSpan());
+            }
+        }
         public double Rating { get; set; } = 1;
 
         public object Clone()

@@ -1,3 +1,5 @@
+import moment from "moment";
+
 import { User, Post, Vote } from './model.js';
 import { buildGetQuery } from "./api_util.js";
 
@@ -9,7 +11,7 @@ export const loadPostsAsync = async function(session, date) {
     }
 
     if (date != null) {
-        queryParams["date"] = "" + date.getUTCFullYear() + "-" + (date.getUTCMonth() + 1).toString().padStart(2, "0") + "-" + date.getUTCDate().toString().padStart(2, "0");
+        queryParams["date"] = "" + moment(date).format("YYYY-MM-DD:Z");
     }
 
     const query = await buildGetQuery(queryParams);
