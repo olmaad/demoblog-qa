@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DemoBlog.Backend.Services;
+using DemoBlog.DataLib.Arguments;
 using DemoBlog.DataLib.Models;
 using DemoBlog.DataLib.Models.Rating;
 using Microsoft.AspNetCore.Mvc;
@@ -35,25 +36,40 @@ namespace DemoBlog.Backend.Controllers
 
         // POST: api/Vote
         [HttpPost]
-        public IActionResult Post([FromBody] Vote value)
+        public IActionResult Post([FromBody] VoteCreateArguments value)
         {
-            if (value.Value == 0
-                || mDataService.DbContext.Votes.Count(v => v.Type == value.Type && v.EntityId == value.EntityId && v.UserId == value.UserId) != 0)
+            if (string.IsNullOrEmpty(value.SessionKey) || value.Vote == null)
             {
                 return BadRequest();
             }
 
-            var result = UpdateRating(value.Type, value.EntityId, value.UserId, 0, value.Value);
+            var session = mDataService.DbContext.Sessions.Where(s => s.Key == value.SessionKey).FirstOrDefault();
+
+            if (session == null)
+            {
+                return BadRequest();
+            }
+
+            var vote = value.Vote;
+            vote.UserId = session.UserId;
+
+            if (vote.Value == 0
+                || mDataService.DbContext.Votes.Count(v => v.Type == vote.Type && v.EntityId == vote.EntityId && v.UserId == vote.UserId) != 0)
+            {
+                return BadRequest();
+            }
+
+            var result = UpdateRating(vote.Type, vote.EntityId, vote.UserId, 0, vote.Value);
 
             if (!result)
             {
                 return BadRequest();
             }
 
-            value.Id = 0;
-            value.Value = Math.Clamp(value.Value, -1, 1);
+            vote.Id = 0;
+            vote.Value = Math.Clamp(vote.Value, -1, 1);
 
-            mDataService.DbContext.Votes.Add(value);
+            mDataService.DbContext.Votes.Add(vote);
             mDataService.DbContext.SaveChanges();
 
             return Ok();
@@ -61,9 +77,16 @@ namespace DemoBlog.Backend.Controllers
 
         // PUT: api/Vote/5
         [HttpPut("{id}")]
-        public IActionResult Put(long id, [FromBody] Vote value)
+        public IActionResult Put(long id, [FromBody] VoteCreateArguments value)
         {
-            if (value.Value == 0)
+            if (string.IsNullOrEmpty(value.SessionKey) || value.Vote == null || value.Vote.Value == 0)
+            {
+                return BadRequest();
+            }
+
+            var session = mDataService.DbContext.Sessions.Where(s => s.Key == value.SessionKey).FirstOrDefault();
+
+            if (session == null)
             {
                 return BadRequest();
             }
@@ -75,14 +98,14 @@ namespace DemoBlog.Backend.Controllers
                 return BadRequest();
             }
 
-            var result = UpdateRating(vote.Type, vote.EntityId, vote.UserId, vote.Value, value.Value);
+            var result = UpdateRating(vote.Type, vote.EntityId, vote.UserId, vote.Value, value.Vote.Value);
 
             if (!result)
             {
                 return BadRequest();
             }
 
-            vote.Value = value.Value;
+            vote.Value = value.Vote.Value;
 
             mDataService.DbContext.SaveChanges();
 
@@ -91,8 +114,20 @@ namespace DemoBlog.Backend.Controllers
 
         // DELETE: api/Vote/5
         [HttpDelete("{id}")]
-        public IActionResult Delete(long id)
+        public IActionResult Delete(long id, string sessionKey)
         {
+            if (string.IsNullOrEmpty(sessionKey))
+            {
+                return BadRequest();
+            }
+
+            var session = mDataService.DbContext.Sessions.Where(s => s.Key == sessionKey).FirstOrDefault();
+
+            if (session == null)
+            {
+                return BadRequest();
+            }
+
             var vote = mDataService.DbContext.Votes.Find(id);
 
             if (vote == null)

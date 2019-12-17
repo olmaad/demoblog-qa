@@ -176,22 +176,29 @@
 	};
 
 	const handleVote = async function(event) {
+		const session = get(DataStore.session);
+
+		if (session == null) {
+			// TODO: Show error
+			return;
+		}
+
 		const vote = event.detail.vote;
 
 		if (vote == null) {
-			// TODO: Show authorization error
+			// TODO: Show error
 			return;
 		}
 
 		// TODO: Show result on error
 		if (vote.id < 0) {
-			const result = await Api.postVoteAsync(vote);
+			const result = await Api.postVoteAsync(session.key, vote);
 		}
 		else if (vote.value == 0) {
-			const result = await Api.deleteVoteAsync(vote);
+			const result = await Api.deleteVoteAsync(session.key, vote);
 		}
 		else {
-			const result = await Api.putVoteAsync(vote);
+			const result = await Api.putVoteAsync(session.key, vote);
 		}
 	};
 
