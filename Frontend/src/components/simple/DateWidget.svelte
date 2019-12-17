@@ -1,6 +1,8 @@
 <script>
     import { onDestroy } from "svelte";
 
+    import moment from "moment";
+
     import { date } from "./../../js/data_store.js";
 
     import DayItem from "./DayItem.svelte";
@@ -8,23 +10,16 @@
     let itemList = [];
 
     let dateUnsubscribe = date.subscribe(async function(value) {
-        let previous = new Date();
-        previous.setTime(value.getTime());
-        previous.setHours(previous.getHours() - 24);
-
-        console.debug("PREV " + previous);
-
-        let current = new Date(value.getTime());
-
-        let next = new Date(value.getTime());
-        next.setHours(next.getHours() + 24);
+        let previous = moment(value).subtract(1, "days").toDate();
+        let current = moment(value).toDate();
+        let next = moment(value).add(1, "days").toDate();
 
         itemList = [
             { highlighted: false, date: previous },
             { highlighted: true, date: current }
         ];
 
-        if (next <= (new Date())) {
+        if (moment(value).get("date") < moment().get("date")) {
             itemList.push({ highlighted: false, date: next });
         }
     });
