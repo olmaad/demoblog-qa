@@ -46,12 +46,12 @@ namespace DemoBlog.Tests.Api
 
             var bundle = Task.Run(async () => await mClient.GetPostsAsync()).Result;
 
-            AssertPostListBundle(bundle, posts, users);
+            AssertPostListBundle(false, bundle, posts, users);
         }
 
-        [TestCase(0, "LoadPostListAnonymousWithDate/data.json")]
-        [TestCase(-1, "LoadPostListAnonymousWithDate/data2.json")]
-        public void LoadPostListAnonymousWithDate(int dateOffset, string expectedDataPath)
+        [TestCase(false, 0, "LoadPostListAnonymousWithDate/data.json")]
+        [TestCase(true, -1, "LoadPostListAnonymousWithDate/data2.json")]
+        public void LoadPostListAnonymousWithDate(bool strictAssert, int dateOffset, string expectedDataPath)
         {
             var loader = mDataLoaderFactory.Create(expectedDataPath);
 
@@ -60,7 +60,7 @@ namespace DemoBlog.Tests.Api
 
             var bundle = Task.Run(async () => await mClient.GetPostsByDateAsync(DateTime.UtcNow.Date + new TimeSpan(dateOffset, 0, 0, 0))).Result;
 
-            AssertPostListBundle(bundle, posts, users);
+            AssertPostListBundle(strictAssert, bundle, posts, users);
         }
 
         [TestCase(1, "LoadSpecificPostAnonymous/data1.json")]
@@ -132,13 +132,24 @@ namespace DemoBlog.Tests.Api
             Assert.That(id, Is.EqualTo(-1), Strings.IdReturnedInsteadOfError);
         }
 
-        private void AssertPostListBundle(PostListBundle bundle, IEnumerable<Post> posts, IEnumerable<User> users)
+        private void AssertPostListBundle(bool strict, PostListBundle bundle, IEnumerable<Post> posts, IEnumerable<User> users)
         {
-            Assert.Multiple(() =>
+            if (strict)
             {
-                Assert.That(bundle.Posts, Is.SupersetOf(posts), Strings.WrongPostList);
-                Assert.That(bundle.Users, Is.SupersetOf(users), Strings.WrongUserList);
-            });
+                Assert.Multiple(() =>
+                {
+                    Assert.That(bundle.Posts, Is.EquivalentTo(posts), Strings.WrongPostList);
+                    Assert.That(bundle.Users, Is.EquivalentTo(users), Strings.WrongUserList);
+                });
+            }
+            else
+            {
+                Assert.Multiple(() =>
+                {
+                    Assert.That(bundle.Posts, Is.SupersetOf(posts), Strings.WrongPostList);
+                    Assert.That(bundle.Users, Is.SupersetOf(users), Strings.WrongUserList);
+                });
+            }
         }
 
         private void AssertPostBundle(PostBundle bundle, Post post, User user)
