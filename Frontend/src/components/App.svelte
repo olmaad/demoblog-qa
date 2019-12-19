@@ -175,9 +175,6 @@
 	};
 
 	const handleVote = async function(event) {
-		console.debug("WTF");
-		console.debug(event.detail);
-
 		const session = get(DataStore.session);
 
 		if (session == null) {

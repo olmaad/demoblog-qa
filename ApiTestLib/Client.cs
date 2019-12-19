@@ -114,16 +114,30 @@ namespace DemoBlog.ApiTestLib
             return bundle;
         }
 
-        public async Task<bool> PostVoteAsync(VoteCreateArguments arguments)
+        public async Task<long> PostVoteAsync(VoteCreateArguments arguments)
         {
             var response = await mClient.PostAsync(mHost + "/api/vote", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
+
+            var responseString = await response.Content.ReadAsStringAsync();
+
+            long id = long.Parse(responseString);
+
+            return id;
+        }
+
+        public async Task<bool> PutVoteAsync(long id, VoteCreateArguments arguments)
+        {
+            var response = await mClient.PutAsync(mHost + "/api/vote/" + id, new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
 
             return response.IsSuccessStatusCode;
         }
 
-        public async Task<bool> PutVoteAsync(VoteCreateArguments arguments)
+        public async Task<bool> DeleteVoteAsync(long id, string sessionKey)
         {
-            var response = await mClient.PutAsync(mHost + "/api/vote", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
+            var query = HttpUtility.ParseQueryString(string.Empty);
+            query["sessionKey"] = sessionKey;
+
+            var response = await mClient.DeleteAsync(mHost + "/api/vote/" + id + "?" + query.ToString());
 
             return response.IsSuccessStatusCode;
         }

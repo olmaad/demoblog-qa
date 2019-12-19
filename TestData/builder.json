@@ -114,6 +114,13 @@
 			"login": "4",
 			"password": "4",
 			"name": "Minus"
+		},
+
+		{
+			"id": 5,
+			"login": "5",
+			"password": "5",
+			"name": "VotePostAuthor"
 		}
 	]
 }

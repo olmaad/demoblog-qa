@@ -14,18 +14,20 @@ namespace DemoBlog.Tests.Helpers
             mClient = client;
         }
 
-        public bool Create(string sessionKey, VoteData data)
+        public long Create(string sessionKey, VoteData data)
         {
-            var ok = mClient.PostVoteAsync(DataConverter.ToModelType(sessionKey, data, DataConverter.OutputTypeCreate)).Result;
+            var id = mClient.PostVoteAsync(DataConverter.ToModelType(sessionKey, data, DataConverter.OutputTypeCreate)).Result;
 
-            return ok;
+            return id;
         }
 
-        public void CreateAndAssert(string sessionKey, VoteData data)
+        public long CreateAndAssert(string sessionKey, VoteData data)
         {
-            var ok = mClient.PostVoteAsync(DataConverter.ToModelType(sessionKey, data, DataConverter.OutputTypeCreate)).Result;
+            var id = mClient.PostVoteAsync(DataConverter.ToModelType(sessionKey, data, DataConverter.OutputTypeCreate)).Result;
 
-            Assert.That(ok, Is.True, Strings.ErrorReturned);
+            Assert.That(id, Is.GreaterThan(-1), Strings.ErrorReturned);
+
+            return id;
         }
     }
 }
