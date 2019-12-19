@@ -29,6 +29,15 @@ namespace DemoBlog.Tests.Helpers
             return mClient.PostSessionAsync(arguments).Result;
         }
 
+        public SessionBundle CreateAndAssert(UserData data)
+        {
+            var bundle = Create(data);
+
+            AssertSessionBundle(bundle, DataConverter.ToModelType(data, DataConverter.OutputTypeData));
+
+            return bundle;
+        }
+
         public SessionBundle Restore(string restoreKey)
         {
             var arguments = new SessionCreateArguments()

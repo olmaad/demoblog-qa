@@ -34,8 +34,7 @@ namespace DemoBlog.DataLib.Models
             return (
                 PostId == other.PostId &&
                 UserId == other.UserId &&
-                Text == other.Text &&
-                Math.Abs(Rating - other.Rating) < 0.001);
+                Text == other.Text);
         }
 
         public override bool Equals(object other)

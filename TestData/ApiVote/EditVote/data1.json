@@ -1,0 +1,19 @@
+{
+    "users": [
+		{
+			"id": 2,
+			"login": "2",
+			"password": "2",
+			"name": "Alice"
+		}
+    ],
+    
+    "votes": [
+        {
+            "type": 1,
+            "entityId": 1,
+            "userId": 2,
+            "value": -1
+        }
+    ]
+}

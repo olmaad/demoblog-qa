@@ -17,6 +17,9 @@ namespace DemoBlog.TestDataLib
         [JsonProperty]
         public IList<CommentData> Comments { get; set; }
 
+        [JsonProperty]
+        public IList<VoteData> Votes { get; set; }
+
         public override string ToString()
         {
             return Name;

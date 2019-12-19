@@ -1,8 +1,7 @@
 <script>
 	import { createEventDispatcher } from "svelte";
 
-	import { user as dataStoreUser, session, getPostBundle } from "./../../js/data_store.js";
-	import { consumeCommentBundle } from "./../../js/post_data_store.js";
+	import { user as dataStoreUser, session, getPostBundle, storeViewerPostId, storeViewerPost, storeViewerUser, storeViewerVote } from "./../../js/data_store.js";
 	import { loadCommentsAsync } from "./../../js/api.js";
 
 	import PostComponent from "./PostComponent.svelte";
@@ -11,24 +10,8 @@
 
 	export let postId = -1;
 
-	let post = null;
-	let user = null;
-	let vote = null;
-
-	const updateData = async function(id) {
-		let postBundle = await getPostBundle(id);
-
-		user = postBundle.user;
-		post = postBundle.post;
-		vote = postBundle.vote;
-
-		const commentBundle = await loadCommentsAsync(id, $session);
-
-		await consumeCommentBundle(commentBundle);
-	};
-
 	$: {
-		updateData(postId);
+		$storeViewerPostId = postId;
 	}
 
 	export const showPost = async function(bundle) {
@@ -75,13 +58,13 @@
 	}
 </style>
 
-{#if post != null}
+{#if $storeViewerPost != null}
 	<div class="viewer_container">
 		<PostComponent
 			mode={"content"}
-			post={post}
-			user={user}
-			vote={vote}
+			post={$storeViewerPost}
+			user={$storeViewerUser}
+			vote={$storeViewerVote}
 			on:vote/>
 		<div class="button_container">
 			<div style="width: 100%"/>
@@ -96,7 +79,7 @@
 			on:vote/>
 		{#if $dataStoreUser != null}
 			<CommentEditor
-				postId={post == null ? -1 : post.id}
+				postId={$storeViewerPost.id}
 				on:submitComment/>
 		{/if}
 	</div>

@@ -1,10 +1,9 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using DemoBlog.TestDataLib;
 
-namespace DemoBlog.Tests
+namespace DemoBlog.TestDataLib.Loader
 {
-    class DataLoader
+    public class DataLoader
     {
         private string mPath;
         private Data mData;

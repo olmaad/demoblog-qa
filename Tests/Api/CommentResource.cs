@@ -2,6 +2,7 @@
 using DemoBlog.DataLib.Bundles;
 using DemoBlog.DataLib.Models;
 using DemoBlog.TestDataLib;
+using DemoBlog.TestDataLib.Loader;
 using DemoBlog.Tests.Helpers;
 using DemoBlog.Tests.Resources;
 using NUnit.Framework;

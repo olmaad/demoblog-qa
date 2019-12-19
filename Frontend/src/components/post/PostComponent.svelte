@@ -16,7 +16,7 @@
     export let user = null;
     export let vote = null;
 
-    $: voteValue = (vote == null) ? 0 : vote.value; 
+    $: voteValue = (vote == null) ? 0 : vote.value;
 
     let md = new Remarkable().use(linkify);
 

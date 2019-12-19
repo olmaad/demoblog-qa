@@ -8,7 +8,6 @@
 	import * as Api from "./../js/api.js";
 	import { Comment, Vote, VoteType } from "./../js/model.js";
 	import * as DataStore from "./../js/data_store.js";
-	import { addComment } from "./../js/post_data_store.js";
 	import { updatePosts } from "./App.js";
 	import { init as initDataLoader } from "./../js/data_loader.js";
 
@@ -176,6 +175,9 @@
 	};
 
 	const handleVote = async function(event) {
+		console.debug("WTF");
+		console.debug(event.detail);
+
 		const session = get(DataStore.session);
 
 		if (session == null) {
@@ -190,15 +192,35 @@
 			return;
 		}
 
+		let update = false;
+
 		// TODO: Show result on error
 		if (vote.id < 0) {
 			const result = await Api.postVoteAsync(session.key, vote);
+
+			if (result >= 0) {
+				update = true;
+				vote.id = result;
+			}
 		}
 		else if (vote.value == 0) {
 			const result = await Api.deleteVoteAsync(session.key, vote);
+
+			if (result) {
+				update = true;
+				vote.id = -1;
+			}
 		}
 		else {
 			const result = await Api.putVoteAsync(session.key, vote);
+
+			if (result) {
+				update = true;
+			}
+		}
+
+		if (update) {
+			DataStore.handleVoteUpdate(vote);
 		}
 	};
 

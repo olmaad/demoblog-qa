@@ -3,7 +3,7 @@ export const buildGetQuery = async function(params) {
         .map(k => encodeURIComponent(k) + '=' + encodeURIComponent(params[k]))
         .join('&');
 
-    console.group("Api: build get query:");
+    console.groupCollapsed("Api: build get query:");
     console.debug("params:");
     console.debug(params);
     console.debug("query: " + query);

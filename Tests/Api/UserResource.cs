@@ -1,6 +1,7 @@
 ﻿using DemoBlog.ApiTestLib;
 using DemoBlog.TestDataLib;
 using DemoBlog.Tests.Resources;
+using DemoBlog.TestDataLib.Loader;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;

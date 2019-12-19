@@ -113,5 +113,19 @@ namespace DemoBlog.ApiTestLib
 
             return bundle;
         }
+
+        public async Task<bool> PostVoteAsync(VoteCreateArguments arguments)
+        {
+            var response = await mClient.PostAsync(mHost + "/api/vote", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
+
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<bool> PutVoteAsync(VoteCreateArguments arguments)
+        {
+            var response = await mClient.PutAsync(mHost + "/api/vote", new StringContent(JsonConvert.SerializeObject(arguments), Encoding.UTF8, "application/json"));
+
+            return response.IsSuccessStatusCode;
+        }
     }
 }

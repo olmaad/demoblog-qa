@@ -16,7 +16,7 @@ export const submitCommentAsync = async function(sessionKey, postId, text) {
 
     const id = Number(await response.text());
 
-    console.group("Api: posted comment:");
+    console.groupCollapsed("Api: posted comment:");
     console.debug("Id = " + id);
     console.groupEnd();
 
@@ -60,7 +60,7 @@ export const loadCommentsAsync = async function(postId, session) {
         votes.set(vote.entityId, vote);
     }
 
-    console.group("Api: loaded comments:");
+    console.groupCollapsed("Api: loaded comments:");
     console.debug(comments);
     console.debug(users);
     console.debug(votes);

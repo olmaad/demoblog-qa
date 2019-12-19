@@ -55,44 +55,26 @@ namespace DemoBlog.BaseBuilder
 
                 context.Database.EnsureCreated();
 
-                var users = new UsersData();
+                var data = new Data();
 
-                using (StreamReader reader = new StreamReader(dataFolderPath + "/users.json"))
+                using (StreamReader reader = new StreamReader(dataFolderPath + "/builder.json"))
                 {
                     var dataString = reader.ReadToEnd();
 
-                    users = JsonConvert.DeserializeObject<UsersData>(dataString);
+                    data = JsonConvert.DeserializeObject<Data>(dataString);
                 }
 
-                foreach (var user in users.Users)
+                foreach (var user in data.Users)
                 {
                     context.Users.Add(DataConverter.ToModelType(user, DataConverter.OutputTypeData));
                 }
 
-                var posts = new PostsData();
-
-                using (StreamReader reader = new StreamReader(dataFolderPath + "/posts.json"))
-                {
-                    var dataString = reader.ReadToEnd();
-
-                    posts = JsonConvert.DeserializeObject<PostsData>(dataString);
-                }
-
-                foreach (var post in posts.Posts)
+                foreach (var post in data.Posts)
                 {
                     context.Posts.Add(DataConverter.ToModelType(post, DataConverter.OutputTypeData));
                 }
 
-                var comments = new CommentsData();
-
-                using (StreamReader reader = new StreamReader(dataFolderPath + "/comments.json"))
-                {
-                    var dataString = reader.ReadToEnd();
-
-                    comments = JsonConvert.DeserializeObject<CommentsData>(dataString);
-                }
-
-                foreach (var comment in comments.Comments)
+                foreach (var comment in data.Comments)
                 {
                     context.Comments.Add(DataConverter.ToModelType(comment, DataConverter.OutputTypeData));
                 }

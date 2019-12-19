@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text;
+﻿using System.IO;
 
-namespace DemoBlog.Tests
+namespace DemoBlog.TestDataLib.Loader
 {
-    class DataLoaderFactory
+    public class DataLoaderFactory
     {
         public string BaseDirectoryPath { get; set; }
 

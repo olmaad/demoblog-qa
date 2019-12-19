@@ -147,6 +147,9 @@
   <data name="WrongTestDataUserAmount" xml:space="preserve">
     <value>Wrong user amount in test data</value>
   </data>
+  <data name="WrongTestDataVoteAmount" xml:space="preserve">
+    <value>Wrong vote amount in test data</value>
+  </data>
   <data name="WrongUser" xml:space="preserve">
     <value>Wrong user</value>
   </data>

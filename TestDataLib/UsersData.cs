@@ -1,5 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System.Collections.Generic;
 
 namespace DemoBlog.TestDataLib
 {
@@ -14,12 +13,5 @@ namespace DemoBlog.TestDataLib
         public string Password { get; set; }
         [JsonProperty]
         public string Name { get; set; }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
-    public class UsersData
-    {
-        [JsonProperty]
-        public IList<UserData> Users { get; set; }
     }
 }

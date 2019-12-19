@@ -26,7 +26,7 @@ export const createSessionAsync = async function(login, password) {
     const bundle = await postSessionAsync({ restore: false, login: login, password: password });
 
     if (bundle != null) {
-        console.group("Api: created session:");
+        console.groupCollapsed("Api: created session:");
         console.debug(bundle.session);
         console.groupEnd();
     }
@@ -38,7 +38,7 @@ export const restoreSessionAsync = async function(restoreKey) {
     const bundle = await postSessionAsync({ restore: true, restoreKey: restoreKey });
 
     if (bundle != null) {
-        console.group("Api: restored session:");
+        console.groupCollapsed("Api: restored session:");
         console.debug(bundle.session);
         console.groupEnd();
     }

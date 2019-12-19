@@ -24,7 +24,7 @@
 
 		let vote = $postVotes.get(postId)
 
-		console.group("PostList: found vote:");
+		console.groupCollapsed("PostList: found vote:");
 		console.debug(vote);
 		console.groupEnd();
 

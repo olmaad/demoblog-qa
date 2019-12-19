@@ -1,0 +1,119 @@
+{
+	"posts": [
+		{
+			"id": 1,
+			"userId": 1,
+			"title": "Заголовок поста",
+			"preview": "Превью",
+			"content": "Содержимое",
+			"dateOffset": 0
+		},
+		
+		{
+			"id": 2,
+			"userId": 1,
+			"title": "Пост для проверки комментариев",
+			"preview": "Превью",
+			"content": "Содержимое",
+			"dateOffset": 0
+		},
+		
+		{
+			"id": 3,
+			"userId": 1,
+			"title": "Заголовок поста",
+			"preview": "Превью",
+			"content": "Содержимое",
+			"dateOffset": -1
+		},
+
+		{
+			"id": 4,
+			"userId": 3,
+			"title": "Rating test post",
+			"preview": "Number 1",
+			"content": "By user #3",
+			"dateOffset": -2
+		},
+
+		{
+			"id": 5,
+			"userId": 4,
+			"title": "Rating test post",
+			"preview": "Number 2",
+			"content": "By user #4",
+			"dateOffset": -2
+		},
+
+		{
+			"id": 6,
+			"userId": 3,
+			"title": "Rating test post",
+			"preview": "Number 3",
+			"content": "By user #3",
+			"dateOffset": -2
+		}
+	],
+	
+	"comments": [
+		{
+			"postId": 1,
+			"userId": 2,
+			"text": "Отличный пост"
+		},
+		
+		{
+			"postId": 1,
+			"userId": 2,
+			"text": "Почитаю позже"
+		},
+		
+		{
+			"postId": 2,
+			"userId": 1,
+			"text": "Короткий комментарий"
+		},
+		
+		{
+			"postId": 2,
+			"userId": 2,
+			"text": "Пост не очень, но пиши еще"
+		},
+		
+		{
+			"postId": 2,
+			"userId": 2,
+			"text": "AASDJALFHEOIF JWEO JFOWEJ"
+		}
+	],
+	
+	"users": [
+		{
+			"id": 1,
+			"login": "1",
+			"password": "1",
+			"name": "Olma"
+		},
+		
+		{
+			"id": 2,
+			"login": "2",
+			"password": "2",
+			"name": "Alice"
+		},
+		
+		{
+			"id": 3,
+			"login": "3",
+			"password": "3",
+			"name": "Plus"
+		},
+		
+		{
+			"id": 4,
+			"login": "4",
+			"password": "4",
+			"name": "Minus"
+		}
+	]
+}

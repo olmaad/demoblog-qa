@@ -1,7 +1,4 @@
 ﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace DemoBlog.TestDataLib
 {
@@ -20,12 +17,5 @@ namespace DemoBlog.TestDataLib
         public string Content { get; set; }
         [JsonProperty]
         public int DateOffset { get; set; }
-    }
-
-    [JsonObject(MemberSerialization.OptIn)]
-    public class PostsData
-    {
-        [JsonProperty]
-        public IList<PostData> Posts { get; set; }
     }
 }

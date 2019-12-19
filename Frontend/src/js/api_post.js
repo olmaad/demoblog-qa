@@ -48,7 +48,7 @@ export const loadPostsAsync = async function(session, date) {
         votes.set(vote.entityId, vote)
     }
 
-    console.group("Api: loaded posts:");
+    console.groupCollapsed("Api: loaded posts:");
     console.debug(posts);
     console.debug(users);
     console.debug(votes);
@@ -81,7 +81,7 @@ export const loadPostAsync = async function(id, session) {
         vote = Vote.fromJson(json.vote);
     }
 
-    console.group("Api: loaded post:");
+    console.groupCollapsed("Api: loaded post:");
     console.debug(post);
     console.debug(user);
     console.debug(vote);
@@ -118,7 +118,7 @@ export const submitPostAsync = async function(sessionKey, post) {
     const text = await response.text();
     const id = parseInt(text);
 
-    console.group("Api: posted post:")
+    console.groupCollapsed("Api: posted post:")
     console.debug("Id = " + id);
     console.groupEnd();
 

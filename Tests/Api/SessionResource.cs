@@ -4,6 +4,7 @@ using DemoBlog.DataLib.Models;
 using DemoBlog.TestDataLib;
 using DemoBlog.Tests.Helpers;
 using DemoBlog.Tests.Resources;
+using DemoBlog.TestDataLib.Loader;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;

@@ -86,5 +86,21 @@ namespace DemoBlog.TestDataLib
                 Text = data.Text
             };
         }
+
+        public static VoteCreateArguments ToModelType(string sessionKey, VoteData data, OutputTypeCreateClass o)
+        {
+            return new VoteCreateArguments()
+            {
+                SessionKey = sessionKey,
+                Vote = new Vote()
+                {
+                    Id = 0,
+                    Type = (Vote.EntityType)data.Type,
+                    EntityId = data.EntityId,
+                    UserId = data.UserId,
+                    Value = data.Value
+                }
+            };
+        }
     }
 }

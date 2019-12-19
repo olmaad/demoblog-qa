@@ -3,13 +3,12 @@
 
     import { Vote, VoteType } from "./../../js/model.js";
 
-    import { user } from "./../../js/data_store.js";
-    import { commentList, commentUsers, commentVotes } from "./../../js/post_data_store.js";
+    import { user, storeViewerCommentList, storeViewerCommentUsers, storeViewerCommentVotes } from "./../../js/data_store.js";
 
     import CommentItem from "./CommentItem.svelte";
 
     const getUser = function(userId) {
-        let users = get(commentUsers);
+        let users = get(storeViewerCommentUsers);
 
         return users.get(userId);
     };
@@ -21,7 +20,7 @@
 			return null;
         }
         
-        let votes = get(commentVotes);
+        let votes = get(storeViewerCommentVotes);
 
 		if (!votes.has(commentId)) {
 			console.debug("CommentList: vote not found, created empty");
@@ -31,7 +30,7 @@
 
 		let vote = votes.get(commentId)
 
-		console.group("CommentList: found vote:");
+		console.groupCollapsed("CommentList: found vote:");
 		console.debug(vote);
 		console.groupEnd();
 
@@ -50,9 +49,9 @@
 	}
 </style>
 
-{#if $commentList.length > 0}
+{#if $storeViewerCommentList.length > 0}
     <div class="container">
-        {#each $commentList as comment, i}
+        {#each $storeViewerCommentList as comment, i}
             <CommentItem
                 index={i}
                 comment={comment}

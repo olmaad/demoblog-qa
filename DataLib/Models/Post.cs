@@ -54,8 +54,7 @@ namespace DemoBlog.DataLib.Models
                 Title == other.Title &&
                 Preview == other.Preview &&
                 Content == other.Content &&
-                Date == other.Date &&
-                Math.Abs(Rating - other.Rating) < 0.001);
+                Date == other.Date);
         }
 
         public override bool Equals(object other)

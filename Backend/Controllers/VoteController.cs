@@ -36,18 +36,18 @@ namespace DemoBlog.Backend.Controllers
 
         // POST: api/Vote
         [HttpPost]
-        public IActionResult Post([FromBody] VoteCreateArguments value)
+        public long Post([FromBody] VoteCreateArguments value)
         {
             if (string.IsNullOrEmpty(value.SessionKey) || value.Vote == null)
             {
-                return BadRequest();
+                return -1;
             }
 
             var session = mDataService.DbContext.Sessions.Where(s => s.Key == value.SessionKey).FirstOrDefault();
 
             if (session == null)
             {
-                return BadRequest();
+                return -1;
             }
 
             var vote = value.Vote;
@@ -56,14 +56,14 @@ namespace DemoBlog.Backend.Controllers
             if (vote.Value == 0
                 || mDataService.DbContext.Votes.Count(v => v.Type == vote.Type && v.EntityId == vote.EntityId && v.UserId == vote.UserId) != 0)
             {
-                return BadRequest();
+                return -1;
             }
 
             var result = UpdateRating(vote.Type, vote.EntityId, vote.UserId, 0, vote.Value);
 
             if (!result)
             {
-                return BadRequest();
+                return -1;
             }
 
             vote.Id = 0;
@@ -72,7 +72,7 @@ namespace DemoBlog.Backend.Controllers
             mDataService.DbContext.Votes.Add(vote);
             mDataService.DbContext.SaveChanges();
 
-            return Ok();
+            return vote.Id;
         }
 
         // PUT: api/Vote/5

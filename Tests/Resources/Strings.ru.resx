@@ -147,6 +147,9 @@
   <data name="WrongTestDataUserAmount" xml:space="preserve">
     <value>Неверное количество пользователей в тестовых данных</value>
   </data>
+  <data name="WrongTestDataVoteAmount" xml:space="preserve">
+    <value>Неверное количество оценок в тестовых данных</value>
+  </data>
   <data name="WrongUser" xml:space="preserve">
     <value>Неверный пользователь</value>
   </data>

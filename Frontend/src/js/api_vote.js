@@ -9,9 +9,14 @@ export const postVoteAsync = async function(sessionKey, vote) {
         body: JSON.stringify({ sessionKey: sessionKey, vote: vote })
     });
 
-    console.debug("Api: posted vote");
+    const text = await response.text();
+    const id = parseInt(text);
 
-    return response.ok;
+    console.groupCollapsed("Api: posted vote");
+    console.debug("Id = " + id);
+    console.groupEnd();
+
+    return id;
 };
 
 export const putVoteAsync = async function(sessionKey, vote) {

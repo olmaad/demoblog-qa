@@ -1,0 +1,10 @@
+{
+    "votes": [
+        {
+            "type": 1,
+            "entityId": 1,
+            "userId": 2,
+            "value": 1
+        }
+    ]
+}
