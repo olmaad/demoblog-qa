@@ -91,19 +91,17 @@ namespace DemoBlog.Tests.Ui
         [Test]
         public void RegisterUserNegativeAlreadyExists()
         {
-            //var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
-            //var sideMenu = new SideMenuComponent(environment.Driver, environment.Wait);
+            var root = new RootPage(environment).Load();
 
-            //sideMenu.WaitCreated();
-
-            //sideMenu.OpenUserMenu();
-            //sideMenu.UserMenu.SwitchToRegister();
-
-            //sideMenu.UserMenu.Register("1", "Olma", "1");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Register);
-
-            //sideMenu.UserMenu.Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                    .SwitchToRegister()
+                    .Register("1", "Olma", "1")
+                    .AssertPageType(UserMenuComponent.PageType.Register);
+            }
         }
 
         [Test]
@@ -113,12 +111,13 @@ namespace DemoBlog.Tests.Ui
 
             var root = new RootPage(environment).Load();
 
-            root.SideMenu.OpenUserMenu()
-                .Login("1", "1")
-                .WaitLoggedIn()
-                .AssertUsername("Olma")
-                .Logout()
-                .Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                    .Login("1", "1")
+                    .AssertUsername("Olma")
+                    .Logout();
+            }
         }
 
         [Test]
@@ -128,17 +127,17 @@ namespace DemoBlog.Tests.Ui
 
             var root = new RootPage(environment).Load();
 
-            root.SideMenu.OpenUserMenu()
-                .Login("1", "1")
-                .WaitLoggedIn()
-                .AssertUsername("Olma")
-                .Logout()
-                .AssertPageType(UserMenuComponent.PageType.Login)
-                .Login("2", "2")
-                .WaitLoggedIn()
-                .AssertUsername("Alice")
-                .Logout()
-                .Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                   .Login("1", "1")
+                   .AssertUsername("Olma")
+                   .Logout()
+                   .AssertPageType(UserMenuComponent.PageType.Login)
+                   .Login("2", "2")
+                   .AssertUsername("Alice")
+                   .Logout();
+            }
         }
 
         [Test]

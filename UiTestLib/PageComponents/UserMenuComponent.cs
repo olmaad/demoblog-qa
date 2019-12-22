@@ -1,11 +1,11 @@
 ﻿using DemoBlog.UiTestLib.Environment;
 using NUnit.Framework;
 using OpenQA.Selenium;
-
+using System;
 
 namespace DemoBlog.UiTestLib.PageComponents
 {
-    public class UserMenuComponent : LoadablePageComponentBase<UserMenuComponent>
+    public class UserMenuComponent : LoadablePageComponentBase<UserMenuComponent>, IDisposable
     {
         public enum PageType
         {
@@ -33,7 +33,7 @@ namespace DemoBlog.UiTestLib.PageComponents
             base(environment)
         { }
 
-        public UserMenuComponent Login(string login, string password)
+        public UserMenuComponent Login(string login, string password, bool wait = true)
         {
             var rootFindBot = FindBot.RelativeTo(mUserLoginRootLocator);
 
@@ -42,12 +42,10 @@ namespace DemoBlog.UiTestLib.PageComponents
 
             rootFindBot.FindVisible(mLoginButtonLocator).Submit();
 
-            return this;
-        }
-
-        public UserMenuComponent WaitLoggedIn()
-        {
-            FindBot.WaitVisible(mUserViewRootLocator);
+            if (wait)
+            {
+                FindBot.WaitVisible(mUserViewRootLocator);
+            }
 
             return this;
         }
@@ -145,6 +143,15 @@ namespace DemoBlog.UiTestLib.PageComponents
             }
 
             return this;
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                Close();
+            }
+            catch { }
         }
 
         protected override void ExecuteLoad()
