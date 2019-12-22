@@ -1,44 +1,50 @@
-﻿using OpenQA.Selenium;
+﻿using DemoBlog.UiTestLib.Environment;
+using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
 using System;
 
 namespace DemoBlog.UiTestLib.PageComponents
 {
-    public class SideMenuComponent : PageComponentBase
+    public class SideMenuComponent : LoadablePageComponentBase<SideMenuComponent>
     {
-        public UserMenuComponent UserMenu { get; private set; }
+        static readonly By mRootLocator = By.ClassName("menu-container");
 
-        protected IWebElement GetSideMenuRoot()
+        static readonly By mUserMenuButtonLocator = By.XPath("//div[contains(@class, 'menu-button')][div[contains(@class, 'icon-user')]]");
+
+        UserMenuComponent mUserMenu;
+
+        public new bool IsLoaded { get { return base.IsLoaded; } }
+
+        public SideMenuComponent(TestEnvironment environment) :
+            base(environment)
         {
-            return mDriver.FindElement(By.ClassName("menu-container"));
+            mUserMenu = new UserMenuComponent(environment);
         }
 
-        protected IWebElement GetUserMenuButton()
+        public UserMenuComponent OpenUserMenu()
         {
-            return mDriver.FindElement(By.XPath("//div[contains(@class, 'menu-button')][div[contains(@class, 'icon-user')]]"));
+            FindBot.FindVisible(mUserMenuButtonLocator).Click();
+
+            return mUserMenu.Load();
         }
 
-        protected IWebElement GetUserWidget()
+        protected override void ExecuteLoad()
         {
-            return mDriver.FindElement(By.XPath("//label[text()='Пользователь']"));
+            FindBot.WaitVisible(mRootLocator);
         }
 
-        public SideMenuComponent(IWebDriver driver, IWait<IWebDriver> waiter) :
-            base(driver, waiter)
+        protected override bool EvaluateLoadedStatus()
         {
-            UserMenu = new UserMenuComponent(mDriver, mWaiter);
-        }
+            try
+            {
+                FindBot.FindVisible(mRootLocator);
+            }
+            catch
+            {
+                return false;
+            }
 
-        public void WaitCreated()
-        {
-            Wait(GetSideMenuRoot);
-        }
-
-        public void OpenUserMenu()
-        {
-            WaitAndGet(GetUserMenuButton).Click();
-
-            Wait(GetUserWidget);
+            return true;
         }
     }
 }

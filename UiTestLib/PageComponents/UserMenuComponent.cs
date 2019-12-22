@@ -1,10 +1,11 @@
-﻿using NUnit.Framework;
+﻿using DemoBlog.UiTestLib.Environment;
+using NUnit.Framework;
 using OpenQA.Selenium;
-using OpenQA.Selenium.Support.UI;
+
 
 namespace DemoBlog.UiTestLib.PageComponents
 {
-    public class UserMenuComponent : PageComponentBase
+    public class UserMenuComponent : LoadablePageComponentBase<UserMenuComponent>
     {
         public enum PageType
         {
@@ -13,153 +14,156 @@ namespace DemoBlog.UiTestLib.PageComponents
             View
         }
 
-        protected IWebElement GetUserMenuRoot()
-        {
-            return mDriver.FindElement(By.ClassName("user-widget-container"));
-        }
+        static readonly By mRootLocator = By.ClassName("user-widget-container");
+        static readonly By mUserLoginRootLocator = By.ClassName("user-login-widget-container");
+        static readonly By mUserRegisterRootLocator = By.ClassName("user-register-widget-container");
+        static readonly By mUserViewRootLocator = By.ClassName("user-view-widget-container");
 
-        protected IWebElement GetUserLoginRoot()
-        {
-            return GetUserMenuRoot().FindElement(By.ClassName("user-login-widget-container"));
-        }
+        static readonly By mLoginInputLocator = By.XPath("//input[@placeholder='login']");
+        static readonly By mNameInputLocator = By.XPath("//input[@placeholder='name']");
+        static readonly By mPasswordInputLocator = By.XPath("//input[@placeholder='password']");
+        static readonly By mLoginButtonLocator = By.XPath("//button[text()='Sign in']");
+        static readonly By mLogoutButtonLocator = By.XPath("//button[text()='Sign out']");
+        static readonly By mRegisterSwitchButtonLocator = By.XPath("//button[text()='Sign up']");
+        static readonly By mRegisterSubmitButtonLocator = By.XPath("//button[text()='Sign up']");
+        static readonly By mCloseButtonLocator = By.XPath("//div[contains(@class, 'button-close')]");
+        static readonly By mGreetingElementLocator = By.XPath("//*[contains(@class, 'greeting')]");
 
-        protected IWebElement GetUserRegisterRoot()
-        {
-            return GetUserMenuRoot().FindElement(By.ClassName("user-register-widget-container"));
-        }
-
-        protected IWebElement GetUserViewRoot()
-        {
-            return GetUserMenuRoot().FindElement(By.ClassName("user-view-widget-container"));
-        }
-
-        protected IWebElement GetLoginInput()
-        {
-            return GetUserMenuRoot().FindElement(By.XPath("//input[@placeholder='логин']"));
-        }
-
-        protected IWebElement GetNameInput()
-        {
-            return GetUserMenuRoot().FindElement(By.XPath("//input[@placeholder='имя']"));
-        }
-
-        protected IWebElement GetPasswordInput()
-        {
-            return GetUserMenuRoot().FindElement(By.XPath("//input[@placeholder='пароль']"));
-        }
-
-        protected IWebElement GetLoginButton()
-        {
-            return GetUserMenuRoot().FindElement(By.XPath("//button[text()='Войти']"));
-        }
-
-        protected IWebElement GetLogoutButton()
-        {
-            return GetUserMenuRoot().FindElement(By.XPath("//button[text()='Выйти']"));
-        }
-
-        protected IWebElement GetRegisterSwitchButton()
-        {
-            return GetUserLoginRoot().FindElement(By.XPath("//button[text()='Регистрация']"));
-        }
-
-        protected IWebElement GetRegisterSubmitButton()
-        {
-            return GetUserRegisterRoot().FindElement(By.XPath("//button[text()='Регистрация']"));
-        }
-
-        protected IWebElement GetCloseButton()
-        {
-            return GetUserMenuRoot().FindElement(By.XPath("//div[contains(@class, 'button-close')]"));
-        }
-
-        protected IWebElement GetGreetingElement()
-        {
-            return GetUserViewRoot().FindElement(By.XPath("//*[contains(@class, 'greeting')]"));
-        }
-
-        public UserMenuComponent(IWebDriver driver, IWait<IWebDriver> waiter) :
-            base(driver, waiter)
+        public UserMenuComponent(TestEnvironment environment) :
+            base(environment)
         { }
 
-        public void Login(string login, string password)
+        public UserMenuComponent Login(string login, string password)
         {
-            GetLoginInput().SendKeys(login);
-            GetPasswordInput().SendKeys(password);
+            var rootFindBot = FindBot.RelativeTo(mUserLoginRootLocator);
 
-            GetLoginButton().Click();
+            rootFindBot.FindVisible(mLoginInputLocator).SendKeys(login);
+            rootFindBot.FindVisible(mPasswordInputLocator).SendKeys(password);
+
+            rootFindBot.FindVisible(mLoginButtonLocator).Submit();
+
+            return this;
         }
 
-        public void WaitLoggedIn()
+        public UserMenuComponent WaitLoggedIn()
         {
-            Wait(GetUserViewRoot);
+            FindBot.WaitVisible(mUserViewRootLocator);
+
+            return this;
         }
 
-        public void Logout()
+        public UserMenuComponent Logout()
         {
-            GetLogoutButton().Click();
+            var rootFindBot = FindBot.RelativeTo(mUserViewRootLocator);
+
+            rootFindBot.FindVisible(mLogoutButtonLocator).Submit();
+
+            return this;
         }
 
-        public void SwitchToRegister()
+        public UserMenuComponent SwitchToRegister()
         {
-            GetRegisterSwitchButton().Click();
+            FindBot.RelativeTo(mUserLoginRootLocator).FindVisible(mRegisterSwitchButtonLocator).Click();
 
-            Wait(GetUserRegisterRoot);
+            FindBot.WaitVisible(mUserRegisterRootLocator);
+
+            return this;
         }
 
-        public void Register(string login, string name, string password)
+        public UserMenuComponent Register(string login, string name, string password)
         {
-            GetLoginInput().SendKeys(login);
-            GetNameInput().SendKeys(name);
-            GetPasswordInput().SendKeys(password);
+            var rootFindBot = FindBot.RelativeTo(mUserRegisterRootLocator);
 
-            GetRegisterSubmitButton().Click();
+            rootFindBot.FindVisible(mLoginInputLocator).SendKeys(login);
+            rootFindBot.FindVisible(mNameInputLocator).SendKeys(name);
+            rootFindBot.FindVisible(mPasswordInputLocator).SendKeys(password);
+
+            rootFindBot.FindVisible(mRegisterSubmitButtonLocator).Click();
+
+            return this;
         }
 
-        public void WaitRegistered()
+        public UserMenuComponent WaitRegistered()
         {
-            Wait(GetUserLoginRoot);
+            FindBot.WaitVisible(mUserLoginRootLocator);
+
+            return this;
         }
 
-        public void ClearLoginInputs()
+        public UserMenuComponent ClearLoginInputs()
         {
-            ClearInput(GetLoginInput());
-            ClearInput(GetPasswordInput());
+            var rootFindBot = FindBot.RelativeTo(mUserLoginRootLocator);
+
+            ActionBot.ClearInput(rootFindBot.FindVisible(mLoginInputLocator));
+            ActionBot.ClearInput(rootFindBot.FindVisible(mPasswordInputLocator));
+
+            return this;
         }
 
-        public void ClearRegisterInputs()
+        public UserMenuComponent ClearRegisterInputs()
         {
-            ClearInput(GetLoginInput());
-            ClearInput(GetNameInput());
-            ClearInput(GetPasswordInput());
+            var rootFindBot = FindBot.RelativeTo(mUserRegisterRootLocator);
+
+            ActionBot.ClearInput(rootFindBot.FindVisible(mLoginInputLocator));
+            ActionBot.ClearInput(rootFindBot.FindVisible(mNameInputLocator));
+            ActionBot.ClearInput(rootFindBot.FindVisible(mPasswordInputLocator));
+
+            return this;
         }
 
-        public void Close()
+        public UserMenuComponent Close()
         {
-            GetCloseButton().Click();
+            FindBot.RelativeTo(mRootLocator).FindVisible(mCloseButtonLocator).Click();
+
+            return this;
         }
 
-        public void AssertUsername(string expected)
+        public UserMenuComponent AssertUsername(string expected)
         {
-            var greetingElement = GetGreetingElement();
+            var rootFindBot = FindBot.RelativeTo(mUserViewRootLocator);
 
-            Assert.That(greetingElement.Text, Is.EqualTo(string.Format("Привет {0}!", expected)), "Неверное имя пользователя");
+            var greetingElement = rootFindBot.FindVisible(mGreetingElementLocator);
+
+            Assert.That(greetingElement.Text, Is.EqualTo(string.Format("Hello {0}!", expected)), "Неверное имя пользователя");
+
+            return this;
         }
 
-        public void AssertPageType(PageType pageType)
+        public UserMenuComponent AssertPageType(PageType pageType)
         {
             switch(pageType)
             {
                 case PageType.Login:
-                    Assert.That(GetUserLoginRoot(), Is.Not.Null);
+                    FindBot.FindVisible(mUserLoginRootLocator);
                     break;
                 case PageType.Register:
-                    Assert.That(GetUserRegisterRoot(), Is.Not.Null);
+                    FindBot.FindVisible(mUserRegisterRootLocator);
                     break;
                 case PageType.View:
-                    Assert.That(GetUserViewRoot(), Is.Not.Null);
+                    FindBot.FindVisible(mUserViewRootLocator);
                     break;
             }
+
+            return this;
+        }
+
+        protected override void ExecuteLoad()
+        {
+            FindBot.WaitVisible(mRootLocator);
+        }
+
+        protected override bool EvaluateLoadedStatus()
+        {
+            try
+            {
+                FindBot.FindVisible(mRootLocator);
+            }
+            catch
+            {
+                return false;
+            }
+
+            return true;
         }
     }
 }

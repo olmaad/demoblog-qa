@@ -23,3 +23,6 @@ Doc/*.pdf
 
 # Tests
 Tests/Resources/Strings.Designer.cs
+
+# UiTestLib
+UiTestLib/Resources/Strings.Designer.cs
