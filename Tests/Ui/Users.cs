@@ -1,4 +1,5 @@
-﻿using DemoBlog.UiTestLib.Environment;
+﻿using DemoBlog.TestDataLib.Tools;
+using DemoBlog.UiTestLib.Environment;
 using DemoBlog.UiTestLib.PageComponents;
 using DemoBlog.UiTestLib.PageObjects;
 using NUnit.Framework;
@@ -39,53 +40,56 @@ namespace DemoBlog.Tests.Ui
         {
             var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
+            mEnvironmentByTestId.Remove(TestContext.CurrentContext.Test.ID);
+
             environment.Destroy();
         }
 
         [Test]
         public void UserRegister()
         {
-            //var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
-            //var sideMenu = new SideMenuComponent(environment.Driver, environment.Wait);
+            var root = new RootPage(environment).Load();
 
-            //sideMenu.WaitCreated();
+            var username = DataGenerator.GenerateUsername();
 
-            //sideMenu.OpenUserMenu();
-            //sideMenu.UserMenu.SwitchToRegister();
-            //sideMenu.UserMenu.Register("User", "User", "1234");
-            //sideMenu.UserMenu.WaitRegistered();
-            //sideMenu.UserMenu.Login("User", "1234");
-            //sideMenu.UserMenu.AssertUsername("User");
-            //sideMenu.UserMenu.Logout();
-            //sideMenu.UserMenu.Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                    .SwitchToRegister()
+                    .Register(username, username, "1234")
+                    .WaitRegistered()
+                    .Login(username, "1234")
+                    .AssertUsername(username)
+                    .Logout();
+            }
         }
 
         [Test]
         public void RegisterUserNegativeNoData()
         {
-            //var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
-            //var sideMenu = new SideMenuComponent(environment.Driver, environment.Wait);
+            var root = new RootPage(environment).Load();
 
-            //sideMenu.WaitCreated();
-
-            //sideMenu.OpenUserMenu();
-            //sideMenu.UserMenu.SwitchToRegister();
-
-            //sideMenu.UserMenu.Register("", "", "");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Register);
-            //sideMenu.UserMenu.ClearRegisterInputs();
-
-            //sideMenu.UserMenu.Register("User", "User", "");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Register);
-            //sideMenu.UserMenu.ClearRegisterInputs();
-
-            //sideMenu.UserMenu.Register("User", "", "User");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Register);
-            //sideMenu.UserMenu.ClearRegisterInputs();
-
-            //sideMenu.UserMenu.Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                    .SwitchToRegister()
+                    .Register("", "", "")
+                    .AssertPageType(UserMenuComponent.PageType.Register)
+                    .ClearRegisterInputs()
+                    .Register("User", "User", "")
+                    .AssertPageType(UserMenuComponent.PageType.Register)
+                    .ClearRegisterInputs()
+                    .Register("User", "", "User")
+                    .AssertPageType(UserMenuComponent.PageType.Register)
+                    .ClearRegisterInputs()
+                    .Register("", "User", "User")
+                    .AssertPageType(UserMenuComponent.PageType.Register)
+                    .ClearRegisterInputs();
+            }
         }
 
         [Test]
@@ -143,61 +147,53 @@ namespace DemoBlog.Tests.Ui
         [Test]
         public void UserLoginNegativeNoData()
         {
-            //var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
-            //var sideMenu = new SideMenuComponent(environment.Driver, environment.Wait);
+            var root = new RootPage(environment).Load();
 
-            //sideMenu.WaitCreated();
-
-            //sideMenu.OpenUserMenu();
-
-            //sideMenu.UserMenu.Login("", "");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Login);
-            //sideMenu.UserMenu.ClearLoginInputs();
-
-            //sideMenu.UserMenu.Login("1", "");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Login);
-            //sideMenu.UserMenu.ClearLoginInputs();
-
-            //sideMenu.UserMenu.Login("", "1");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Login);
-            //sideMenu.UserMenu.ClearLoginInputs();
-
-            //sideMenu.UserMenu.Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                   .Login("", "", false)
+                   .AssertPageType(UserMenuComponent.PageType.Login)
+                   .ClearLoginInputs()
+                   .Login("1", "", false)
+                   .AssertPageType(UserMenuComponent.PageType.Login)
+                   .ClearLoginInputs()
+                   .Login("", "1", false)
+                   .AssertPageType(UserMenuComponent.PageType.Login)
+                   .ClearLoginInputs();
+            }
         }
 
         [Test]
         public void UserLoginNegativeWrongPassword()
         {
-            //var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
-            //var sideMenu = new SideMenuComponent(environment.Driver, environment.Wait);
+            var root = new RootPage(environment).Load();
 
-            //sideMenu.WaitCreated();
-
-            //sideMenu.OpenUserMenu();
-
-            //sideMenu.UserMenu.Login("1", "1234");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Login);
-
-            //sideMenu.UserMenu.Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                   .Login("1", "1234", false)
+                   .AssertPageType(UserMenuComponent.PageType.Login);
+            }
         }
 
         [Test]
         public void UserLoginNegativeNoUser()
         {
-            //var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
-            //var sideMenu = new SideMenuComponent(environment.Driver, environment.Wait);
+            var root = new RootPage(environment).Load();
 
-            //sideMenu.WaitCreated();
-
-            //sideMenu.OpenUserMenu();
-
-            //sideMenu.UserMenu.Login("1234", "1");
-            //sideMenu.UserMenu.AssertPageType(UserMenuComponent.PageType.Login);
-
-            //sideMenu.UserMenu.Close();
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                   .Login("1234", "1", false)
+                   .AssertPageType(UserMenuComponent.PageType.Login);
+            }
         }
     }
 }
