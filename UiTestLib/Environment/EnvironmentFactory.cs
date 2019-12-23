@@ -20,6 +20,11 @@ namespace DemoBlog.UiTestLib.Environment
                         mDriverFactory = new FirefoxDriverFactory(mSettings.DriverPath, mSettings.BrowserExecutablePath);
                         break;
                     }
+                case "chrome":
+                    {
+                        mDriverFactory = new ChromeDriverFactory(mSettings.DriverPath, mSettings.BrowserExecutablePath);
+                        break;
+                    }
                 default:
                     {
                         throw new Exception("Unknown driver type");

@@ -9,6 +9,7 @@ using System.IO;
 namespace DemoBlog.Tests.Ui
 {
     [TestFixture("../../../../TestData/firefoxUiSettings.json")]
+    [TestFixture("../../../../TestData/chromeUiSettings.json")]
     public class Users
     {
         string mEnvironmentSettingsPath;

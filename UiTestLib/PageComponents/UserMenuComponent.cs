@@ -50,11 +50,16 @@ namespace DemoBlog.UiTestLib.PageComponents
             return this;
         }
 
-        public UserMenuComponent Logout()
+        public UserMenuComponent Logout(bool wait = true)
         {
             var rootFindBot = FindBot.RelativeTo(mUserViewRootLocator);
 
             rootFindBot.FindVisible(mLogoutButtonLocator).Submit();
+
+            if (wait)
+            {
+                FindBot.WaitVisible(mUserLoginRootLocator);
+            }
 
             return this;
         }
