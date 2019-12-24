@@ -59,16 +59,19 @@ namespace DemoBlog.Tests.Ui
             {
                 userMenu
                     .SwitchToRegister()
-                    .Register(username, username, "1234")
+                    .Register(username, username, "password")
                     .WaitRegistered()
-                    .Login(username, "1234")
+                    .Login(username, "password")
                     .AssertUsername(username)
                     .Logout();
             }
         }
 
-        [Test]
-        public void RegisterUserNegativeNoData()
+        [TestCase("", "", "")]
+        [TestCase("User", "User", "")]
+        [TestCase("User", "", "User")]
+        [TestCase("", "User", "User")]
+        public void RegisterUserNegativeNoData(string login, string name, string password)
         {
             var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
@@ -78,39 +81,14 @@ namespace DemoBlog.Tests.Ui
             {
                 userMenu
                     .SwitchToRegister()
-                    .Register("", "", "")
-                    .AssertPageType(UserMenuComponent.PageType.Register)
-                    .ClearRegisterInputs()
-                    .Register("User", "User", "")
-                    .AssertPageType(UserMenuComponent.PageType.Register)
-                    .ClearRegisterInputs()
-                    .Register("User", "", "User")
-                    .AssertPageType(UserMenuComponent.PageType.Register)
-                    .ClearRegisterInputs()
-                    .Register("", "User", "User")
-                    .AssertPageType(UserMenuComponent.PageType.Register)
-                    .ClearRegisterInputs();
-            }
-        }
-
-        [Test]
-        public void RegisterUserNegativeAlreadyExists()
-        {
-            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
-
-            var root = new RootPage(environment).Load();
-
-            using (var userMenu = root.SideMenu.OpenUserMenu())
-            {
-                userMenu
-                    .SwitchToRegister()
-                    .Register("1", "Olma", "1")
+                    .Register(login, name, password)
                     .AssertPageType(UserMenuComponent.PageType.Register);
             }
         }
 
-        [Test]
-        public void UserLogin()
+        [TestCase("1", "Olma", "1")]
+        [TestCase("2", "Alice", "2")]
+        public void RegisterUserNegativeAlreadyExists(string login, string name, string password)
         {
             var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
@@ -119,14 +97,31 @@ namespace DemoBlog.Tests.Ui
             using (var userMenu = root.SideMenu.OpenUserMenu())
             {
                 userMenu
-                    .Login("1", "1")
-                    .AssertUsername("Olma")
+                    .SwitchToRegister()
+                    .Register(login, name, password)
+                    .AssertPageType(UserMenuComponent.PageType.Register);
+            }
+        }
+
+        [TestCase("1", "1", "Olma")]
+        [TestCase("2", "2", "Alice")]
+        public void UserLogin(string login, string password, string expectedUsername)
+        {
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+
+            var root = new RootPage(environment).Load();
+
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                    .Login(login, password)
+                    .AssertUsername(expectedUsername)
                     .Logout();
             }
         }
 
-        [Test]
-        public void UserRelogin()
+        [TestCase("1", "1", "Olma", "2", "2", "Alice")]
+        public void UserRelogin(string loginA, string passwordA, string expectedUsernameA, string loginB, string passwordB, string expectedUsernameB)
         {
             var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
@@ -135,18 +130,20 @@ namespace DemoBlog.Tests.Ui
             using (var userMenu = root.SideMenu.OpenUserMenu())
             {
                 userMenu
-                   .Login("1", "1")
-                   .AssertUsername("Olma")
+                   .Login(loginA, passwordA)
+                   .AssertUsername(expectedUsernameA)
                    .Logout()
                    .AssertPageType(UserMenuComponent.PageType.Login)
-                   .Login("2", "2")
-                   .AssertUsername("Alice")
+                   .Login(loginB, passwordB)
+                   .AssertUsername(expectedUsernameB)
                    .Logout();
             }
         }
 
-        [Test]
-        public void UserLoginNegativeNoData()
+        [TestCase("", "")]
+        [TestCase("1", "")]
+        [TestCase("", "1")]
+        public void UserLoginNegativeNoData(string login, string password)
         {
             var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
@@ -156,34 +153,12 @@ namespace DemoBlog.Tests.Ui
             {
                 userMenu
                    .Login("", "", false)
-                   .AssertPageType(UserMenuComponent.PageType.Login)
-                   .ClearLoginInputs()
-                   .Login("1", "", false)
-                   .AssertPageType(UserMenuComponent.PageType.Login)
-                   .ClearLoginInputs()
-                   .Login("", "1", false)
-                   .AssertPageType(UserMenuComponent.PageType.Login)
-                   .ClearLoginInputs();
-            }
-        }
-
-        [Test]
-        public void UserLoginNegativeWrongPassword()
-        {
-            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
-
-            var root = new RootPage(environment).Load();
-
-            using (var userMenu = root.SideMenu.OpenUserMenu())
-            {
-                userMenu
-                   .Login("1", "1234", false)
                    .AssertPageType(UserMenuComponent.PageType.Login);
             }
         }
 
-        [Test]
-        public void UserLoginNegativeNoUser()
+        [TestCase("1", "1234")]
+        public void UserLoginNegativeWrongPassword(string login, string password)
         {
             var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
 
@@ -192,7 +167,22 @@ namespace DemoBlog.Tests.Ui
             using (var userMenu = root.SideMenu.OpenUserMenu())
             {
                 userMenu
-                   .Login("1234", "1", false)
+                   .Login(login, password, false)
+                   .AssertPageType(UserMenuComponent.PageType.Login);
+            }
+        }
+
+        [TestCase("1234", "1")]
+        public void UserLoginNegativeNoUser(string login, string password)
+        {
+            var environment = mEnvironmentByTestId[TestContext.CurrentContext.Test.ID];
+
+            var root = new RootPage(environment).Load();
+
+            using (var userMenu = root.SideMenu.OpenUserMenu())
+            {
+                userMenu
+                   .Login(login, password, false)
                    .AssertPageType(UserMenuComponent.PageType.Login);
             }
         }

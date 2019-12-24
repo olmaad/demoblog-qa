@@ -3,28 +3,24 @@ using DemoBlog.UiTestLib.PageComponents;
 
 namespace DemoBlog.UiTestLib.PageObjects
 {
-    public class RootPage : LoadablePageComponentBase<RootPage>
+    public class RootPage : PageBase<RootPage>
     {
-        SideMenuComponent mSideMenu;
-
         public SideMenuComponent SideMenu { get { return mSideMenu.Load(); } }
 
         public RootPage(TestEnvironment environment) :
             base(environment)
-        {
-            mSideMenu = new SideMenuComponent(environment);
-        }
+        { }
 
         protected override void ExecuteLoad()
         {
             Driver.Url = mEnvironment.BaseUrl;
 
-            mSideMenu.Load();
+            base.ExecuteLoad();
         }
 
         protected override bool EvaluateLoadedStatus()
         {
-            return mSideMenu.IsLoaded;
+            return mSideMenu.IsLoaded && base.EvaluateLoadedStatus();
         }
     }
 }
