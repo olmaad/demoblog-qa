@@ -30,7 +30,7 @@
         background: var(--color-primary-gradient-0);
     }
 
-    .container {
+    .day-item-container {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -43,7 +43,7 @@
 </style>
 
 <div class="border" class:border-highlighted={highlighted} on:click={handleClick}>
-    <div class="container">
+    <div class="day-item-container">
         {date.toLocaleDateString($locale, { day: "numeric", month: "short" })}
     </div>
 </div>

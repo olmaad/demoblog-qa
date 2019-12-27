@@ -16,7 +16,7 @@
         "ASPNETCORE_ENVIRONMENT": "Development"
       },
       "ancmHostingModel": "OutOfProcess",
-      "applicationUrl": "http://localhost:25001"
+      "applicationUrl": "http://localhost:54045"
     },
     "DemoBlogBackend": {
       "commandName": "Project",

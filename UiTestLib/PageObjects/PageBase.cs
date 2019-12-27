@@ -7,6 +7,8 @@ namespace DemoBlog.UiTestLib.PageObjects
     {
         protected SideMenuComponent mSideMenu;
 
+        public SideMenuComponent SideMenu { get { return mSideMenu.Load(); } }
+
         protected PageBase(TestEnvironment environment) :
             base(environment)
         {

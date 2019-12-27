@@ -67,9 +67,9 @@
 	}
 </style>
 
-{#if postList.length > 0}
-    <div class="post-list">
-        {#each postList as post}
+<div class="post-list">
+	{#if postList.length > 0}
+		{#each postList as post}
 			<PostComponent
 				post={post}
 				user={$users.get(post.userId)}
@@ -77,10 +77,10 @@
 				vote={getVote(post.id)}
 				on:show
 				on:vote/>
-        {/each}
-    </div>
-{:else}
-	<div class="post-list-placeholder">
-		<p class="post-list-placeholder-text">{$_("component.postList.placeholder1")}<br/><br/>{$_("component.postList.placeholder2")}</p>
-	</div>
-{/if}
+		{/each}
+	{:else}
+		<div class="post-list-placeholder">
+			<p class="post-list-placeholder-text">{$_("component.postList.placeholder1")}<br/><br/>{$_("component.postList.placeholder2")}</p>
+		</div>
+	{/if}
+</div>

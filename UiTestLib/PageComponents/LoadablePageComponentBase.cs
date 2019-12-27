@@ -14,6 +14,8 @@ namespace DemoBlog.UiTestLib.PageComponents
         protected IFindBot FindBot { get { return mEnvironment.FindBot; } }
         protected IActionBot ActionBot { get { return mEnvironment.ActionBot; } }
 
+        public new bool IsLoaded { get { return base.IsLoaded; } }
+
         protected LoadablePageComponentBase(TestEnvironment environment)
         {
             mEnvironment = environment;

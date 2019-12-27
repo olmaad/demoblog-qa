@@ -2,17 +2,19 @@
 using NUnit.Framework;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Support.UI;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DemoBlog.UiTestLib.Bots
 {
     public class FindBot : IFindBot
     {
-        IWebDriver mDriver;
+        ISearchContext mSearchContext;
         IWait<IWebDriver> mWait;
 
-        public FindBot(IWebDriver driver, IWait<IWebDriver> wait)
+        public FindBot(ISearchContext searchContext, IWait<IWebDriver> wait)
         {
-            mDriver = driver;
+            mSearchContext = searchContext;
             mWait = wait;
         }
 
@@ -20,7 +22,7 @@ namespace DemoBlog.UiTestLib.Bots
         {
             var element = FindVisible(locator);
 
-            return new RelativeFindBot(element, mDriver, mWait);
+            return new FindBot(element, mWait);
         }
 
         public IWebElement WaitVisible(By locator)
@@ -30,7 +32,7 @@ namespace DemoBlog.UiTestLib.Bots
 
         public IWebElement FindVisible(By locator)
         {
-            var element = mDriver.FindElement(locator);
+            var element = mSearchContext.FindElement(locator);
 
             if (!element.Displayed)
             {
@@ -38,6 +40,11 @@ namespace DemoBlog.UiTestLib.Bots
             }
 
             return element;
+        }
+
+        IEnumerable<IWebElement> FindVisibleMultiple(By locator)
+        {
+            return mSearchContext.FindElements(locator).Where(e => e.Displayed == true);
         }
     }
 }

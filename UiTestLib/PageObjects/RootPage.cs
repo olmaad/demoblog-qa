@@ -5,8 +5,6 @@ namespace DemoBlog.UiTestLib.PageObjects
 {
     public class RootPage : PageBase<RootPage>
     {
-        public SideMenuComponent SideMenu { get { return mSideMenu.Load(); } }
-
         public RootPage(TestEnvironment environment) :
             base(environment)
         { }

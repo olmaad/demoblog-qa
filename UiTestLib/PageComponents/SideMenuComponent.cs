@@ -13,8 +13,6 @@ namespace DemoBlog.UiTestLib.PageComponents
 
         UserMenuComponent mUserMenu;
 
-        public new bool IsLoaded { get { return base.IsLoaded; } }
-
         public SideMenuComponent(TestEnvironment environment) :
             base(environment)
         {
