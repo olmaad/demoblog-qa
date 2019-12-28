@@ -135,6 +135,9 @@ docker-compose build</Command>
   </ItemDefinitionGroup>
   <ItemGroup>
     <None Include="..\docker-compose.yml" />
+    <None Include="..\Docker\Backend\Dockerfile" />
+    <None Include="..\Docker\Proxy\Dockerfile" />
+    <None Include="..\Docker\Proxy\nginx.conf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
