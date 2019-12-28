@@ -134,6 +134,7 @@ docker-compose build</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\docker-compose.build.yml" />
     <None Include="..\docker-compose.yml" />
     <None Include="..\Docker\Backend\Dockerfile" />
     <None Include="..\Docker\Proxy\Dockerfile" />
