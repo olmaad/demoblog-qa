@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  proxy:
+    image: demoblognginx
+    container_name: "demoblognginx8080"
+    build:
+      context: ./Docker/Proxy
+      dockerfile: ./Dockerfile
+    ports:
+    - "8080:80"
+    networks:  
+    - demoblognetwork
+
+  backend:
+    image: demoblogbackend
+    container_name: "demoblogbackend80"
+    build:
+      context: ./Docker/Backend
+      dockerfile: ./Dockerfile
+    ports:
+    - "80"
+    networks:
+    - demoblognetwork 
+
+networks:  
+  demoblognetwork:
+    driver: bridge 

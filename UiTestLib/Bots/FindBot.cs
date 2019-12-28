@@ -42,7 +42,7 @@ namespace DemoBlog.UiTestLib.Bots
             return element;
         }
 
-        IEnumerable<IWebElement> FindVisibleMultiple(By locator)
+        public IEnumerable<IWebElement> FindVisibleMultiple(By locator)
         {
             return mSearchContext.FindElements(locator).Where(e => e.Displayed == true);
         }

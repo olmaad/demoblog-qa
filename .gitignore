@@ -1,28 +1,34 @@
-# DemoBlogFrontend
-Frontend/.vscode/
-Frontend/.DS_Store
-Frontend/node_modules
-Frontend/public/*bundle*
-Frontend/public/*.css
-Frontend/package-lock.json
-Frontend/publish.sh
-Frontend/publish.ps1
-
-# DemoBlogBackend
-.vs/
+# General
+.vs
+.vscode/
 bin/
 obj/
 *.user
+*.filters
 *.db
+Strings.Designer.cs
+
+# DemoBlogFrontend
+/Frontend/.DS_Store
+/Frontend/node_modules
+/Frontend/public/*bundle*
+/Frontend/public/*.css
+/Frontend/package-lock.json
+/Frontend/publish.sh
+/Frontend/publish.ps1
 
 # DemoBlogBaseBuilder
-BaseBuilder/Properties/
+/BaseBuilder/Properties/
 
 # Doc
-Doc/*.pdf
+/Doc/*.pdf
 
-# Tests
-Tests/Resources/Strings.Designer.cs
+# Build
+/Build/
 
-# UiTestLib
-UiTestLib/Resources/Strings.Designer.cs
+# Docker
+/Docker/Backend/Outputs
+/Docker/Proxy/Outputs
+
+# Publish
+/Publish/Release

@@ -5,6 +5,14 @@
     <RootNamespace>DemoBlog.DataLib</RootNamespace>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <OutputPath>../Build/DataLib/$(Configuration)</OutputPath>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>../Build/DataLib/$(Configuration)</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Folder Include="Models\" />
   </ItemGroup>
