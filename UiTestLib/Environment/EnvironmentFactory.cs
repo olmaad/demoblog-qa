@@ -17,12 +17,12 @@ namespace DemoBlog.UiTestLib.Environment
             {
                 case "firefox":
                     {
-                        mDriverFactory = new FirefoxDriverFactory(mSettings.DriverPath, mSettings.BrowserExecutablePath);
+                        mDriverFactory = new FirefoxDriverFactory(mSettings.DriverPath, mSettings.BrowserExecutablePath, mSettings.Headless);
                         break;
                     }
                 case "chrome":
                     {
-                        mDriverFactory = new ChromeDriverFactory(mSettings.DriverPath, mSettings.BrowserExecutablePath);
+                        mDriverFactory = new ChromeDriverFactory(mSettings.DriverPath, mSettings.BrowserExecutablePath, mSettings.Headless);
                         break;
                     }
                 default:

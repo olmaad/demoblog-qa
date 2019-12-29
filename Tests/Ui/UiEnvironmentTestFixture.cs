@@ -7,6 +7,8 @@ namespace DemoBlog.Tests.Ui
 {
     [TestFixture("../../../../TestData/firefoxUiSettings.json")]
     [TestFixture("../../../../TestData/chromeUiSettings.json")]
+    [TestFixture("../../../../TestData/headlessChromeUiSettings.json")]
+    [TestFixture("../../../../TestData/headlessFirefoxUiSettings.json")]
     public abstract class UiEnvironmentTestFixture
     {
         protected string mEnvironmentSettingsPath;

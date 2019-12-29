@@ -7,11 +7,13 @@ namespace DemoBlog.UiTestLib.Environment.DriverFactory
     {
         string mDriverPath;
         string mBrowserPath;
+        bool mHeadless;
 
-        public FirefoxDriverFactory(string driverPath, string browserPath)
+        public FirefoxDriverFactory(string driverPath, string browserPath, bool headless)
         {
             mDriverPath = driverPath;
             mBrowserPath = browserPath;
+            mHeadless = headless;
         }
 
         public IWebDriver GetNewDriver()
@@ -19,10 +21,17 @@ namespace DemoBlog.UiTestLib.Environment.DriverFactory
             var service = FirefoxDriverService.CreateDefaultService(mDriverPath);
             service.Host = "::1";
 
-            var driver = new FirefoxDriver(service, new FirefoxOptions()
+            var options = new FirefoxOptions()
             {
                 BrowserExecutableLocation = mBrowserPath
-            });
+            };
+
+            if (mHeadless)
+            {
+                options.AddArgument("-headless");
+            }
+
+            var driver = new FirefoxDriver(service, options);
 
             return driver;
         }

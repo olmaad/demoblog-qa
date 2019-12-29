@@ -100,7 +100,7 @@ cd $(SolutionDir)
 md Docker/Proxy/Outputs
 xcopy /y /e /i "Frontend\public" "Docker\Proxy\Outputs"
 echo Composing docker
-docker-compose build</Command>
+docker-compose -f docker-compose.build.yml build</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

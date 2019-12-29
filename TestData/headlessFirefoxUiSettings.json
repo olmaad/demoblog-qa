@@ -4,5 +4,5 @@
     "driverWaitTimeout": 3,
     "browserExecutablePath": "C:/Users/olma/Downloads/FirefoxPortable32-71.0/FirefoxPortable32/App/Firefox/firefox.exe",
     "baseUrl": "http://localhost:8080",
-    "headless": false
+    "headless": true
 }

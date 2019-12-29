@@ -19,6 +19,9 @@ namespace DemoBlog.UiTestLib.Environment
         public string BrowserExecutablePath { get; set; }
 
         [JsonProperty]
+        public bool Headless { get; set; }
+
+        [JsonProperty]
         public string BaseUrl { get; set; }
 
         public static EnvironmentSettings Load(string path)

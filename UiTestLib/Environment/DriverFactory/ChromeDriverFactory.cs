@@ -7,21 +7,30 @@ namespace DemoBlog.UiTestLib.Environment.DriverFactory
     {
         string mDriverPath;
         string mBrowserPath;
+        bool mHeadless;
 
-        public ChromeDriverFactory(string driverPath, string browserPath)
+        public ChromeDriverFactory(string driverPath, string browserPath, bool headless)
         {
             mDriverPath = driverPath;
             mBrowserPath = browserPath;
+            mHeadless = headless;
         }
 
         public IWebDriver GetNewDriver()
         {
             var service = ChromeDriverService.CreateDefaultService(mDriverPath);
 
-            var driver = new ChromeDriver(service, new ChromeOptions()
+            var options = new ChromeOptions()
             {
                 BinaryLocation = mBrowserPath
-            });
+            };
+
+            if (mHeadless)
+            {
+                options.AddArgument("--headless");
+            }
+
+            var driver = new ChromeDriver(service, options);
 
             return driver;
         }

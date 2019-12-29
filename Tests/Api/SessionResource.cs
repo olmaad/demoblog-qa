@@ -20,7 +20,7 @@ namespace DemoBlog.Tests.Api
 
         public SessionResource()
         {
-            mClient = new Client("http://localhost:8080/");
+            mClient = new Client("http://localhost:8080");
             mSessionHelper = new SessionHelper(mClient);
         }
 

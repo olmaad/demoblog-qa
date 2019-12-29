@@ -17,7 +17,7 @@ namespace DemoBlog.Tests.Api
 
         public UserResource()
         {
-            mClient = new Client("http://localhost:8080/");
+            mClient = new Client("http://localhost:8080");
         }
 
         [OneTimeSetUp]

@@ -25,7 +25,7 @@ namespace DemoBlog.Tests.Api
         {
             mPostCreateDataPath = postCreateDataPath;
 
-            mClient = new Client("http://localhost:8080/");
+            mClient = new Client("http://localhost:8080");
             mSessionHelper = new SessionHelper(mClient);
             mVoteHelper = new VoteHelper(mClient);
             mPostHelper = new PostHelper(mClient);
