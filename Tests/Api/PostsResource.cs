@@ -45,7 +45,7 @@ namespace DemoBlog.Tests.Api
             var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
             var users = loader.Data.Users.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
 
-            var bundle = Task.Run(async () => await mClient.GetPostsAsync()).Result;
+            var bundle = mClient.GetPostsAsync().Result;
 
             AssertPostListBundle(false, bundle, posts, users);
         }
@@ -59,7 +59,7 @@ namespace DemoBlog.Tests.Api
             var posts = loader.Data.Posts.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
             var users = loader.Data.Users.Select(d => DataConverter.ToModelType(d, DataConverter.OutputTypeData)).ToList();
 
-            var bundle = Task.Run(async () => await mClient.GetPostsByDateAsync(DateTime.UtcNow.Date + new TimeSpan(dateOffset, 0, 0, 0))).Result;
+            var bundle = mClient.GetPostsByDateAsync(DateTime.UtcNow.Date + new TimeSpan(dateOffset, 0, 0, 0)).Result;
 
             AssertPostListBundle(strictAssert, bundle, posts, users);
         }
@@ -76,7 +76,7 @@ namespace DemoBlog.Tests.Api
             var post = DataConverter.ToModelType(loader.Data.Posts.First(), DataConverter.OutputTypeData);
             var user = DataConverter.ToModelType(loader.Data.Users.First(), DataConverter.OutputTypeData);
 
-            var bundle = Task.Run(async () => await mClient.GetSpecificPost(id)).Result;
+            var bundle = mClient.GetSpecificPost(id).Result;
 
             AssertPostBundle(bundle, post, user);
         }
@@ -90,7 +90,7 @@ namespace DemoBlog.Tests.Api
 
             var post = DataConverter.ToModelType("", loader.Data.Posts.First(), DataConverter.OutputTypeCreate);
 
-            var id = Task.Run(async () => await mClient.PostPost(post)).Result;
+            var id = mClient.PostPost(post).Result;
 
             Assert.That(id, Is.EqualTo(-1), Strings.IdReturnedInsteadOfError);
         }
@@ -111,7 +111,7 @@ namespace DemoBlog.Tests.Api
 
             var post = DataConverter.ToModelType(session.Session.Key, loader.Data.Posts.First(), DataConverter.OutputTypeCreate);
 
-            var id = Task.Run(async () => await mClient.PostPost(post)).Result;
+            var id = mClient.PostPost(post).Result;
 
             Assert.That(id, Is.Not.EqualTo(-1), Strings.ErrorReturned);
         }
@@ -128,7 +128,7 @@ namespace DemoBlog.Tests.Api
 
             var post = DataConverter.ToModelType(session.Session.Key, loader.Data.Posts.First(), DataConverter.OutputTypeCreate);
 
-            var id = Task.Run(async () => await mClient.PostPost(post)).Result;
+            var id = mClient.PostPost(post).Result;
 
             Assert.That(id, Is.EqualTo(-1), Strings.IdReturnedInsteadOfError);
         }

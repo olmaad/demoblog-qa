@@ -6,6 +6,8 @@ using NUnit.Framework;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
+using DemoBlog.DataLib.Arguments;
+using DemoBlog.TestDataLib.Tools;
 
 namespace DemoBlog.Tests.Api
 {
@@ -29,16 +31,21 @@ namespace DemoBlog.Tests.Api
             };
         }
 
-        [TestCase("CreateUser/data1.json")]
-        public void CreateUser(string expectedDataPath)
+        [TestCase]
+        public void CreateUser()
         {
-            var loader = mDataLoaderFactory.Create(expectedDataPath);
+            var login = DataGenerator.GenerateUsername();
+            var name = DataGenerator.GenerateUsername();
+            var password = DataGenerator.GenerateUsername();
 
-            Assume.That(loader.Data.Users, Has.Exactly(1).Items, Strings.WrongTestDataUserAmount);
+            var user = new UserCreateArguments()
+            {
+                Login = login,
+                Name = name,
+                Password = password
+            };
 
-            var user = DataConverter.ToModelType(loader.Data.Users.First(), DataConverter.OutputTypeCreate);
-
-            var ok = Task.Run(async () => await mClient.PostUser(user)).Result;
+            var ok = mClient.PostUser(user).Result;
 
             Assert.That(ok, Is.True, Strings.ErrorReturned);
         }
@@ -56,7 +63,7 @@ namespace DemoBlog.Tests.Api
 
             var user = DataConverter.ToModelType(loader.Data.Users.First(), DataConverter.OutputTypeCreate);
 
-            var ok = Task.Run(async () => await mClient.PostUser(user)).Result;
+            var ok = mClient.PostUser(user).Result;
 
             Assert.That(ok, Is.False, Strings.SuccessReturned);
         }
