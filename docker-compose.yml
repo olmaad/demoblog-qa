@@ -1,4 +1,4 @@
-version: '3.4'
+version: '3.5'
 
 services:
   proxy:
@@ -17,4 +17,5 @@ services:
 
 networks:  
   demoblognetwork:
+    name: demoblognetwork
     driver: bridge 

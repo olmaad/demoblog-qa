@@ -7,6 +7,7 @@ obj/
 *.filters
 *.db
 Strings.Designer.cs
+/TestResults
 
 # DemoBlogFrontend
 /Frontend/.DS_Store
@@ -28,7 +29,12 @@ Strings.Designer.cs
 
 # Docker
 /Docker/Backend/Outputs
+/Docker/Backend/BaseBuilder
+/Docker/Backend/builder.json
 /Docker/Proxy/Outputs
+/Docker/Tests/Outputs
+/Docker/Tests/TestData
 
 # Publish
 /Publish/Release
+/Publish/Debug

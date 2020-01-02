@@ -126,6 +126,9 @@
   <data name="IdReturnedInsteadOfError" xml:space="preserve">
     <value>Id returned instead of error</value>
   </data>
+  <data name="NoTestParameterPresent" xml:space="preserve">
+    <value>No test parameter present {0}</value>
+  </data>
   <data name="SuccessReturned" xml:space="preserve">
     <value>Success returned instead of error</value>
   </data>

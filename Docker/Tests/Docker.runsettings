@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RunSettings>
+
+  <TestRunParameters>
+    
+    <Parameter name="host" value="http://demoblognginx8080:80" />
+    <Parameter name="testDataDirectory" value="./TestData" />
+    <Parameter name="uiSettingsListFile" value="dockerUiSettingsList.json" />
+    
+  </TestRunParameters>
+
+</RunSettings>

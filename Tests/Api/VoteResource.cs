@@ -1,8 +1,5 @@
-﻿using DemoBlog.ApiTestLib;
-using DemoBlog.Tests.Helpers;
-using DemoBlog.TestDataLib.Loader;
+﻿using DemoBlog.Tests.Helpers;
 using NUnit.Framework;
-using System.IO;
 using DemoBlog.Tests.Resources;
 using DemoBlog.TestDataLib;
 using System.Linq;
@@ -11,11 +8,9 @@ using System.Collections.Generic;
 namespace DemoBlog.Tests.Api
 {
     [TestFixture("postCreate.json")]
-    public class VoteResource
+    public class VoteResource : ResourceBase
     {
         string mPostCreateDataPath;
-        DataLoaderFactory mDataLoaderFactory;
-        Client mClient;
         SessionHelper mSessionHelper;
         VoteHelper mVoteHelper;
         PostHelper mPostHelper;
@@ -24,21 +19,17 @@ namespace DemoBlog.Tests.Api
         public VoteResource(string postCreateDataPath)
         {
             mPostCreateDataPath = postCreateDataPath;
-
-            mClient = new Client("http://localhost:8080");
-            mSessionHelper = new SessionHelper(mClient);
-            mVoteHelper = new VoteHelper(mClient);
-            mPostHelper = new PostHelper(mClient);
-            mPostIds = new Dictionary<string, long>();
         }
 
         [OneTimeSetUp]
         public void OneTimeSetUp()
         {
-            mDataLoaderFactory = new DataLoaderFactory()
-            {
-                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiVote")
-            };
+            BaseSetUp("ApiVote");
+
+            mSessionHelper = new SessionHelper(mClient);
+            mVoteHelper = new VoteHelper(mClient);
+            mPostHelper = new PostHelper(mClient);
+            mPostIds = new Dictionary<string, long>();
         }
 
         /// <summary>

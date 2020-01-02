@@ -1,26 +1,12 @@
-version: '3.4'
+version: '3.5'
 
 services:
   proxy:
-    image: olmaad/demoblogproxy
-    container_name: "demoblognginx8080"
     build:
       context: ./Docker/Proxy
       dockerfile: ./Dockerfile
-    ports:
-    - "8080:80"
-    networks:  
-    - demoblognetwork
 
   backend:
-    image: olmaad/demoblogbackend
-    container_name: "demoblogbackend80"
     build:
       context: ./Docker/Backend
       dockerfile: ./Dockerfile
-    networks:
-    - demoblognetwork 
-
-networks:  
-  demoblognetwork:
-    driver: bridge 

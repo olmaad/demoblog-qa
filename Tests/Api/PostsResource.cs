@@ -15,26 +15,19 @@ using System.Threading.Tasks;
 namespace DemoBlog.Tests.Api
 {
     [TestFixture]
-    public class PostsResource
+    public class PostsResource : ResourceBase
     {
-        DataLoaderFactory mDataLoaderFactory;
-        Client mClient;
         SessionHelper mSessionHelper;
 
         public PostsResource()
-        {
-            mClient = new Client("http://localhost:8080");
-
-            mSessionHelper = new SessionHelper(mClient);
-        }
+        { }
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            mDataLoaderFactory = new DataLoaderFactory()
-            {
-                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiPosts")
-            };
+            BaseSetUp("ApiPosts");
+
+            mSessionHelper = new SessionHelper(mClient);
         }
 
         [TestCase("LoadPostListAnonymous/data.json")]

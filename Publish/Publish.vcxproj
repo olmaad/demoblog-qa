@@ -88,19 +88,28 @@
 echo Publishing backend
 dotnet publish $(SolutionDir)/Backend/Backend.csproj -c Release -o $(SolutionDir)/Docker/Backend/Outputs
 echo Publishing base builder
-dotnet publish $(SolutionDir)/BaseBuilder/BaseBuilder.csproj -c Release -o $(SolutionDir)/Build/Docker/BaseBuilder
+dotnet publish $(SolutionDir)/BaseBuilder/BaseBuilder.csproj -c Release -o $(SolutionDir)/Docker/Backend/BaseBuilder
 echo Generating test database
-cd $(SolutionDir)/Build/Docker/BaseBuilder
+cd $(SolutionDir)/Docker/Backend/BaseBuilder
 dotnet BaseBuilder.dll $(SolutionDir)/TestData $(SolutionDir)/Docker/Backend/Outputs
+del blog.db
 cd $(SolutionDir)
+echo Copying test data
+xcopy /y /i "$(SolutionDir)TestData\builder.json" "$(SolutionDir)Docker\Backend\builder.json"
 echo Publishing frontend
 cd Frontend
 cmd /c npm run build
 cd $(SolutionDir)
 md Docker/Proxy/Outputs
 xcopy /y /e /i "Frontend\public" "Docker\Proxy\Outputs"
-echo Composing docker
-docker-compose -f docker-compose.build.yml build</Command>
+echo Composing server docker
+docker-compose -f docker-compose.yml -f docker-compose.build.yml build
+echo Publishing tests
+dotnet publish $(SolutionDir)/Tests/Tests.csproj -c Release -o $(SolutionDir)/Docker/Tests/Outputs
+echo Publishing test data
+xcopy /y /e /i "TestData" "Docker\Tests\TestData"
+echo Composing tests docker
+docker-compose -f docker-compose-test.yml -f docker-compose-test.build.yml build</Command>
     </PreBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -134,11 +143,14 @@ docker-compose -f docker-compose.build.yml build</Command>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <None Include="..\docker-compose-test.build.yml" />
+    <None Include="..\docker-compose-test.yml" />
     <None Include="..\docker-compose.build.yml" />
     <None Include="..\docker-compose.yml" />
     <None Include="..\Docker\Backend\Dockerfile" />
     <None Include="..\Docker\Proxy\Dockerfile" />
     <None Include="..\Docker\Proxy\nginx.conf" />
+    <None Include="..\Docker\Tests\Dockerfile" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

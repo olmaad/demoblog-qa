@@ -1,0 +1,32 @@
+version: '3.4'
+
+services:
+  firefoxdriver:
+    image: selenium/standalone-firefox:latest
+    container_name: "demoblogfirefoxdriver"
+    shm_size: 2g
+    environment:
+    - START_XVFB=false
+    - SCREEN_WIDTH=1366
+    - SCREEN_HEIGHT=768
+  chromedriver:
+    image: selenium/standalone-chrome:latest
+    container_name: "demoblogchromedriver"
+    shm_size: 2g
+    environment:
+    - START_XVFB=false
+    - SCREEN_WIDTH=1366
+    - SCREEN_HEIGHT=768
+  tests:
+    image: olmaad/demoblogtests
+    container_name: "demoblogtests"
+    volumes:
+    - "${TEST_RESULTS_VOLUME}:/results"
+    depends_on:
+    - "firefoxdriver"
+    - "chromedriver"
+
+networks:
+  default:
+    external:
+      name: demoblognetwork

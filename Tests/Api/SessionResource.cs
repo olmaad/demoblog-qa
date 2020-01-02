@@ -12,25 +12,19 @@ using System.Linq;
 namespace DemoBlog.Tests.Api
 {
     [TestFixture]
-    public class SessionResource
+    public class SessionResource : ResourceBase
     {
-        DataLoaderFactory mDataLoaderFactory;
-        Client mClient;
         SessionHelper mSessionHelper;
 
         public SessionResource()
-        {
-            mClient = new Client("http://localhost:8080");
-            mSessionHelper = new SessionHelper(mClient);
-        }
+        { }
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            mDataLoaderFactory = new DataLoaderFactory()
-            {
-                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiSession")
-            };
+            BaseSetUp("ApiSession");
+
+            mSessionHelper = new SessionHelper(mClient);
         }
 
         [TestCase("CreateSession/data1.json")]

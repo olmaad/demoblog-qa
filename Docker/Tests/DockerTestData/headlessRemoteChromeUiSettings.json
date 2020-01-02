@@ -1,0 +1,8 @@
+{
+    "driverType": "remoteChrome",
+    "remoteDriverHost": "demoblogchromedriver",
+    "remoteDriverPort": 4444,
+    "driverWaitTimeout": 3,
+    "baseUrl": "http://demoblognginx8080",
+    "headless": true
+}

@@ -5,30 +5,21 @@ using DemoBlog.TestDataLib.Loader;
 using NUnit.Framework;
 using System.IO;
 using System.Linq;
-using System.Threading.Tasks;
 using DemoBlog.DataLib.Arguments;
 using DemoBlog.TestDataLib.Tools;
 
 namespace DemoBlog.Tests.Api
 {
     [TestFixture]
-    public class UserResource
+    public class UserResource : ResourceBase
     {
-        DataLoaderFactory mDataLoaderFactory;
-        Client mClient;
-
         public UserResource()
-        {
-            mClient = new Client("http://localhost:8080");
-        }
+        { }
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            mDataLoaderFactory = new DataLoaderFactory()
-            {
-                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiUser")
-            };
+            BaseSetUp("ApiUser");
         }
 
         [TestCase]

@@ -13,25 +13,19 @@ using System.Linq;
 namespace DemoBlog.Tests.Api
 {
     [TestFixture]
-    public class CommentResource
+    public class CommentResource : ResourceBase
     {
-        DataLoaderFactory mDataLoaderFactory;
-        Client mClient;
         SessionHelper mSessionHelper;
 
         public CommentResource()
-        {
-            mClient = new Client("http://localhost:8080");
-            mSessionHelper = new SessionHelper(mClient);
-        }
+        { }
 
         [OneTimeSetUp]
         public void SetUp()
         {
-            mDataLoaderFactory = new DataLoaderFactory()
-            {
-                BaseDirectoryPath = Path.Combine(TestContext.CurrentContext.TestDirectory, "../../../../TestData/ApiComment")
-            };
+            BaseSetUp("ApiComment");
+
+            mSessionHelper = new SessionHelper(mClient);
         }
 
         [TestCase("CreateComment/data1.json")]

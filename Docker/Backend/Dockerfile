@@ -1,8 +1,16 @@
 FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
 
-WORKDIR /app
+COPY builder.json /TestData/
+
+WORKDIR /app/builder
+COPY BaseBuilder/ ./
+
+WORKDIR /app/backend
 COPY Outputs/ ./
+
+WORKDIR /app
+COPY start.sh ./
 
 EXPOSE 80
 
-ENTRYPOINT ["dotnet", "Backend.dll"]
+ENTRYPOINT ["/bin/sh", "start.sh"]
