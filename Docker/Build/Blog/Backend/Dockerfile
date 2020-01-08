@@ -1,12 +1,12 @@
-FROM microsoft/dotnet:2.2-aspnetcore-runtime AS base
+FROM microsoft/dotnet:2.2-aspnetcore-runtime
 
 COPY builder.json /TestData/
 
 WORKDIR /app/builder
-COPY BaseBuilder/ ./
+COPY BaseBuilderPublish/ ./
 
 WORKDIR /app/backend
-COPY Outputs/ ./
+COPY BackendPublish/ ./
 
 WORKDIR /app
 COPY start.sh ./

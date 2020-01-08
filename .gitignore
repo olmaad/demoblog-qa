@@ -28,12 +28,12 @@ Strings.Designer.cs
 /Build/
 
 # Docker
-/Docker/Backend/Outputs
-/Docker/Backend/BaseBuilder
-/Docker/Backend/builder.json
-/Docker/Proxy/Outputs
-/Docker/Tests/Outputs
-/Docker/Tests/TestData
+/Docker/Build/Blog/Backend/BackendPublish
+/Docker/Build/Blog/Backend/BaseBuilderPublish
+/Docker/Build/Blog/Backend/builder.json
+/Docker/Build/Blog/Proxy/Output
+/Docker/Build/Tests/Output
+/Docker/Build/Tests/TestData
 
 # Publish
 /Publish/Release

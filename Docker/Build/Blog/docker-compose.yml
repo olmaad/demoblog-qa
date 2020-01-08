@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  proxy:
+    image: olmaad/demoblogproxy
+    build:
+      context: ./Proxy
+      dockerfile: ./Dockerfile
+    networks:  
+    - demoblognetwork
+
+  backend:
+    image: olmaad/demoblogbackend
+    build:
+      context: ./Backend
+      dockerfile: ./Dockerfile
+    networks:
+    - demoblognetwork
+
+networks:
+  demoblognetwork:
+    name: demoblognetwork
+    driver: bridge 

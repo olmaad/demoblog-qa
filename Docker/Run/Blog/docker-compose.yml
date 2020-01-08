@@ -10,12 +10,14 @@ services:
     - demoblognetwork
 
   backend:
-    image: olmaad/demoblogbackend
     container_name: "demoblogbackend80"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
     networks:
-    - demoblognetwork 
+    - demoblognetwork
 
-networks:  
+networks:
   demoblognetwork:
     name: demoblognetwork
     driver: bridge 

@@ -2,7 +2,7 @@ FROM microsoft/dotnet:2.2-sdk
 
 WORKDIR /app
 
-COPY Outputs/ ./
+COPY Output/ ./
 COPY TestData/ ./TestData/
 COPY DockerTestData/ ./TestData/
 COPY Docker.runsettings ./

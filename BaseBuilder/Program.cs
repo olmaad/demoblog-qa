@@ -87,6 +87,8 @@ namespace DemoBlog.BaseBuilder
                 {
                     File.Copy("blog.db", Path.Combine(outputFolderPath, "blog.db"), true);
                 }
+
+                Console.WriteLine("Base copied");
             }
             catch (Exception e)
             {

@@ -33,10 +33,35 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestDataLib", "TestDataLib\
 		{98B2441E-0298-4FBA-AD5B-BFAA866B7B49} = {98B2441E-0298-4FBA-AD5B-BFAA866B7B49}
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Publish", "Publish\Publish.vcxproj", "{C60AC879-8021-4A84-9595-A47191464154}"
-	ProjectSection(ProjectDependencies) = postProject
-		{8158E566-A2FC-4B70-9CE1-96552661FF0E} = {8158E566-A2FC-4B70-9CE1-96552661FF0E}
-		{80EB6672-E146-4197-9FEA-C81D93B35EA3} = {80EB6672-E146-4197-9FEA-C81D93B35EA3}
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{26B54713-E489-414A-B794-F79011574857}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Build", "Build", "{6DA4ACFA-B049-4979-B697-9FF833B4B2DC}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blog", "Blog", "{14A0BDE7-6890-40C1-96BA-2056B0295188}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Build\Blog\docker-compose.yml = Docker\Build\Blog\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{09BB23F9-E64D-4858-8779-00FEFD36D6BF}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Build\Tests\docker-compose.yml = Docker\Build\Tests\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A175E95A-0998-4C61-9716-C93A44E17275}"
+	ProjectSection(SolutionItems) = preProject
+		publish.bat = publish.bat
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Run", "Run", "{9EEFB0C5-5AB2-48F5-B600-E4FF983CB3A6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Blog", "Blog", "{C87EBCCD-5159-466B-900B-65D04C9118AE}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Run\Blog\docker-compose.yml = Docker\Run\Blog\docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{10202EB8-692E-4C4E-82FD-DC39F4954F11}"
+	ProjectSection(SolutionItems) = preProject
+		Docker\Run\Tests\docker-compose.yml = Docker\Run\Tests\docker-compose.yml
 	EndProjectSection
 EndProject
 Global
@@ -73,12 +98,17 @@ Global
 		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC29C5FE-E5FE-4608-89A6-AAEC6E5F3E75}.Release|Any CPU.Build.0 = Release|Any CPU
-		{C60AC879-8021-4A84-9595-A47191464154}.Debug|Any CPU.ActiveCfg = Debug|Win32
-		{C60AC879-8021-4A84-9595-A47191464154}.Release|Any CPU.ActiveCfg = Release|Win32
-		{C60AC879-8021-4A84-9595-A47191464154}.Release|Any CPU.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{6DA4ACFA-B049-4979-B697-9FF833B4B2DC} = {26B54713-E489-414A-B794-F79011574857}
+		{14A0BDE7-6890-40C1-96BA-2056B0295188} = {6DA4ACFA-B049-4979-B697-9FF833B4B2DC}
+		{09BB23F9-E64D-4858-8779-00FEFD36D6BF} = {6DA4ACFA-B049-4979-B697-9FF833B4B2DC}
+		{9EEFB0C5-5AB2-48F5-B600-E4FF983CB3A6} = {26B54713-E489-414A-B794-F79011574857}
+		{C87EBCCD-5159-466B-900B-65D04C9118AE} = {9EEFB0C5-5AB2-48F5-B600-E4FF983CB3A6}
+		{10202EB8-692E-4C4E-82FD-DC39F4954F11} = {9EEFB0C5-5AB2-48F5-B600-E4FF983CB3A6}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {612A68AD-13BB-487D-937F-3F5D4EF7F57B}
