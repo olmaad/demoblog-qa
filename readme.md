@@ -2,7 +2,7 @@
 
 ## Using docker
 
-> Note: initially you need root to run docker on linux (see https://docs.docker.com/install/linux/linux-postinstall/)
+_Note: initially you need root to run docker on linux (see https://docs.docker.com/install/linux/linux-postinstall/)_
 
 1. Clone git repository:
 
