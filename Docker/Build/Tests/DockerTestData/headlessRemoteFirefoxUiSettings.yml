@@ -1,0 +1,6 @@
+driverType: remoteFirefox
+remoteDriverHost: "demoblogfirefoxdriver"
+remoteDriverPort: 4444
+driverWaitTimeout: 3
+baseUrl: "http://demoblognginx8080"
+headless: true

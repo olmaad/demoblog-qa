@@ -1,9 +1,9 @@
 ﻿using DemoBlog.UiTestLib.Environment;
-using Newtonsoft.Json;
 using NUnit.Framework;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using YamlDotNet.Serialization;
 
 namespace DemoBlog.Tests.Ui
 {
@@ -19,7 +19,10 @@ namespace DemoBlog.Tests.Ui
                 using (var reader = new StreamReader(Path.Combine(dataDirectory, uiSettingsListFile)))
                 {
                     var content = reader.ReadToEnd();
-                    var settingsPathList = JsonConvert.DeserializeObject<IList<string>>(content);
+
+                    var deserializer = new Deserializer();
+
+                    var settingsPathList = deserializer.Deserialize<IList<string>>(content);
                     
                     return settingsPathList.Select(p => new TestFixtureData(Path.Combine(dataDirectory, p))).ToList();
                 }

@@ -1,0 +1,19 @@
+# UI enviroment settings file example
+
+# Possible values: firefox, chrome, remoteFirefox, remoteChrome
+driverType: firefox
+
+# Driver executable directory path
+driverPath: "<driver executable directory path>"
+
+# Element find wait value in seconds
+driverWaitTimeout: 3
+
+# Browser executable path
+browserExecutablePath: "<browser executable path>"
+
+# DemoBlog home url
+baseUrl: "http://localhost:8080"
+
+# Headless (no browser ui) mode - true/false
+headless: true

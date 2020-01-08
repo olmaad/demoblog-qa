@@ -5,7 +5,7 @@
     
     <Parameter name="host" value="http://demoblognginx8080:80" />
     <Parameter name="testDataDirectory" value="./TestData" />
-    <Parameter name="uiSettingsListFile" value="dockerUiSettingsList.json" />
+    <Parameter name="uiSettingsListFile" value="dockerEnvironments.yml" />
     
   </TestRunParameters>
 

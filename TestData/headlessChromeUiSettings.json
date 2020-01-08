@@ -1,8 +1,0 @@
-{
-    "driverType": "chrome",
-    "driverPath": "D:/Dev/Projects/DemoBlog/Tests/bin/Debug/netcoreapp2.2/",
-    "driverWaitTimeout": 3,
-    "browserExecutablePath": "C:/Users/olma/Downloads/chrlauncher-win64-stable-codecs-sync/bin/chrome.exe",
-    "baseUrl": "http://localhost:8080",
-    "headless": true
-}

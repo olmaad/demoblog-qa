@@ -39,3 +39,7 @@ Strings.Designer.cs
 # Publish
 /Publish/Release
 /Publish/Debug
+
+# Test environment
+/TestData/environments.yml
+/TestData/Environment
