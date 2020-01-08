@@ -34,6 +34,7 @@ Strings.Designer.cs
 /Docker/Build/Blog/Proxy/Output
 /Docker/Build/Tests/Output
 /Docker/Build/Tests/TestData
+/Docker/Run/Tests/.env
 
 # Publish
 /Publish/Release
