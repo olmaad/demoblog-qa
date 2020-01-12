@@ -10,14 +10,21 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
+        
+    env:
+      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
 
     steps:
-    - name: Checkout
-      uses: actions/checkout@v1
-    - name: Setup .NET Core
-      uses: actions/setup-dotnet@v1
+    - uses: actions/checkout@v1
+    - uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
+    - uses: actions/cache@v1
+      with:
+        path: ${{ github.workspace }}/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
+        restore-keys: |
+          ${{ runner.os }}-nuget-
     - name: Publishing backend
       run: dotnet publish ./Backend/Backend.csproj -c Release -o ./../Docker/Build/Blog/Backend/BackendPublish
     - name: Publishing base builder
@@ -39,7 +46,7 @@ jobs:
       run: docker-compose build
       working-directory: ./Docker/Build/Blog
     - name: Docker login
-      run: echo ${{ secrets.DockerhubPassword }} | docker login -u ${{ secrets.DockerhubLogin }} --password-stdin docker.io
+      run: docker login -u ${{ secrets.DockerhubLogin }} -p ${{ secrets.DockerhubPassword }} docker.io
     - name: Push blog docker
       run: docker-compose push
       working-directory: ./Docker/Build/Blog
