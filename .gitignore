@@ -9,16 +9,15 @@ obj/
 Strings.Designer.cs
 /TestResults
 
-# DemoBlogFrontend
+# Frontend
 /Frontend/.DS_Store
 /Frontend/node_modules
 /Frontend/public/*bundle*
 /Frontend/public/*.css
-/Frontend/package-lock.json
 /Frontend/publish.sh
 /Frontend/publish.ps1
 
-# DemoBlogBaseBuilder
+# BaseBuilder
 /BaseBuilder/Properties/
 
 # Doc
