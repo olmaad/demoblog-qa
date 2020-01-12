@@ -6,6 +6,10 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
+    
+    strategy:
+      matrix:
+        node-version: [8.x, 10.x, 12.x]
 
     steps:
     - name: Checkout
@@ -14,5 +18,21 @@ jobs:
       uses: actions/setup-dotnet@v1
       with:
         dotnet-version: 2.2.108
-    - name: Backend publish
+    - name: Publishing backend
       run: dotnet publish ./Backend/Backend.csproj -c Release -o ./../Docker/Build/Blog/Backend/BackendPublish
+    - name: Publishing base builder
+      run: dotnet publish ./BaseBuilder/BaseBuilder.csproj -c Release -o ./../Docker/Build/Blog/Backend/BaseBuilderPublish
+    - name: Copying builder test data
+      run: cp ./TestData/builder.json ./Docker/Build/Blog/Backend/
+    - name: Use Node.js ${{ matrix.node-version }}
+      uses: actions/setup-node@v1
+      with:
+        node-version: ${{ matrix.node-version }}
+    - name: Build frontend
+      run: npm run build
+      working-directory: ./Frontend
+    - name: Publishing frontend
+      run: cp -T ./Frontend/public ./Docker/Build/Blog/Proxy/Output
+    - name: Composing server docker
+      run: docker-compose build
+      working-directory: ./Docker/Build/Blog
