@@ -38,3 +38,8 @@ jobs:
     - name: Composing server docker
       run: docker-compose build
       working-directory: ./Docker/Build/Blog
+    - name: Docker login
+      run: docker login -u ${{ secrets.DockerhubLogin }} -p ${{ secrets.DockerhubPassword }} docker.io
+    - name: Push blog docker
+      run: docker-compose push
+      working-directory: ./Docker/Build/Blog
