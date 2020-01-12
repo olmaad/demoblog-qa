@@ -9,7 +9,7 @@ jobs:
     
     strategy:
       matrix:
-        node-version: [8.x, 10.x, 12.x]
+        node-version: [12.x]
 
     steps:
     - name: Checkout
@@ -29,7 +29,9 @@ jobs:
       with:
         node-version: ${{ matrix.node-version }}
     - name: Build frontend
-      run: npm run build
+      run: |
+        npm ci
+        npm run build
       working-directory: ./Frontend
     - name: Publishing frontend
       run: cp -T ./Frontend/public ./Docker/Build/Blog/Proxy/Output
