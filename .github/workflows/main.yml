@@ -10,10 +10,7 @@ jobs:
     strategy:
       matrix:
         node-version: [12.x]
-        
-    env:
-      NUGET_PACKAGES: ${{ github.workspace }}/.nuget/packages
-
+    
     steps:
     - uses: actions/checkout@v1
     - uses: actions/setup-dotnet@v1
@@ -21,10 +18,8 @@ jobs:
         dotnet-version: 2.2.108
     - uses: actions/cache@v1
       with:
-        path: ${{ github.workspace }}/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('${{ github.workspace }}/.nuget/packages/packages.lock.json') }}
-        restore-keys: |
-          ${{ runner.os }}-nuget-
+        path: ~/.nuget/packages
+        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
     - name: Publishing backend
       run: dotnet publish ./Backend/Backend.csproj -c Release -o ./../Docker/Build/Blog/Backend/BackendPublish
     - name: Publishing base builder
