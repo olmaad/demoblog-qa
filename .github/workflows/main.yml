@@ -39,7 +39,7 @@ jobs:
       run: docker-compose build
       working-directory: ./Docker/Build/Blog
     - name: Docker login
-      run: docker login -u ${{ secrets.DockerhubLogin }} --password-stdin docker.io
+      run: echo ${{ secrets.DockerhubPassword }} | docker login -u ${{ secrets.DockerhubLogin }} --password-stdin docker.io
     - name: Push blog docker
       run: docker-compose push
       working-directory: ./Docker/Build/Blog
