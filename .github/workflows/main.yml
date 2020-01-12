@@ -34,7 +34,7 @@ jobs:
         npm run build
       working-directory: ./Frontend
     - name: Publishing frontend
-      run: cp -T ./Frontend/public ./Docker/Build/Blog/Proxy/Output
+      run: cp -rT ./Frontend/public ./Docker/Build/Blog/Proxy/Output
     - name: Composing server docker
       run: docker-compose build
       working-directory: ./Docker/Build/Blog
