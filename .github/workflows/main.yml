@@ -7,45 +7,28 @@ jobs:
 
     runs-on: ubuntu-latest
     
-    strategy:
-      matrix:
-        node-version: [12.x]
+    #run: docker login -u ${{ secrets.DockerhubLogin }} -p ${{ secrets.DockerhubPassword }} docker.io
     
     steps:
     - uses: actions/checkout@v1
-    - uses: actions/setup-dotnet@v1
-      with:
-        dotnet-version: 2.2.108
-    - name: Restore backend
-      run: dotnet restore --use-lock-file ./Backend/Backend.csproj
-    - name: Restore base builder
-      run: dotnet restore --use-lock-file ./BaseBuilder/BaseBuilder.csproj
-    - uses: actions/cache@v1
-      with:
-        path: ~/.nuget/packages
-        key: ${{ runner.os }}-nuget-${{ hashFiles('**/packages.lock.json') }}
-    - name: Publishing backend
-      run: dotnet publish ./Backend/Backend.csproj -c Release -o ./../Docker/Build/Blog/Backend/BackendPublish
-    - name: Publishing base builder
-      run: dotnet publish ./BaseBuilder/BaseBuilder.csproj -c Release -o ./../Docker/Build/Blog/Backend/BaseBuilderPublish
-    - name: Copying builder test data
-      run: cp ./TestData/builder.json ./Docker/Build/Blog/Backend/
-    - name: Use Node.js ${{ matrix.node-version }}
-      uses: actions/setup-node@v1
-      with:
-        node-version: ${{ matrix.node-version }}
-    - name: Build frontend
-      run: |
-        npm ci
-        npm run build
-      working-directory: ./Frontend
-    - name: Publishing frontend
-      run: cp -rT ./Frontend/public ./Docker/Build/Blog/Proxy/Output
-    - name: Composing server docker
+    - name: Build blog
       run: docker-compose build
       working-directory: ./Docker/Build/Blog
-    - name: Docker login
-      run: docker login -u ${{ secrets.DockerhubLogin }} -p ${{ secrets.DockerhubPassword }} docker.io
-    - name: Push blog docker
-      run: docker-compose push
-      working-directory: ./Docker/Build/Blog
+    - name: Build tests
+      run: docker-compose build
+      working-directory: ./Docker/Build/Tests
+    - name: Run blog
+      run: |
+        docker-compose build
+        docker-compose up -d
+      working-directory: ./Docker/Run/Blog
+    - name: Run tests
+      run: docker-compose up --exit-code-from tests
+      working-directory: ./Docker/Run/Tests
+    - name: Stop blog
+      run: docker-compose down
+      working-directory: ./Docker/Run/Blog
+      
+    #- name: Push blog docker
+      #run: docker-compose push
+      #working-directory: ./Docker/Build/Blog
