@@ -21,7 +21,7 @@ services:
     image: olmaad/demoblogtests
     container_name: "demoblogtests"
     volumes:
-    - "${TEST_RESULTS_VOLUME}:/results"
+    - "${TEST_RESULTS_VOLUME:-./results}:/results"
     depends_on:
     - "firefoxdriver"
     - "chromedriver"
