@@ -4,5 +4,5 @@ services:
   tests:
     image: olmaad/demoblogtests
     build:
-      context: .
-      dockerfile: ./Dockerfile
+      context: ./../../../
+      dockerfile: ./Tests/Dockerfile

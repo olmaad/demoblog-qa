@@ -2,7 +2,7 @@ version: '3.5'
 
 services:
   proxy:
-    image: olmaad/demoblogproxy
+    image: olmaad/demoblogfrontend
     container_name: "demoblognginx8080"
     ports:
     - "8080:80"

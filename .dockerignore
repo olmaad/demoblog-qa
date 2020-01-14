@@ -1,0 +1,12 @@
+.git
+.vs
+**/.vscode
+**/node_modules
+**/bin
+**/obj
+Build
+Doc
+Docker
+**/*.db
+.dockerignore
+.gitignore

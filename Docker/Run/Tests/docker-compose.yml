@@ -7,16 +7,16 @@ services:
     shm_size: 2g
     environment:
     - START_XVFB=false
-    - SCREEN_WIDTH=1366
-    - SCREEN_HEIGHT=768
+    - SCREEN_WIDTH=1920
+    - SCREEN_HEIGHT=1080
   chromedriver:
     image: selenium/standalone-chrome:latest
     container_name: "demoblogchromedriver"
     shm_size: 2g
     environment:
     - START_XVFB=false
-    - SCREEN_WIDTH=1366
-    - SCREEN_HEIGHT=768
+    - SCREEN_WIDTH=1920
+    - SCREEN_HEIGHT=1080
   tests:
     image: olmaad/demoblogtests
     container_name: "demoblogtests"

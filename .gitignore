@@ -7,6 +7,7 @@ obj/
 *.filters
 *.db
 Strings.Designer.cs
+packages.lock.json
 /TestResults
 
 # Frontend
