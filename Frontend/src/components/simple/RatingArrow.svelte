@@ -12,10 +12,12 @@
 	}
 
 	.icon-up {
+		-webkit-mask: url(/fontawesome/chevron-up-solid.svg) no-repeat center;
         mask: url(/fontawesome/chevron-up-solid.svg) no-repeat center;
     }
     
     .icon-down {
+		-webkit-mask: url(/fontawesome/chevron-down-solid.svg) no-repeat center;
         mask: url(/fontawesome/chevron-down-solid.svg) no-repeat center;
 	}
 

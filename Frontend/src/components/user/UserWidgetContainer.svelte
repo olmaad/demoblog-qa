@@ -70,6 +70,7 @@
         width: 20px;
         height: 20px;
         background: var(--color-primary-gradient-1);
+        -webkit-mask: url(/fontawesome/times-solid.svg) no-repeat center;
         mask: url(/fontawesome/times-solid.svg) no-repeat center;
         cursor: pointer;
     }

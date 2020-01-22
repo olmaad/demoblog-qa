@@ -14,12 +14,14 @@
 		display: flex;
 		flex-direction: column;
 		max-width: 1000px;
+        min-height: fit-content;
 		width: 1000px;
+        height: 100%;
 		padding-top: 20px;
 	}
 
     .filler {
-        height: 100%;
+        flex: auto;
     }
 </style>
 

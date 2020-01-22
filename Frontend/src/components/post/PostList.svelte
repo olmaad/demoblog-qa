@@ -45,7 +45,6 @@
 
 	div.post-list {
 		display: flex;
-		flex: auto;
 		flex-direction: column;
         max-width: 100%;
 		width: 100%;

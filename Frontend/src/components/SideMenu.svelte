@@ -106,12 +106,14 @@
     }
 
     .icon-logo {
+        -webkit-mask: url(/logo.svg) no-repeat center;
         mask: url(/logo.svg) no-repeat center;
         background: transparent;
         position: relative;
     }
     
     div.icon-user {
+        -webkit-mask: url(/fontawesome/user-solid.svg) no-repeat center;
         mask: url(/fontawesome/user-solid.svg) no-repeat center;
     }
 
@@ -141,6 +143,7 @@
 
     div.icon-posts {
         transition: all 0.1s ease-out 0s;
+        -webkit-mask: url(/fontawesome/readme-brands.svg) no-repeat center;
         mask: url(/fontawesome/readme-brands.svg) no-repeat center;
     }
 
@@ -150,6 +153,7 @@
     }
     
     div.icon-add {
+        -webkit-mask: url(/fontawesome/plus-solid.svg) no-repeat center;
         mask: url(/fontawesome/plus-solid.svg) no-repeat center;
     }
 
@@ -164,6 +168,7 @@
         left: 0;
         width: 30px;
         height: 30px;
+        -webkit-mask: url(/logo_mask.svg);
         mask: url(/logo_mask.svg);
         mask-position: 0px 0px;
         background: var(--color-primary-gradient-1);
@@ -202,6 +207,7 @@
         margin-left: 10px;
         width: 20px;
         height: 20px;
+        -webkit-mask: url(/fontawesome/language-solid.svg) no-repeat center;
         mask: url(/fontawesome/language-solid.svg) no-repeat center;
         background: var(--color-text);
     }
