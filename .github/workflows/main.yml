@@ -4,10 +4,7 @@ on: [push]
 
 jobs:
   build:
-
     runs-on: ubuntu-latest
-    
-    #run: docker login -u ${{ secrets.DockerhubLogin }} -p ${{ secrets.DockerhubPassword }} docker.io
     
     steps:
     - uses: actions/checkout@v1
@@ -28,7 +25,16 @@ jobs:
     - name: Stop blog
       run: docker-compose down
       working-directory: ./Docker/Run/Blog
-      
-    #- name: Push blog docker
-      #run: docker-compose push
-      #working-directory: ./Docker/Build/Blog
+    - name: Archive test results
+      uses: actions/upload-artifact@v1
+      with:
+        name: test_results
+        path: ./Docker/Run/Tests/results
+    - name: Docker login
+      run: docker login -u ${{ secrets.DockerhubLogin }} -p ${{ secrets.DockerhubPassword }}
+    - name: Push blog
+      run: docker-compose push
+      working-directory: ./Docker/Build/Blog
+    - name: Push tests
+      run: docker-compose push
+      working-directory: ./Docker/Build/Tests
