@@ -1,3 +1,5 @@
+![](https://github.com/olmaad/demoblog-qa/workflows/CI/badge.svg)
+
 # How to install
 
 ## Using docker
