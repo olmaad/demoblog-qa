@@ -19,7 +19,7 @@
     "postcss-import": "^12.0.1",
     "remarkable": "^2.0.0",
     "rollup-plugin-less": "^1.1.2",
-    "rollup-plugin-postcss": "^2.0.3",
+    "rollup-plugin-postcss": "^4.0.2",
     "sirv-cli": "^0.4.4",
     "svelte-i18n": "^2.1.1",
     "svelte-routing": "^1.4.0",
